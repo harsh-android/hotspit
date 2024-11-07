@@ -3,6 +3,9 @@
   include('conn.php');
   $worker_id = $_GET['id'];
 
+  $q = "SELECT * FROM workers WHERE id='$worker_id'";
+  $r = mysqli_query($conn,$q);
+  $row = mysqli_fetch_assoc($r);
 
 ?>
 
@@ -40,9 +43,9 @@
                                     <div class="text-center">
                                         <img src="../assets/images/profile/user-2.jpg" width="110"
                                             class="rounded-3 mb-3" alt="" />
-                                        <h5 class="mb-1">John Mednath</h5>
-                                        <span
-                                            class="badge bg-primary-subtle text-primary fw-light rounded-pill">Teacher</span>
+                                        <h5 class="mb-1"><?php echo $row['name'] ?></h5>
+                                        <!-- <span
+                                            class="badge bg-primary-subtle text-primary fw-light rounded-pill">Teacher</span> -->
                                     </div>
 
                                     <div class="hstack justify-content-between mt-5">
@@ -53,12 +56,12 @@
                                             </span>
 
                                             <div class="ms-3">
-                                                <p class="fw-normal text-dark fs-5 mb-0">1.23k</p>
-                                                <p class="mb-0 fs-3">Tasks Done</p>
+                                                <p class="fw-normal text-dark fs-5 mb-0"><?php echo $row['salary']-$row['upad']; ?></p>
+                                                <p class="mb-0 fs-3">Pending Salary</p>
                                             </div>
                                         </div>
 
-                                        <div class="d-flex align-items-center">
+                                        <!-- <div class="d-flex align-items-center">
                                             <span
                                                 class="bg-success-subtle p-6 rounded-3 round-50 hstack justify-content-center">
                                                 <i class="ti ti-cpu text-success fs-7"></i>
@@ -68,7 +71,7 @@
                                                 <p class="fw-normal text-dark fs-5 mb-0">568</p>
                                                 <p class="mb-0 fs-3">Projects Done</p>
                                             </div>
-                                        </div>
+                                        </div> -->
                                     </div>
 
                                     <div class="mt-5">
@@ -80,61 +83,34 @@
                                             <li class="py-2">
                                                 <p class="fw-normal text-dark mb-0">
                                                     Name:
-                                                    <span class="fw-light ms-1">John Mednath</span>
+                                                    <span class="fw-light ms-1"><?php echo $row['name'] ?></span>
                                                 </p>
                                             </li>
 
-                                            <li class="py-2">
-                                                <p class="fw-normal text-dark mb-0">
-                                                    Gender:
-                                                    <span class="fw-light ms-1">Female</span>
-                                                </p>
-                                            </li>
-
-                                            <li class="py-2">
-                                                <p class="fw-normal text-dark mb-0">
-                                                    Class:
-                                                    <span class="fw-light ms-1">11 (Science)</span>
-                                                </p>
-                                            </li>
-
-                                            <li class="py-2">
-                                                <p class="fw-normal text-dark mb-0">
-                                                    Section:
-                                                    <span class="fw-light ms-1">B</span>
-                                                </p>
-                                            </li>
-
-                                            <li class="py-2">
-                                                <p class="fw-normal text-dark mb-0">
-                                                    Date Of Birth:
-                                                    <span class="fw-light ms-1">03/08/1993</span>
-                                                </p>
-                                            </li>
-
+                                          
                                             <li class="py-2">
                                                 <p class="fw-normal text-dark mb-0">
                                                     Id No. :
-                                                    <span class="fw-light ms-1">498376</span>
+                                                    <span class="fw-light ms-1"><?php echo $row['id'] ?></span>
                                                 </p>
                                             </li>
 
                                             <li class="py-2">
                                                 <p class="fw-normal text-dark mb-0">
                                                     Phone:
-                                                    <span class="fw-light ms-1">+ 123 9988568</span>
+                                                    <span class="fw-light ms-1"><?php echo $row['phone'] ?></span>
                                                 </p>
                                             </li>
 
                                             <li class="py-2">
                                                 <p class="fw-normal text-dark mb-0">
-                                                    Email:
-                                                    <span class="fw-light ms-1">johnmednath@gmail.com</span>
+                                                    Address:
+                                                    <span class="fw-light ms-1"><?php echo $row['address']; ?></span>
                                                 </p>
                                             </li>
                                         </ul>
 
-                                        <div class="row mt-4">
+                                        <!-- <div class="row mt-4">
                                             <div class="col-sm-6">
                                                 <button type="button"
                                                     class="btn btn-primary w-100 justify-content-center me-2 d-flex align-items-center mb-3 mb-sm-0">
@@ -149,7 +125,7 @@
                                                     Delete
                                                 </button>
                                             </div>
-                                        </div>
+                                        </div> -->
                                     </div>
                                 </div>
                             </div>
