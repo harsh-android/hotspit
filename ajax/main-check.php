@@ -18,7 +18,7 @@ if (isset($_POST['sadi_main_ids']) && !empty($_POST['sadi_main_ids'])) {
     if ($result->num_rows > 0) {
         echo '<div class="table-responsive">';
         echo '<table class="table search-table align-middle text-nowrap" border="1" cellpadding="10" id="stock-table">';
-        echo '<tr><th><input type="checkbox" id="check-all"></th><th>ID</th><th>CN Number</th><th>Color</th><th>Quantity</th><th>Price</th></tr>';
+        echo '<tr><th><input type="checkbox" id="check-all"></th><th>ID</th><th>CN Number</th><th>Color</th><th>Quantity</th><th>Use Quantity</th></tr>';
 
         while ($row = $result->fetch_assoc()) {
             $colorId = $row['color'];
@@ -27,7 +27,7 @@ if (isset($_POST['sadi_main_ids']) && !empty($_POST['sadi_main_ids'])) {
 
     <td><input type="checkbox" class="select-stock" id="select-stock" data-id="<?php echo $row['id'] ?>"
             data-cn-number="<?php echo $row['cn_number'] ?>" data-color="<?php echo $row['color'] ?>"
-            data-qty="<?php echo $row['qty'] ?>" data-price="<?php echo $row['price'] ?>">
+            data-qty="<?php echo $row['qty'] - $row['use_qty']; ?>" data-price="<?php echo $row['price'] ?>">
     </td>
     <td><?php echo $row['id']; ?></td>
     <td><?php echo $row['cn_number']; ?></td>
@@ -36,8 +36,8 @@ if (isset($_POST['sadi_main_ids']) && !empty($_POST['sadi_main_ids'])) {
                                             echo @$typeData["name"];
                                             ?></span>
     </td>
-    <td><?php echo $row['qty']; ?></td>
-    <td><input type="number" id="use<?php echo $row['id']; ?>" name="use<?php echo $row['id']; ?>" value="<?php echo $row['qty']; ?>"></td>
+    <td><span class="total_qty<?php echo $row['id']; ?>"><?php echo $row['qty'] - $row['use_qty']; ?></span></td>
+    <td><input type="number" id="use<?php echo $row['id']; ?>" name="use<?php echo $row['id']; ?>" value="<?php echo $row['qty'] - $row['use_qty']; ?>" class="used-qty-input" style="color:green;"></td>
 </tr>
 
 <?php
@@ -54,7 +54,7 @@ if (isset($_POST['sadi_main_ids']) && !empty($_POST['sadi_main_ids'])) {
         echo '</table>';
         echo '</div>';
 
-        echo '<a href="add-process.php"><button class="btn btn-success ms-2" type="submit">Submit</button></a>';
+        echo '<a href="add-process.php" class="qty-submit-button" style="pointer-events: none; opacity: 0.5;"><button class="btn btn-success ms-2" type="submit">Submit</button></a>';
 
     } else {
         echo 'No stock data found for the selected entries.';
@@ -73,11 +73,29 @@ $conn->close();
 // Function to update selected stocks based on checked boxes
 function updateSelectedStocks() {
     var selectedStocks = {}; // Reset selected stocks
+    let used_qty_high = false;
 
+    if($('.select-stock:checked').length === 0){
+        used_qty_high = false;
+        $('.qty-submit-button').attr('disabled', true).css('pointer-events', 'none').css('opacity', '0.5');
+    }
+    
     $('.select-stock:checked').each(function() {
         let stockId = $(this).data('id'); // Get the stock ID
         const use = document.getElementById("use"+stockId).value;
+        const total_qty = $(this).data('qty');
 
+        if(use == "" || use > total_qty){
+            used_qty_high = true;
+            $("#use"+stockId).css("color","red");
+        } else {
+            $("#use"+stockId).css("color","green");
+        }
+        if(used_qty_high) {
+            $('.qty-submit-button').attr('disabled', true).css('pointer-events', 'none').css('opacity', '0.5');
+        } else {
+            $('.qty-submit-button').attr('disabled', false).css('pointer-events', 'auto').css('opacity', '1');
+        }
         selectedStocks[stockId] = {
             stock_id: stockId,
             cn_number: $(this).data('cn-number'),
@@ -86,7 +104,7 @@ function updateSelectedStocks() {
             use: use
         };
     });
-
+    
     // Send the updated array to the server using AJAX
     $.ajax({
         url: 'ajax/select-list.php',
@@ -102,6 +120,10 @@ function updateSelectedStocks() {
         }
     });
 }
+
+$(document).on('input', '.used-qty-input', function(){
+    updateSelectedStocks();
+});
 
 // Event listener for individual checkbox changes
 $(document).on('change', '.select-stock', function() {

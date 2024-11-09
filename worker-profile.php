@@ -19,7 +19,26 @@
     <title>Spike Free</title>
     <link rel="shortcut icon" type="image/png" href="src/assets/images/logos/favicon.png" />
     <link rel="stylesheet" href="src/assets/css/styles.min.css" />
-    <link rel="stylesheet" href="src/styles.css" />
+    <!-- <link rel="stylesheet" href="src/styles.css" /> -->
+    <style>
+        .nav-tabs .nav-link {
+            margin: 0px;
+            font-family: inherit;
+            color: #000;
+            font-weight: 400;
+            font-size: 16px;
+            margin: 4px;
+        }
+        .nav-tabs .nav-link.active {
+            /* box-shadow: 1px 1px 1px rgba(0, 133, 219, .3); */
+            background-color: #0085db;
+            color: #fff;
+        }
+        
+        .nav-tabs, .nav-tabs .nav-link {
+            border-radius: 30px;
+        }
+    </style>
 </head>
 
 <body>
@@ -187,6 +206,7 @@
                             <div class="card mt-4">
                                 <div class="card-body">
                                     <div class="tab-content" id="myTabContent">
+                                        <!-- 23 Nidel -->
                                         <div class="tab-pane fade show active" id="home" role="tabpanel"
                                             aria-labelledby="home-tab">
                                             <div class="mb-4 border-bottom pb-3">
@@ -248,6 +268,7 @@
                                             </div>
                                         </div>
 
+                                        <!-- Less Fiting -->
                                         <div class="tab-pane fade" id="less" role="tabpanel"
                                             aria-labelledby="less-tab">
                                             <div class="mb-4 border-bottom pb-3">
@@ -309,6 +330,111 @@
                                             </div>
                                         </div>
 
+                                        <!-- Hotfix -->
+                                        <div class="tab-pane fade" id="hotfix" role="tabpanel"
+                                            aria-labelledby="hotfix-tab">
+                                            <div class="mb-4 border-bottom pb-3">
+                                                <h4 class="card-title mb-0">Hotfix</h4>
+                                            </div>
+                                            <div class="table-responsive overflow-x-auto">
+                                                <table class="table align-middle text-nowrap">
+                                                    <thead>
+                                                        <tr>
+                                                            <th scope="col">Date</th>
+                                                            <th scope="col">Quantity</th>
+                                                            <th scope="col">Return</th>
+                                                            <th scope="col">Second Peice</th>
+                                                            <th scope="col">Butta Count</th>
+                                                            <th scope="col">Butta Price</th>
+                                                            <th scope="col">Line Count</th>
+                                                            <th scope="col">Line Price</th>
+                                                            <th scope="col">Sheet Used</th>
+                                                            <th scope="col">Sheet Price</th>
+                                                            <th scope="col">Border Price</th>
+                                                            <th scope="col">Salary</th>
+
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody class="border-top">
+                                                        <?php 
+                                                        
+                                                          $que = "SELECT * FROM `hotfix` WHERE workers_id='$worker_id'";
+                                                          $res = mysqli_query($conn,$que);
+                                                          while ($row = mysqli_fetch_assoc($res)) {
+                                                            
+                                                        ?>
+                                                        <tr>
+                                                            <td>
+                                                                <p class="fw-bold text-info mb-0">
+                                                                    <?php echo $row['date']; ?></p>
+                                                            </td>
+                                                            <td>
+                                                                <p class="fw-normal mb-0 fs-3 text-dark">
+                                                                    <?php echo $row['use_qty']; ?>
+                                                                </p>
+                                                            </td>
+                                                            <td>
+                                                                <p class="text-dark mb-0 fw-normal">
+                                                                    <?php echo $row['return_qty']; ?>
+                                                                </p>
+                                                            </td>
+                                                            <td>
+                                                                <p class="text-dark mb-0 fw-normal">
+                                                                    <?php echo $row['second_qty']; ?>
+                                                                </p>
+                                                            </td>
+
+                                                            <!-- // -->
+                                                            <td>
+                                                                <p class="text-dark mb-0 fw-normal">
+                                                                    <?php echo $row['butta_count']; ?>
+                                                                </p>
+                                                            </td>
+                                                            <td>
+                                                                <p class="text-dark mb-0 fw-normal">
+                                                                    <?php echo $row['butta_price']; ?>
+                                                                </p>
+                                                            </td>
+                                                            <td>
+                                                                <p class="text-dark mb-0 fw-normal">
+                                                                    <?php echo $row['line_count']; ?>
+                                                                </p>
+                                                            </td>
+                                                            <td>
+                                                                <p class="text-dark mb-0 fw-normal">
+                                                                    <?php echo $row['line_price']; ?>
+                                                                </p>
+                                                            </td>
+                                                            <td>
+                                                                <p class="text-dark mb-0 fw-normal">
+                                                                    <?php echo $row['sheet_used']; ?>
+                                                                </p>
+                                                            </td>
+                                                            <td>
+                                                                <p class="text-dark mb-0 fw-normal">
+                                                                    <?php echo $row['sheet_price']; ?>
+                                                                </p>
+                                                            </td>
+                                                            <td>
+                                                                <p class="text-dark mb-0 fw-normal">
+                                                                    <?php echo $row['border_price']; ?>
+                                                                </p>
+                                                            </td>
+                                                            <!-- // -->
+
+                                                            <td>
+                                                                <p class="fw-bold text-success mb-0">
+                                                                    <?php echo $row['price']*$row['return_qty']." (".$row['price'].")"; ?>
+                                                                </p>
+                                                            </td>
+                                                        </tr>
+                                                        <?php } ?>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+
+                                        <!-- Fusing -->
                                         <div class="tab-pane fade" id="fusing" role="tabpanel"
                                             aria-labelledby="fusing-tab">
                                             <div class="mb-4 border-bottom pb-3">
@@ -370,6 +496,7 @@
                                             </div>
                                         </div>
 
+                                        <!-- Reniya Cuting -->
                                         <div class="tab-pane fade" id="reniya" role="tabpanel"
                                             aria-labelledby="reniya-tab">
                                             <div class="mb-4 border-bottom pb-3">
@@ -431,6 +558,7 @@
                                             </div>
                                         </div>
 
+                                        <!-- Sheet Work -->
                                         <div class="tab-pane fade" id="sheet" role="tabpanel"
                                             aria-labelledby="sheet-tab">
                                             <div class="mb-4 border-bottom pb-3">
@@ -494,7 +622,7 @@
 
 
 
-
+                                        <!-- Salary Report -->
                                         <div class="tab-pane fade" id="profile" role="tabpanel"
                                             aria-labelledby="profile-tab">
                                             <div class="mb-4 border-bottom pb-3">
@@ -553,7 +681,6 @@
             </div>
         </div>
     </div>
-    </div>
     <script src="src/assets/libs/jquery/dist/jquery.min.js"></script>
     <script src="src/assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="src/assets/js/sidebarmenu.js"></script>
@@ -564,27 +691,27 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
 
     <script>
-    $(document).ready(function() {
+    // $(document).ready(function() {
 
-        $('#kapadType').change(function() {
-            var selectedValue = $(this).val();
+    //     $('#kapadType').change(function() {
+    //         var selectedValue = $(this).val();
 
-            // Call AJAX function with selected value as parameter
-            $.ajax({
-                url: 'ajax/sadi-ajax.php',
-                type: 'POST',
-                data: {
-                    'type': selectedValue
-                },
-                success: function(response) {
-                    //  alert("hello");
-                    // Handle the response from the PHP script
-                    $('#sadityperesult').html(response);
-                }
-            });
-        });
+    //         // Call AJAX function with selected value as parameter
+    //         $.ajax({
+    //             url: 'ajax/sadi-ajax.php',
+    //             type: 'POST',
+    //             data: {
+    //                 'type': selectedValue
+    //             },
+    //             success: function(response) {
+    //                 //  alert("hello");
+    //                 // Handle the response from the PHP script
+    //                 $('#sadityperesult').html(response);
+    //             }
+    //         });
+    //     });
 
-    });
+    // });
     </script>
 
 

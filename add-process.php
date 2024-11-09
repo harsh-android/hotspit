@@ -25,11 +25,20 @@
         $stockId = $value["stock_id"];
         $use = $value["use"];
 
-        $useQue = "UPDATE `kapad_stock` SET `use_qty`=use_qty+$use WHERE `id`='$stockId'";
+        // $useQue = "UPDATE `kapad_stock` SET `use_qty`=use_qty+$use WHERE `id`='$stockId'";
+        // mysqli_query($conn,$useQue);
+        $getUseQty = "SELECT `use_qty` FROM `sadi_stock` WHERE `id` = '$stockId'";
+        $getUseQtyResult = $conn->query($getUseQty);
+        $row = $getUseQtyResult->fetch_assoc();
+        print_r($row['use_qty']);
+        $usedQtrIs = (int)$row['use_qty'] + (int)$use;
+
+        $useQue = "UPDATE `sadi_stock` SET `use_qty`= $usedQtrIs WHERE `id`='$stockId'";
         mysqli_query($conn,$useQue);
         $in = "INSERT INTO nidel_expence(`sadi_stock_id`,`use_qty`,`price`,`workers_id`,`date`) VALUES ('$stockId','$use','$price','$worker','$today')";
         $res = mysqli_query($conn,$in);
       }
+      header("location:dealer-list.php");
     }
 
     if($type == "lessfiting"){
@@ -40,6 +49,27 @@
         $in = "INSERT INTO less_fiting(`sadi_stock_id`,`use_qty`,`price`,`workers_id`,`date`) VALUES ('$stockId','$use','$price','$worker','$today')";
         $res = mysqli_query($conn,$in);
       }
+      header("location:dealer-list.php");
+    }
+
+    if($type == "hotfix"){
+      $buttaCount = $_POST['buttaCount'];
+      $buttaPrice = $_POST['buttaPrice'];
+      $lineCount = $_POST['lineCount'];
+      $linePrice = $_POST['linePrice'];
+      $sheetUsed = $_POST['sheetUsed'];
+      $sheetPrice = $_POST['sheetPrice'];
+      $borderPrice = $_POST['borderPrice'];
+
+
+      foreach ($selectedStocks as $key => $value) {
+        $stockId = $value["stock_id"];
+        $use = $value["use"];
+
+        $in = "INSERT INTO hotfix(`sadi_stock_id`,`use_qty`,`workers_id`,`butta_count`,`butta_price`,`line_count`,`line_price`,`sheet_used`,`sheet_price`,`border_price`,`price`,`date`) VALUES ('$stockId','$use','$worker','$buttaCount','$buttaPrice','$lineCount','$linePrice','$sheetUsed','$sheetPrice','$borderPrice','$price','$today')";
+        $res = mysqli_query($conn,$in);
+      }
+      header("location:dealer-list.php");
     }
 
 
@@ -51,6 +81,7 @@
         $in = "INSERT INTO fusing_expence(`sadi_stock_id`,`use_qty`,`price`,`workers_id`,`date`) VALUES ('$stockId','$use','$price','$worker','$today')";
         $res = mysqli_query($conn,$in);
       }
+      header("location:dealer-list.php");
     }
 
     if($type == "reniyacutting"){
@@ -61,6 +92,7 @@
         $in = "INSERT INTO reniya_cutting(`sadi_stock_id`,`use_qty`,`price`,`workers_id`,`date`) VALUES ('$stockId','$use','$price','$worker','$today')";
         $res = mysqli_query($conn,$in);
       }
+      header("location:dealer-list.php");
     }
 
     // if($isupdate){
@@ -103,13 +135,13 @@
         <div class="container-fluid">
           <div class="card">
             <div class="card-body">
-              <h5 class="card-title fw-semibold mb-4">Add Stock</h5>
+              <h5 class="card-title fw-semibold mb-4">Add Process</h5>
               <div class="card">
                 <div class="card-body">
                   <form method="post">
                     <div class="mb-3">
                       <label for="type" class="form-label">Process Type</label>
-                      <select class="form-control" id="type" name="type">
+                      <select class="form-control kapadType" id="type" name="type">
                         <option value="23nidel">23 Nidel</option>
                         <option value="lessfiting">Less Fiting</option>
                         <option value="hotfix">Hotfix</option>
@@ -166,11 +198,12 @@
 
     $(document).ready(function(){
 
-      $('#kapadType').change(function() {
+      $(document).on('change','.kapadType',function() {
         var selectedValue = $(this).val();
-       
-        // Call AJAX function with selected value as parameter
-        $.ajax({
+        
+        if(selectedValue === 'hotfix'){
+          // Call AJAX function with selected value as parameter
+          $.ajax({
             url: 'ajax/process-ajax.php',
             type: 'POST',
             data: { 'type': selectedValue },
@@ -179,7 +212,8 @@
                 // Handle the response from the PHP script
                 $('#sadityperesult').html(response);
             }
-        });
+          });
+        }
       });
         
     });
