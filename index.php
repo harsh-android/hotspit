@@ -1,3 +1,7 @@
+<?php 
+  header("location:dealer-list.php");
+?>
+
 <!doctype html>
 <html lang="en">
 

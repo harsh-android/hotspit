@@ -57,7 +57,9 @@
                                     <tr class="search-items">
                                        
                                         <td>
+                                        <a href="worker-profile.php?id=<?php echo $row['id']; ?>">
                                             <span class="usr-name" ><?php echo $row['name']; ?></span>
+                                            </a>
                                         </td>
                                         
                                         <td>

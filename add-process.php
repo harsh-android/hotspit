@@ -213,6 +213,8 @@
                 $('#sadityperesult').html(response);
             }
           });
+        } else {
+          $('#sadityperesult').html("");
         }
       });
         

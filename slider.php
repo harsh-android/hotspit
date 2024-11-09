@@ -13,7 +13,7 @@
     <nav class="sidebar-nav">
       <ul id="sidebarnav" class="mb-4 pb-2" class="accordion" id="demo">
         <li class="sidebar-item accordion-item">
-          <a class="sidebar-link sidebar-link primary-hover-bg" href="./index.phpx  " aria-expanded="false">
+          <a class="sidebar-link sidebar-link primary-hover-bg" href="./index.php" aria-expanded="false">
             <span class="aside-icon p-2 bg-light-primary rounded-3">
               <i class="ti ti-layout-dashboard fs-7 text-primary"></i>
             </span>
