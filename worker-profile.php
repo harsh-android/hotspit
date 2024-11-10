@@ -7,6 +7,71 @@
   $r = mysqli_query($conn,$q);
   $row = mysqli_fetch_assoc($r);
 
+  if(isset($_POST["modalSubmit"])){
+    $action_name = $_POST["action_name"];
+    $action_id = $_POST["action_id"];
+
+    // define variables as per action
+    if($action_name == "sheet-work-action"){
+        $return_paper = $_POST['return_paper'];
+        $return_diomond_pkt = $_POST['return_diomond_pkt'];
+        $return_complete_sheet = $_POST['return_complete_sheet'];
+        $second_sheet = $_POST['second_sheet'];
+    } else {
+        $return_qty = $_POST["return_qty"];
+        $second_qty = $_POST["second_qty"];
+    }
+
+    // update perform
+    if($action_name == "nidel-action") {
+        $sql_update = "UPDATE `nidel_expence` SET `return_qty`=$return_qty,`second_qty`=$second_qty WHERE `id`=$action_id";
+        if(mysqli_query($conn,$sql_update)){
+            header("Location: " . $_SERVER['REQUEST_URI']);
+            exit();
+        }
+    }
+
+    if($action_name == "less-fiting-action") {
+        $sql_update = "UPDATE `less_fiting` SET `return_qty`=$return_qty,`second_qty`=$second_qty WHERE `id`=$action_id";
+        if(mysqli_query($conn,$sql_update)){
+            header("Location: " . $_SERVER['REQUEST_URI']);
+            exit();
+        }
+    }
+
+    if($action_name == "hotfix-action") {
+        $sql_update = "UPDATE `hotfix` SET `return_qty`=$return_qty,`second_qty`=$second_qty WHERE `id`=$action_id";
+        if(mysqli_query($conn,$sql_update)){
+            header("Location: " . $_SERVER['REQUEST_URI']);
+            exit();
+        }
+    }
+
+    if($action_name == "fusing-action") {
+        $sql_update = "UPDATE `fusing_expence` SET `return_qty`=$return_qty,`second_qty`=$second_qty WHERE `id`=$action_id";
+        if(mysqli_query($conn,$sql_update)){
+            header("Location: " . $_SERVER['REQUEST_URI']);
+            exit();
+        }
+    }
+
+    if($action_name == "reniya-cuting-action") {
+        $sql_update = "UPDATE `reniya_cutting` SET `return_qty`=$return_qty,`second_qty`=$second_qty WHERE `id`=$action_id";
+        if(mysqli_query($conn,$sql_update)){
+            header("Location: " . $_SERVER['REQUEST_URI']);
+            exit();
+        }
+    }
+
+    if($action_name == "sheet-work-action") {
+        $sql_update = "UPDATE `sheet_work` SET `return_paper`=$return_paper,`return_diomond_pkt`=$return_diomond_pkt,`return_complete_sheet`=$return_complete_sheet,`second_sheet`=$second_sheet WHERE `id`=$action_id";
+        if(mysqli_query($conn,$sql_update)){
+            header("Location: " . $_SERVER['REQUEST_URI']);
+            exit();
+        }
+    }
+  }
+
 ?>
 
 
@@ -218,12 +283,10 @@
                                                         <tr>
                                                             <th scope="col">Date</th>
                                                             <th scope="col">Quantity</th>
-                                                            <th scope="col">
-                                                                Return
-                                                            </th>
+                                                            <th scope="col">Return</th>
                                                             <th scope="col">Second Peice</th>
-
                                                             <th scope="col">Salary</th>
+                                                            <th scope="col">Action</th>
 
                                                         </tr>
                                                     </thead>
@@ -261,6 +324,17 @@
                                                                     <?php echo $row['price']*$row['return_qty']." (".$row['price'].")"; ?>
                                                                 </p>
                                                             </td>
+
+                                                            <td>
+                                                                <a class="text-primary edit open-actiona-model" 
+                                                                id="<?php echo $row['id']; ?>"
+                                                                data-action-name="nidel-action"
+                                                                data-title="23 Nidel"
+                                                                data-return="<?php echo $row['return_qty']; ?>"
+                                                                data-second="<?php echo $row['second_qty']; ?>">
+                                                                    <i class="ti ti-edit fs-5"></i>
+                                                                </a>
+                                                            </td>
                                                         </tr>
                                                         <?php } ?>
                                                     </tbody>
@@ -280,12 +354,10 @@
                                                         <tr>
                                                             <th scope="col">Date</th>
                                                             <th scope="col">Quantity</th>
-                                                            <th scope="col">
-                                                                Return
-                                                            </th>
+                                                            <th scope="col">Return</th>
                                                             <th scope="col">Second Peice</th>
-
                                                             <th scope="col">Salary</th>
+                                                            <th scope="col">Action</th>
 
                                                         </tr>
                                                     </thead>
@@ -323,6 +395,17 @@
                                                                     <?php echo $row['price']*$row['return_qty']." (".$row['price'].")"; ?>
                                                                 </p>
                                                             </td>
+
+                                                            <td>
+                                                                <a class="text-primary edit open-actiona-model" 
+                                                                id="<?php echo $row['id']; ?>"
+                                                                data-action-name="less-fiting-action"
+                                                                data-title="Less Fiting"
+                                                                data-return="<?php echo $row['return_qty']; ?>"
+                                                                data-second="<?php echo $row['second_qty']; ?>">
+                                                                    <i class="ti ti-edit fs-5"></i>
+                                                                </a>
+                                                            </td>
                                                         </tr>
                                                         <?php } ?>
                                                     </tbody>
@@ -352,6 +435,7 @@
                                                             <th scope="col">Sheet Price</th>
                                                             <th scope="col">Border Price</th>
                                                             <th scope="col">Salary</th>
+                                                            <th scope="col">Action</th>
 
                                                         </tr>
                                                     </thead>
@@ -427,6 +511,17 @@
                                                                     <?php echo $row['price']*$row['return_qty']." (".$row['price'].")"; ?>
                                                                 </p>
                                                             </td>
+
+                                                            <td>
+                                                                <a class="text-primary edit open-actiona-model" 
+                                                                id="<?php echo $row['id']; ?>"
+                                                                data-action-name="hotfix-action"
+                                                                data-title="Hotfix"
+                                                                data-return="<?php echo $row['return_qty']; ?>"
+                                                                data-second="<?php echo $row['second_qty']; ?>">
+                                                                    <i class="ti ti-edit fs-5"></i>
+                                                                </a>
+                                                            </td>
                                                         </tr>
                                                         <?php } ?>
                                                     </tbody>
@@ -446,13 +541,10 @@
                                                         <tr>
                                                             <th scope="col">Date</th>
                                                             <th scope="col">Quantity</th>
-                                                            <th scope="col">
-                                                                Return
-                                                            </th>
+                                                            <th scope="col">Return</th>
                                                             <th scope="col">Second Peice</th>
-
                                                             <th scope="col">Salary</th>
-
+                                                            <th scope="col">Action</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody class="border-top">
@@ -489,6 +581,17 @@
                                                                     <?php echo $row['price']*$row['return_qty']." (".$row['price'].")"; ?>
                                                                 </p>
                                                             </td>
+
+                                                            <td>
+                                                                <a class="text-primary edit open-actiona-model" 
+                                                                id="<?php echo $row['id']; ?>"
+                                                                data-action-name="fusing-action"
+                                                                data-title="Fusing"
+                                                                data-return="<?php echo $row['return_qty']; ?>"
+                                                                data-second="<?php echo $row['second_qty']; ?>">
+                                                                    <i class="ti ti-edit fs-5"></i>
+                                                                </a>
+                                                            </td>
                                                         </tr>
                                                         <?php } ?>
                                                     </tbody>
@@ -508,12 +611,10 @@
                                                         <tr>
                                                             <th scope="col">Date</th>
                                                             <th scope="col">Quantity</th>
-                                                            <th scope="col">
-                                                                Return
-                                                            </th>
+                                                            <th scope="col">Return</th>
                                                             <th scope="col">Second Peice</th>
-
                                                             <th scope="col">Salary</th>
+                                                            <th scope="col">Action</th>
 
                                                         </tr>
                                                     </thead>
@@ -551,6 +652,16 @@
                                                                     <?php echo $row['price']*$row['return_qty']." (".$row['price'].")"; ?>
                                                                 </p>
                                                             </td>
+
+                                                            <td>
+                                                                <a class="text-primary edit open-actiona-model" id="<?php echo $row['id']; ?>"
+                                                                data-action-name="reniya-cuting-action"
+                                                                data-title="Reniya Cuting"
+                                                                data-return="<?php echo $row['return_qty']; ?>"
+                                                                data-second="<?php echo $row['second_qty']; ?>">
+                                                                    <i class="ti ti-edit fs-5"></i>
+                                                                </a>
+                                                            </td>
                                                         </tr>
                                                         <?php } ?>
                                                     </tbody>
@@ -570,19 +681,19 @@
                                                         <tr>
                                                             <th scope="col">Date</th>
                                                             <th scope="col">Paper Quantity</th>
-                                                            <th scope="col">
-                                                            Diomond Quantity
-                                                            </th>
-                                                            <th scope="col">Completed</th>
-
+                                                            <th scope="col">Return Paper</th>
+                                                            <th scope="col">Diamond Quantity</th>
+                                                            <th scope="col">Return Diamond Packet</th>
+                                                            <th scope="col">Return Completed Sheet</th>
+                                                            <th scope="col">Second Sheet</th>
                                                             <th scope="col">Salary</th>
-
+                                                            <th scope="col">Action</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody class="border-top">
                                                         <?php 
                                                         
-                                                          $que = "SELECT * FROM less_fiting WHERE workers_id='$worker_id'";
+                                                          $que = "SELECT * FROM sheet_work WHERE workers_id='$worker_id'";
                                                           $res = mysqli_query($conn,$que);
                                                           while ($row = mysqli_fetch_assoc($res)) {
                                                             
@@ -594,24 +705,52 @@
                                                             </td>
                                                             <td>
                                                                 <p class="fw-normal mb-0 fs-3 text-dark">
-                                                                    <?php echo $row['use_paper_qty']." (".$row['return_sheet'].")"; ?>
+                                                                    <?php echo $row['use_paper_qty']; ?>
+                                                                </p>
+                                                            </td>
+                                                            <td>
+                                                                <p class="fw-normal mb-0 fs-3 text-dark">
+                                                                    <?php echo $row['return_paper']; ?>
                                                                 </p>
                                                             </td>
                                                             <td>
                                                                 <p class="text-dark mb-0 fw-normal">
-                                                                <?php echo $row['use_diomond_pkt']." (".$row['return_diomond_pkt'].")"; ?>
+                                                                <?php echo $row['use_diomond_pkt']; ?>
                                                                 </p>
                                                             </td>
+                                                            <td>
+                                                                <p class="text-dark mb-0 fw-normal">
+                                                                <?php echo $row['return_diomond_pkt']; ?>
+                                                                </p>
+                                                            </td>
+
                                                             <td>
                                                                 <p class="text-dark mb-0 fw-normal">
                                                                     <?php echo $row['return_complete_sheet']; ?>
                                                                 </p>
                                                             </td>
-
+                                                            <td>
+                                                                <p class="text-dark mb-0 fw-normal">
+                                                                    <?php echo $row['second_sheet']; ?>
+                                                                </p>
+                                                            </td>
                                                             <td>
                                                                 <p class="fw-bold text-success mb-0">
                                                                     <?php echo $row['price']*$row['return_complete_sheet']." (".$row['price'].")"; ?>
                                                                 </p>
+                                                            </td>
+
+                                                            <td>
+                                                                <a class="text-primary edit open-actiona-model" 
+                                                                id="<?php echo $row['id']; ?>"
+                                                                data-action-name="sheet-work-action"
+                                                                data-title="Sheet Work"
+                                                                data-return-paper="<?php echo $row['return_paper']; ?>"
+                                                                data-return-diomond-pkt="<?php echo $row['return_diomond_pkt']; ?>"
+                                                                data-return-complete-sheet="<?php echo $row['return_complete_sheet']; ?>"
+                                                                data-second-sheet="<?php echo $row['second_sheet']; ?>">
+                                                                    <i class="ti ti-edit fs-5"></i>
+                                                                </a>
                                                             </td>
                                                         </tr>
                                                         <?php } ?>
@@ -681,37 +820,115 @@
             </div>
         </div>
     </div>
+
+    <div class="modal fade" id="addnotesmodal" tabindex="-1" role="dialog" aria-labelledby="addnotesmodalTitle" aria-modal="true" style="display: none;">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content" style="border-radius: 10px;">
+                <div class="modal-header text-bg-primary">
+                    <h6 class="modal-title text-white">Add Notes</h6>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form method="post">
+                    <div class="modal-body">
+                        <div class="notes-box">
+                            <div class="notes-content">
+                                <div class="row modal-input-fields">
+                                    <div class="col-md-12 mb-3">
+                                        <div class="note-title">
+                                            <label class="form-label">Return Quantity</label>
+                                            <input type="number" name="return_qty" id="return_qty" class="form-control" placeholder="Title">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="note-description">
+                                            <label class="form-label">Second Quantity</label>
+                                            <input type="number" name="second_qty" id="second_qty" class="form-control" placeholder="Title">
+                                            <input type="hidden" name="action_name" id="action_name">
+                                            <input type="hidden" name="action_id" id="action_id">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <div class="d-flex gap-6">
+                            <button class="btn bg-danger-subtle text-danger" data-bs-dismiss="modal">Discard</button>
+                            <button id="btn-n-add" class="btn btn-primary" type="submit" name="modalSubmit">Submit</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <script src="src/assets/libs/jquery/dist/jquery.min.js"></script>
     <script src="src/assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="src/assets/js/sidebarmenu.js"></script>
     <script src="src/assets/js/app.min.js"></script>
     <script src="src/assets/libs/simplebar/dist/simplebar.js"></script>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
 
     <script>
-    // $(document).ready(function() {
+    $(document).ready(function(){
+        $(document).on("click", ".open-actiona-model", function(){
+            const actionId = $(this).attr("id");
+            const modelTitle = $(this).attr("data-title");
+            const actionName = $(this).attr("data-action-name");
+            
+            if(actionName === "sheet-work-action"){
+                const returnPaper = $(this).attr("data-return-paper");
+                const returnDiamondPkt = $(this).attr("data-return-diomond-pkt");
+                const returnCompleteSheet = $(this).attr("data-return-complete-sheet");
+                const secondSheet = $(this).attr("data-second-sheet");
 
-    //     $('#kapadType').change(function() {
-    //         var selectedValue = $(this).val();
+                $(".modal-input-fields").html(`
+                    <div class="col-md-12 mb-3">
+                        <div class="note-title">
+                            <label class="form-label">Return Paper</label>
+                            <input type="number" name="return_paper" id="return_paper" class="form-control" placeholder="Title" value="${returnPaper}">
+                        </div>
+                    </div>
+                    <div class="col-md-12 mb-3">
+                        <div class="note-title">
+                            <label class="form-label">Return Paper</label>
+                            <input type="number" name="return_diomond_pkt" id="return_diomond_pkt" class="form-control" placeholder="Title" value="${returnDiamondPkt}">
+                        </div>
+                    </div>
+                    <div class="col-md-12 mb-3">
+                        <div class="note-title">
+                            <label class="form-label">Return Paper</label>
+                            <input type="number" name="return_complete_sheet" id="return_complete_sheet" class="form-control" placeholder="Title" value="${returnCompleteSheet}">
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="note-description">
+                            <label class="form-label">Second Quantity</label>
+                            <input type="number" name="second_sheet" id="second_sheet" class="form-control" placeholder="Title" value="${secondSheet}">
+                            <input type="hidden" name="action_name" id="action_name" value="${actionName}">
+                            <input type="hidden" name="action_id" id="action_id" value="${actionId}">
+                        </div>
+                    </div>
+                `);
+                
+                $(".modal-title").text(modelTitle);
+            } else {
+                const returnQty = $(this).attr("data-return");
+                const secondQty = $(this).attr("data-second");
 
-    //         // Call AJAX function with selected value as parameter
-    //         $.ajax({
-    //             url: 'ajax/sadi-ajax.php',
-    //             type: 'POST',
-    //             data: {
-    //                 'type': selectedValue
-    //             },
-    //             success: function(response) {
-    //                 //  alert("hello");
-    //                 // Handle the response from the PHP script
-    //                 $('#sadityperesult').html(response);
-    //             }
-    //         });
-    //     });
+                $("#action_id").val(actionId);
+                $(".modal-title").text(modelTitle);
+                $("#action_name").val(actionName);
+                $("#return_qty").val(returnQty);
+                $("#second_qty").val(secondQty);
+            }
 
-    // });
+            $("#addnotesmodal").modal("show");
+        });
+    });
     </script>
 
 

@@ -22,13 +22,11 @@
     $workers = $_POST['workers'];
     $today = date("d-m-Y");  
 
-    $expence = $usemeter*$price;
-
     $q = "SELECT * FROM paper_stock";
     $r = mysqli_query($conn,$q);
 
 
-    $in = "INSERT INTO sheet_work(`shop`,`paper_type`,`use_paper_qty`,`diomond_type`,`use_diomond_pkt`,'dye',`date`,`workers_id`,`price`,`date`) VALUES ('$shop','$paperType','$usepaper','$diomondType','$usediomond','$dye','$today','$workers','$price','$today')";
+    $in = "INSERT INTO sheet_work(`shop`,`paper_type`,`use_paper_qty`,`diomond_type`,`use_diomond_pkt`,`dye`,`workers_id`,`price`,`date`) VALUES ('$shop','$paperType','$usepaper','$diomondType','$usediomond','$dye','$workers','$price','$today')";
     $res = mysqli_query($conn,$in); 
     header("location:kapad-stock-list.php");
   }
