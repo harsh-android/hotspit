@@ -101,6 +101,7 @@
             <div class="accordion-body">
               <ul class="list-unstyled ms-4">
               <li class="list-item mb-3"><a href="add-kapad-cutting.php" class="nav-link text-black">Kapad Cutting</a></li>
+              <li class="list-item mb-3"><a href="add-sheet-work.php" class="nav-link text-black">Sheet Work</a></li>
             </ul>
             </div>
           </div>
