@@ -32,9 +32,6 @@
     $res = mysqli_query($conn,$in); 
     header("location:kapad-stock-list.php");
   }
-
-
-
 ?>
 
 <!doctype html>

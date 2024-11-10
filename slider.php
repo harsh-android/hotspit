@@ -69,8 +69,10 @@
             <div class="accordion-body">
               <ul class="list-unstyled ms-4">
               <li class="list-item mb-3"><a href="shop-list.php" class="nav-link text-black">Shop</a></li>
+              <li class="list-item mb-3"><a href="paper-dye.php" class="nav-link text-black">Dye</a></li>
               <li class="list-item mb-3"><a href="workers-list.php" class="nav-link text-black">Workers</a></li>
               <li class="list-item mb-3"><a href="dealer-list.php" class="nav-link text-black">Dealer</a></li>
+              <li class="list-item mb-3"><a href="banking-list.php" class="nav-link text-black">Banking</a></li>
             </ul>
             </div>
           </div>
