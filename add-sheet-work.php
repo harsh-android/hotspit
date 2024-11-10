@@ -22,13 +22,11 @@
     $workers = $_POST['workers'];
     $today = date("d-m-Y");  
 
-    $expence = $usemeter*$price;
-
     $q = "SELECT * FROM paper_stock";
     $r = mysqli_query($conn,$q);
 
 
-    $in = "INSERT INTO sheet_work(`shop`,`paper_type`,`use_paper_qty`,`diomond_type`,`use_diomond_pkt`,'dye',`date`,`workers_id`,`price`,`date`) VALUES ('$shop','$paperType','$usepaper','$diomondType','$usediomond','$dye','$today','$workers','$price','$today')";
+    $in = "INSERT INTO sheet_work(`shop`,`paper_type`,`use_paper_qty`,`diomond_type`,`use_diomond_pkt`,`dye`,`workers_id`,`price`,`date`) VALUES ('$shop','$paperType','$usepaper','$diomondType','$usediomond','$dye','$workers','$price','$today')";
     $res = mysqli_query($conn,$in); 
     header("location:kapad-stock-list.php");
   }
@@ -84,7 +82,7 @@
                         ?>
                                                 </select>
                                             </div>
-                                            <div>
+                                            <div class="mb-3">
                                                 <label for="paperType" class="form-label">Paper Type</label>
                                                 <?php 
                         $paperque = mysqli_query($conn,"SELECT * FROM paper_type");
@@ -110,7 +108,7 @@
                                             </div>
 
 
-                                            <div>
+                                            <div class="mb-3">
                                                 <label for="diomondType" class="form-label">Diomond Type</label>
                                                 <?php 
                         $paperque = mysqli_query($conn,"SELECT * FROM diomond_type");
@@ -135,7 +133,7 @@
                                                     id="usediomond" placeholder="2">
                                             </div>
                                             
-                                            <div>
+                                            <div class="mb-3">
                                                 <label for="dye" class="form-label">Dye</label>
                                                 <?php 
                         $paperque = mysqli_query($conn,"SELECT * FROM dye");
@@ -179,8 +177,10 @@
                                                 </select>
                                             </div>
 
-                                            <button type="submit" name="submit" class="btn btn-primary">Submit</button>
+                                            <button type="submit" name="submit" class="btn btn-primary sheet_work_submit">Submit</button>
                                     </form>
+                                    <input type="hidden" id="storePaperQty" >
+                                    <input type="hidden" id="storeDiamondQty" >
                                 </div>
                             </div>
                         </div>
@@ -219,6 +219,64 @@
             });
         });
 
+        getPaperAndDiamondQtry();
+        function getPaperAndDiamondQtry(){
+            const shopId = $("#shop").val();
+            const paperTypeId = $("#paperType").val();
+            const diomondTypeId = $("#diomondType").val();
+
+            $.ajax({
+                url: 'ajax/sheet-work-ajax.php',
+                type: 'POST',
+                dataType: 'json',
+                data: {
+                    'shopId': shopId,
+                    'paperTypeId': paperTypeId,
+                    'diomondTypeId': diomondTypeId
+                },
+                success: function(response) {
+                    // Handle the response from the PHP script
+                    $("#usepaper").val(response.paperQty);
+                    $("#storePaperQty").val(response.paperQty);
+                    $("#usediomond").val(response.diamoundQty);
+                    $("#storeDiamondQty").val(response.diamoundQty);
+                }
+            });
+        }
+
+        $(document).on("change","#shop",function(){
+            getPaperAndDiamondQtry();
+        });
+
+        $(document).on("change","#paperType",function(){
+            getPaperAndDiamondQtry();
+        });
+
+        $(document).on("change","#diomondType",function(){
+            getPaperAndDiamondQtry();
+        });
+
+        $(document).on("input","#usepaper",function(){
+            const enterUsedPaper = $(this).val();
+            const availableUsedPaper = $("#storePaperQty").val();
+
+            if(enterUsedPaper > availableUsedPaper){
+                $(".sheet_work_submit").prop("disabled", true).css("opacity","0.5");
+            } else {
+                $(".sheet_work_submit").prop("disabled", false).css("opacity","1");
+            }
+        });
+
+        $(document).on("input","#usediomond",function(){
+            const enterUsedDiamond = $(this).val();
+            const availableUsedDiamond = $("#storeDiamondQty").val();
+
+            if(enterUsedDiamond > availableUsedDiamond){
+                $(".sheet_work_submit").prop("disabled", true).css("opacity","0.5");
+            } else {
+                $(".sheet_work_submit").prop("disabled", false).css("opacity","1");
+            }
+        });
     });
     </script>
 
