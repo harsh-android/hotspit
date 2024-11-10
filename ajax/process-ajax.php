@@ -13,7 +13,7 @@
 
 <div class="mb-3">
     <label for="buttaPrice" class="form-label">Butta Price</label>
-    <input type="number" class="form-control" id="buttaPrice" name="buttaPrice" placeholder="Price per butta">
+    <input type="number" class="form-control" step="0.01" id="buttaPrice" name="buttaPrice" placeholder="Price per butta">
 </div>
 
 <div class="mb-3">
@@ -23,7 +23,7 @@
 
 <div class="mb-3">
     <label for="linePrice" class="form-label">Line Price</label>
-    <input type="number" class="form-control" id="linePrice" name="linePrice" placeholder="Line Price">
+    <input type="number" class="form-control" step="0.01" id="linePrice" name="linePrice" placeholder="Line Price">
 </div>
 
 <div class="mb-3">
@@ -33,12 +33,12 @@
 
 <div class="mb-3">
     <label for="sheetPrice" class="form-label">Sheet Price</label>
-    <input type="number" class="form-control" id="sheetPrice" name="sheetPrice" placeholder="Sheet Price">
+    <input type="number" class="form-control" step="0.01" id="sheetPrice" name="sheetPrice" placeholder="Sheet Price">
 </div>
 
 <div class="mb-3">
     <label for="borderPrice" class="form-label">Border Price</label>
-    <input type="number" class="form-control" id="borderPrice" name="borderPrice" placeholder="Border Price">
+    <input type="number" class="form-control" step="0.01" id="borderPrice" name="borderPrice" placeholder="Border Price">
 </div>
 
 <?php } ?>

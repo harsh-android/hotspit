@@ -25,20 +25,35 @@
         $stockId = $value["stock_id"];
         $use = $value["use"];
 
-        // $useQue = "UPDATE `kapad_stock` SET `use_qty`=use_qty+$use WHERE `id`='$stockId'";
-        // mysqli_query($conn,$useQue);
-        $getUseQty = "SELECT `use_qty` FROM `sadi_stock` WHERE `id` = '$stockId'";
+        $getUseQty = "SELECT * FROM `sadi_stock` WHERE `id` = '$stockId'";
         $getUseQtyResult = $conn->query($getUseQty);
         $row = $getUseQtyResult->fetch_assoc();
-        print_r($row['use_qty']);
         $usedQtrIs = (int)$row['use_qty'] + (int)$use;
 
-        $useQue = "UPDATE `sadi_stock` SET `use_qty`= $usedQtrIs WHERE `id`='$stockId'";
-        mysqli_query($conn,$useQue);
-        $in = "INSERT INTO nidel_expence(`sadi_stock_id`,`use_qty`,`price`,`workers_id`,`date`) VALUES ('$stockId','$use','$price','$worker','$today')";
-        $res = mysqli_query($conn,$in);
+        if ($usedQtrIs > (int)$row['qty']){
+          $available_qty = (int)$row['qty'] - (int)$row['use_qty'];
+          $error_message = "Insufficient stock, Please enter correct Use Quantity!";
+          break;
+        }
       }
-      header("location:dealer-list.php");
+
+      if (empty($error_message)) {
+        foreach ($selectedStocks as $key => $value) {
+          $stockId = $value["stock_id"];
+          $use = $value["use"];
+
+          $getUseQty = "SELECT * FROM `sadi_stock` WHERE `id` = '$stockId'";
+          $getUseQtyResult = $conn->query($getUseQty);
+          $row = $getUseQtyResult->fetch_assoc();
+          $usedQtrIs = (int)$row['use_qty'] + (int)$use;
+
+          $useQue = "UPDATE `sadi_stock` SET `use_qty`= $usedQtrIs WHERE `id`='$stockId'";
+          mysqli_query($conn,$useQue);
+          $in = "INSERT INTO nidel_expence(`sadi_stock_id`,`use_qty`,`price`,`workers_id`,`date`) VALUES ('$stockId','$use','$price','$worker','$today')";
+          $res = mysqli_query($conn,$in);
+        }
+        header("location: dealer-list.php");
+      }
     }
 
     if($type == "lessfiting"){
@@ -139,6 +154,9 @@
               <div class="card">
                 <div class="card-body">
                   <form method="post">
+                    <?php if(!empty($error_message)) { ?>
+                      <p style="color: red;"><?php echo $error_message; ?></p>
+                    <?php } ?>
                     <div class="mb-3">
                       <label for="type" class="form-label">Process Type</label>
                       <select class="form-control kapadType" id="type" name="type">
