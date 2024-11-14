@@ -6,7 +6,7 @@
     $id = $_GET['id'];
     $isupdate = true;
     $quee = mysqli_query($conn,"SELECT * FROM kapad_stock WHERE `id`='$id'");
-    $ress = mysqli_fetch_assoc($quee);
+    $editRes = mysqli_fetch_assoc($quee);
   }
 
   if(isset($_POST['submit'])) {
@@ -31,7 +31,7 @@
     
     $res = mysqli_query($conn,$in);
     echo mysqli_error($conn);
-    // header("location:kapad-stock-list.php");
+    header("location:kapad-stock-list.php");
   }
 
 ?>
@@ -70,30 +70,29 @@
                     <div class="mb-3">
                       <label for="kapadType" class="form-label">Kapad Type</label>
                       <select class="form-control" id="kapadType" name="kapadType">
-                        <option value="Kapad">Sadi Meter</option>
-                        <option value="Roll">Roll</option>
+                        <option value="Kapad" <?php echo $isupdate && $editRes['type'] == "Kapad" ? "selected" : ''; ?>>Sadi Meter</option>
+                        <option value="Roll" <?php echo $isupdate && $editRes['type'] == "Roll" ? "selected" : ''; ?>>Roll</option>
                       </select>
                     </div>
-                    <div id="sadityperesult">
-                      <div class="mb-3">
-                          <label for="cuttingPrice" class="form-label">Cutting Price</label>
-                          <input type="number" class="form-control" id="cuttingPrice" name="cuttingPrice">
-                      </div>
+
+                    <div class="mb-3 cuttingPriceSection">
+                        <label for="cuttingPrice" class="form-label">Cutting Price</label>
+                        <input type="number" class="form-control" id="cuttingPrice" name="cuttingPrice" value="<?php echo $isupdate ? $editRes['cutting_price'] : ''; ?>">
                     </div>
                    
                     <div class="mb-3">
                       <label for="meter" class="form-label">Meter</label>
-                      <input type="number" name="meter" class="form-control" id="meter" placeholder="10">
+                      <input type="number" name="meter" class="form-control" id="meter" placeholder="10" value="<?php echo $isupdate ? $editRes['meter'] : ''; ?>">
                     </div>
 
                     <div class="mb-3">
                       <label for="panno" class="form-label">Panno</label>
-                      <input type="number" name="meter" class="form-control" id="panno" placeholder="42">
+                      <input type="number" name="panno" class="form-control" id="panno" placeholder="42" value="<?php echo $isupdate ? $editRes['panno'] : ''; ?>">
                     </div>
 
                     <div class="mb-3">
                       <label for="price" class="form-label">Price</label>
-                      <input type="number" step="0.01" name="price" class="form-control" id="price" placeholder="1000">
+                      <input type="number" step="0.01" name="price" class="form-control" id="price" placeholder="1000" value="<?php echo $isupdate ? $editRes['price'] : ''; ?>">
                     </div>
 
                     <div class="mb-3">
@@ -106,7 +105,7 @@
                       <?php 
                           while ($row = mysqli_fetch_assoc($queShop)) {
                         ?>
-                            <option value="<?php echo $row['id'] ?>"><?php echo $row['name'] ?></option>
+                            <option value="<?php echo $row['id'] ?>" <?php echo $isupdate && $editRes['shop'] == $row['id'] ? "selected" : ''; ?>><?php echo $row['name'] ?></option>
                         <?php 
                           }
                         ?>
@@ -135,21 +134,20 @@
 
     $(document).ready(function(){
 
-      $('#kapadType').change(function() {
-        var selectedValue = $(this).val();
-       
-        // Call AJAX function with selected value as parameter
-        $.ajax({
-            url: 'ajax/sadi-ajax.php',
-            type: 'POST',
-            data: { 'type': selectedValue },
-            success: function(response) {
-              //  alert("hello");
-                // Handle the response from the PHP script
-                $('#sadityperesult').html(response);
-            }
-        });
+      $(document).on("change","#kapadType",function() {
+        getCuttingPrice();
       });
+
+      getCuttingPrice();
+      function getCuttingPrice() {
+        const selectedValue = $("#kapadType").val();
+
+        if(selectedValue === "Kapad"){
+          $(".cuttingPriceSection").show();
+        } else {
+          $(".cuttingPriceSection").hide();
+        }
+      }
         
     });
 

@@ -1,31 +1,27 @@
-<?php 
+<?php
+include('conn.php');
 
-  include('conn.php');
+$isupdate = false;
+if (isset($_GET['id'])) {
+  $id = $_GET['id'];
+  $isupdate = true;
+  $quee = mysqli_query($conn, "SELECT * FROM color WHERE `id`='$id'");
+  $editRes = mysqli_fetch_assoc($quee);
+}
 
-  if(isset($_GET['id'])){ 
-    $id = $_GET['id'];
-    $isupdate = true;
-    $quee = mysqli_query($conn,"SELECT * FROM color WHERE `id`='$id'");
-    $ress = mysqli_fetch_assoc($quee);
+if (isset($_POST['submit'])) {
 
+  $name = $_POST['diomondType'];
+
+  if ($isupdate) {
+    $in = "UPDATE `color` SET `name`='$name' WHERE `id`='$id'";
+  } else {
+    $in = "INSERT INTO color(`name`) VALUES ('$name')";
   }
-
-  if(isset($_POST['submit'])) {
-
-    $name = $_POST['diomondType'];
-
-    if($isupdate){
-      $in = "UPDATE `color` SET `name`='$name' WHERE `id`='$id'";
-    } else{
-      $in = "INSERT INTO color(`name`) VALUES ('$name')";
-    }
-    $res = mysqli_query($conn,$in); 
-    header("location:color-list.php");
-  }
-
-
+  $res = mysqli_query($conn, $in);
+  header("location:color-list.php");
+}
 ?>
-
 
 <!doctype html>
 <html lang="en">
@@ -48,7 +44,7 @@
     <!--  Main wrapper -->
     <div class="body-wrapper">
       <!--  Header Start -->
-      <?php include('header.php');?>
+      <?php include('header.php'); ?>
       <!--  Header End -->
       <div class="container-fluid">
         <div class="container-fluid">
@@ -58,14 +54,14 @@
               <div class="card">
                 <div class="card-body">
                   <form method="post">
-                    
+
                     <div id="sadityperesult">
                       <div class="mb-3">
-                          <label for="diomondType" class="form-label">Color Name</label>
-                          <input type="text" class="form-control" id="diomondType" name="diomondType"   >
+                        <label for="diomondType" class="form-label">Color Name</label>
+                        <input type="text" class="form-control" id="diomondType" name="diomondType" value="<?php echo $isupdate ? $editRes['name'] : ''; ?>">
                       </div>
                     </div>
-                    
+
                     <button type="submit" name="submit" class="btn btn-primary">Submit</button>
                   </form>
                 </div>
@@ -85,31 +81,5 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
 
-  <script>
-
-    $(document).ready(function(){
-
-      $('#kapadType').change(function() {
-        var selectedValue = $(this).val();
-       
-        // Call AJAX function with selected value as parameter
-        $.ajax({
-            url: 'ajax/sadi-ajax.php',
-            type: 'POST',
-            data: { 'type': selectedValue },
-            success: function(response) {
-              //  alert("hello");
-                // Handle the response from the PHP script
-                $('#sadityperesult').html(response);
-            }
-        });
-      });
-        
-    });
-
-  </script>
-
-
 </body>
-
 </html>

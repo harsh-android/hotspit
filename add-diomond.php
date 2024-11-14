@@ -1,32 +1,32 @@
-<?php 
+<?php
 
-  include('conn.php');
+include('conn.php');
 
-  if(isset($_GET['id'])){ 
-    $id = $_GET['id'];
-    $isupdate = true;
-    $quee = mysqli_query($conn,"SELECT * FROM diomond_stock WHERE `id`='$id'");
-    $ress = mysqli_fetch_assoc($quee);
+$isupdate = false;
+if (isset($_GET['id'])) {
+  $id = $_GET['id'];
+  $isupdate = true;
+  $quee = mysqli_query($conn, "SELECT * FROM diomond_stock WHERE `id`='$id'");
+  $editRes = mysqli_fetch_assoc($quee);
+}
 
+if (isset($_POST['submit'])) {
+
+  $name = $_POST['diomondType'];
+  $diomondQut = $_POST['diomondQut'];
+  $diomondPacketQut = $_POST['diomondPacketQut'];
+  $price = $_POST['price'];
+  $shop = $_POST['shop'];
+  $today = date("d-m-Y");
+
+  if ($isupdate) {
+    $in = "UPDATE `diomond_stock` SET `type`='$name',`pkt_qty`='$diomondQut',`qty_per_pkt`='$diomondPacketQut',`price`='$price',`shop`='$shop' WHERE `id`='$id'";
+  } else {
+    $in = "INSERT INTO diomond_stock(`type`,`pkt_qty`,`qty_per_pkt`,`price`,`shop`,`date`) VALUES ('$name','$diomondQut','$diomondPacketQut','$price','$shop','$today')";
   }
-
-  if(isset($_POST['submit'])) {
-
-    $name = $_POST['diomondType'];
-    $diomondQut = $_POST['diomondQut'];
-    $diomondPacketQut = $_POST['diomondPacketQut'];
-    $price = $_POST['price'];
-    $shop = $_POST['shop'];
-    $today = date("d-m-Y");  
-
-    if($isupdate){
-      $in = "UPDATE `diomond_stock` SET `type`='$name',`pkt_qty`='$diomondQut',`qty_per_pkt`='$diomondPacketQut',`price`='$price',`shop`='$shop' WHERE `id`='$id'";
-    } else{
-      $in = "INSERT INTO diomond_stock(`type`,`pkt_qty`,`qty_per_pkt`,`price`,`shop`,`date`) VALUES ('$name','$diomondQut','$diomondPacketQut','$price','$shop','$today')";
-    }
-    $res = mysqli_query($conn,$in); 
-    header("location:diomond-stock-list.php");
-  }
+  $res = mysqli_query($conn, $in);
+  header("location:diomond-stock-list.php");
+}
 
 
 ?>
@@ -52,7 +52,7 @@
     <!--  Main wrapper -->
     <div class="body-wrapper">
       <!--  Header Start -->
-      <?php include('header.php');?>
+      <?php include('header.php'); ?>
       <!--  Header End -->
       <div class="container-fluid">
         <div class="container-fluid">
@@ -62,55 +62,54 @@
               <div class="card">
                 <div class="card-body">
                   <form method="post">
-                    
-                  <div class="mb-3">
+
+                    <div class="mb-3">
                       <label for="diomondType" class="form-label">Diomond Type</label>
-                      <?php 
-                        $que = mysqli_query($conn,"SELECT * FROM diomond_type");
-                      
+                      <?php
+                      $que = mysqli_query($conn, "SELECT * FROM diomond_type");
                       ?>
                       <select class="form-control" id="diomondType" name="diomondType">
-                        <?php 
-                          while ($row = mysqli_fetch_assoc($que)) {
+                        <?php
+                        while ($row = mysqli_fetch_assoc($que)) {
                         ?>
-                            <option value="<?php echo $row['id'] ?>"><?php echo $row['name'] ?></option>
-                        <?php 
-                          }
+                          <option value="<?php echo $row['id'] ?>" <?php echo $isupdate && $editRes['type'] == $row['id'] ? "selected" : ''; ?>><?php echo $row['name'] ?></option>
+                        <?php
+                        }
                         ?>
                       </select>
                     </div>
                     <div class="mb-3">
                       <label for="diomondQut" class="form-label">Diomond Packet Quanitity</label>
-                      <input type="number" name="diomondQut" class="form-control" id="diomondQut" placeholder="10">
+                      <input type="number" name="diomondQut" class="form-control" id="diomondQut" placeholder="10" value="<?php echo $isupdate ? $editRes['pkt_qty'] : ''; ?>">
                     </div>
-                    
+
                     <div class="mb-3">
                       <label for="diomondPacketQut" class="form-label">Diomond Quanitity per Packet</label>
-                      <input type="number" name="diomondPacketQut" class="form-control" id="diomondPacketQut" placeholder="80000">
+                      <input type="number" name="diomondPacketQut" class="form-control" id="diomondPacketQut" placeholder="80000" value="<?php echo $isupdate ? $editRes['qty_per_pkt'] : ''; ?>">
                     </div>
 
                     <div class="mb-3">
                       <label for="price" class="form-label">Price</label>
-                      <input type="number" name="price" class="form-control" id="price" placeholder="1000">
+                      <input type="number" name="price" class="form-control" id="price" placeholder="1000" value="<?php echo $isupdate ? $editRes['price'] : ''; ?>">
                     </div>
 
                     <div class="mb-3">
                       <label for="shop" class="form-label">Shop</label>
-                      <?php 
-                        $queShop = mysqli_query($conn,"SELECT * FROM shop");
-                      
+                      <?php
+                      $queShop = mysqli_query($conn, "SELECT * FROM shop");
+
                       ?>
                       <select class="form-control" id="shop" name="shop">
-                      <?php 
-                          while ($row = mysqli_fetch_assoc($queShop)) {
+                        <?php
+                        while ($row = mysqli_fetch_assoc($queShop)) {
                         ?>
-                            <option value="<?php echo $row['id'] ?>"><?php echo $row['name'] ?></option>
-                        <?php 
-                          }
+                          <option value="<?php echo $row['id'] ?>" <?php echo $isupdate && $editRes['shop'] == $row['id'] ? "selected" : ''; ?>><?php echo $row['name'] ?></option>
+                        <?php
+                        }
                         ?>
-                      </select> 
+                      </select>
                     </div>
-                    
+
                     <button type="submit" name="submit" class="btn btn-primary">Submit</button>
                   </form>
                 </div>
@@ -131,27 +130,27 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
 
   <script>
-
-    $(document).ready(function(){
+    $(document).ready(function() {
 
       $('#kapadType').change(function() {
         var selectedValue = $(this).val();
-       
+
         // Call AJAX function with selected value as parameter
         $.ajax({
-            url: 'ajax/sadi-ajax.php',
-            type: 'POST',
-            data: { 'type': selectedValue },
-            success: function(response) {
-              //  alert("hello");
-                // Handle the response from the PHP script
-                $('#sadityperesult').html(response);
-            }
+          url: 'ajax/sadi-ajax.php',
+          type: 'POST',
+          data: {
+            'type': selectedValue
+          },
+          success: function(response) {
+            //  alert("hello");
+            // Handle the response from the PHP script
+            $('#sadityperesult').html(response);
+          }
         });
       });
-        
-    });
 
+    });
   </script>
 
 

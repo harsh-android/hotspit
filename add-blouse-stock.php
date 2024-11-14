@@ -1,31 +1,29 @@
-<?php 
-  include("conn.php");
+<?php
+include("conn.php");
 
+$isupdate = false;
+if (isset($_GET['id'])) {
+  $id = $_GET['id'];
+  $isupdate = true;
+  $quee = mysqli_query($conn, "SELECT * FROM blouse_stock WHERE `id`='$id'");
+  $editRes = mysqli_fetch_assoc($quee);
+}
 
-  if(isset($_GET['id'])){ 
-    $id = $_GET['id'];
-    $isupdate = true;
-    $quee = mysqli_query($conn,"SELECT * FROM blouse_stock WHERE `id`='$id'");
-    $ress = mysqli_fetch_assoc($quee);
+if (isset($_POST['submit'])) {
+  $type = $_POST['blouseType'];
+  $qty = $_POST['qty'];
+  $price = $_POST['price'];
+  $shop = $_POST['shop'];
+  $today = date("d-m-Y");
 
+  if ($isupdate) {
+    $in = "UPDATE `blouse_stock` SET `type`='$type',`qty`='$qty',`price`='$price',`shop`='$shop' WHERE `id`='$id'";
+  } else {
+    $in = "INSERT INTO `blouse_stock`(`type`,`qty`,`price`,`shop`,`date`) VALUES ('$type','$qty','$price','$shop','$today')";
   }
-
-  if(isset($_POST['submit'])) {
-
-    $type = $_POST['blouseType'];
-    $qty = $_POST['qty'];
-    $price = $_POST['price'];
-    $shop = $_POST['shop'];
-    $today = date("d-m-Y");  
-
-    if($isupdate){
-      $in = "UPDATE `blouse_stock` SET `type`='$type',`qty`='$qty',`price`='$price',`shop`='$shop' WHERE `id`='$id'";
-    } else{
-      $in = "INSERT INTO blouse_stock(`type`,`qty`,`price`,`shop`,`date`) VALUES ('$name','$qty','$price','$shop','$today')";
-    }
-    $res = mysqli_query($conn,$in); 
-    header("location:blouse-stock-list.php");
-  }
+  $res = mysqli_query($conn, $in);
+  header("location:blouse-stock-list.php");
+}
 
 ?>
 
@@ -50,7 +48,7 @@
     <!--  Main wrapper -->
     <div class="body-wrapper">
       <!--  Header Start -->
-      <?php include('header.php');?>
+      <?php include('header.php'); ?>
       <!--  Header End -->
       <div class="container-fluid">
         <div class="container-fluid">
@@ -59,52 +57,52 @@
               <h5 class="card-title fw-semibold mb-4">Add Blouse</h5>
               <div class="card">
                 <div class="card-body">
-                  <form>
+                  <form method="post">
                     <div class="mb-3">
                       <label for="blouseType" class="form-label">Blouse Type</label>
-                      <?php 
-                        $typeque = mysqli_query($conn,"SELECT * FROM blouse_type");
+                      <?php
+                      $typeque = mysqli_query($conn, "SELECT * FROM blouse_type");
                       ?>
                       <select class="form-control" id="blouseType" name="blouseType">
-                      <?php 
-                          while ($row = mysqli_fetch_assoc($typeque)) {
+                        <?php
+                        while ($row = mysqli_fetch_assoc($typeque)) {
                         ?>
-                            <option value="<?php echo $row['id'] ?>"><?php echo $row['name'] ?></option>
-                        <?php 
-                          }
+                          <option value="<?php echo $row['id'] ?>" <?php echo $isupdate && $editRes['type'] == $row['id'] ? "selected" : ''; ?>><?php echo $row['name'] ?></option>
+                        <?php
+                        }
                         ?>
                       </select>
                     </div>
                     <div id="sadityperesult">
                       <div class="mb-3">
-                          <label for="qty" class="form-label">Quntity</label>
-                          <input type="number" class="form-control" id="qty" name="qty">
+                        <label for="qty" class="form-label">Quntity</label>
+                        <input type="number" class="form-control" id="qty" name="qty" value="<?php echo $isupdate ? $editRes['qty'] : ''; ?>">
                       </div>
                     </div>
-                
+
                     <div class="mb-3">
                       <label for="price" class="form-label">Price</label>
-                      <input type="number" name="price" class="form-control" id="price" placeholder="1000">
+                      <input type="number" name="price" class="form-control" id="price" placeholder="1000" value="<?php echo $isupdate ? $editRes['price'] : ''; ?>">
                     </div>
 
                     <div class="mb-3">
                       <label for="shop" class="form-label">Shop</label>
-                      <?php 
-                        $queShop = mysqli_query($conn,"SELECT * FROM shop");
-                      
+                      <?php
+                      $queShop = mysqli_query($conn, "SELECT * FROM shop");
+
                       ?>
                       <select class="form-control" id="shop" name="shop">
-                      <?php 
-                          while ($row = mysqli_fetch_assoc($queShop)) {
+                        <?php
+                        while ($row = mysqli_fetch_assoc($queShop)) {
                         ?>
-                            <option value="<?php echo $row['id'] ?>"><?php echo $row['name'] ?></option>
-                        <?php 
-                          }
+                          <option value="<?php echo $row['id'] ?>" <?php echo $isupdate && $editRes['shop'] == $row['id'] ? "selected" : ''; ?>><?php echo $row['name'] ?></option>
+                        <?php
+                        }
                         ?>
-                      </select> 
+                      </select>
                     </div>
 
-                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <button type="submit" name="submit" class="btn btn-primary">Submit</button>
                   </form>
                 </div>
               </div>
@@ -124,27 +122,27 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
 
   <script>
-
-    $(document).ready(function(){
+    $(document).ready(function() {
 
       $('#kapadType').change(function() {
         var selectedValue = $(this).val();
-       
+
         // Call AJAX function with selected value as parameter
         $.ajax({
-            url: 'ajax/sadi-ajax.php',
-            type: 'POST',
-            data: { 'type': selectedValue },
-            success: function(response) {
-              //  alert("hello");
-                // Handle the response from the PHP script
-                $('#sadityperesult').html(response);
-            }
+          url: 'ajax/sadi-ajax.php',
+          type: 'POST',
+          data: {
+            'type': selectedValue
+          },
+          success: function(response) {
+            //  alert("hello");
+            // Handle the response from the PHP script
+            $('#sadityperesult').html(response);
+          }
         });
       });
-        
-    });
 
+    });
   </script>
 
 

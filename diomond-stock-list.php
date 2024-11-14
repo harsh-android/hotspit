@@ -1,8 +1,14 @@
-<?php 
+<?php
+include('conn.php');
 
-  include('conn.php');
+if (isset($_GET['d_id'])) {
+  $dId = $_GET['d_id'];
 
+  $sql_delete = "DELETE FROM `diomond_stock` WHERE `id` = $dId";
+  mysqli_query($conn,$sql_delete);
 
+  header('location:diomond-stock-list.php');
+}
 ?>
 
 
@@ -27,7 +33,7 @@
     <!--  Main wrapper -->
     <div class="body-wrapper">
       <!--  Header Start -->
-      <?php include('header.php');?>
+      <?php include('header.php'); ?>
       <!--  Header End -->
       <div class="container-fluid">
         <div class="container-fluid">
@@ -37,72 +43,71 @@
               <a href="add-diomond.php"><button class="btn btn-info mb-2" type="button">Add Diomond Stock</button></a>
               <div class="card">
                 <div class="card-body">
-               
-                        <div class="table-responsive">
-                            <table class="table search-table align-middle text-nowrap">
-                                <thead class="header-item">
-                                   
-                                    <th>Type</th>
-                                    <th>Shop</th>
-                                    <th>Packet Qty</th>
-                                    <th>Diomond Qty</th>
-                                    <th>Price</th>
-                                    <th>Date</th>
-                                </thead>
-                                <tbody>
 
-                                  <!-- start row -->
-                                <?php 
-                                
-                                $que = "SELECT * FROM diomond_stock";
-                                $res = mysqli_query($conn, $que);
-                                while ($row = mysqli_fetch_assoc($res)) {
-                                  @$typeId = $row["type"];
-                                  @$shopId = $row["shop"];
-                                
-                                ?>
-                                    <tr class="search-items">
-                                        <td>
-                                            <span class="usr-name" ><?php @$typeData = mysqli_fetch_assoc(mysqli_query($conn,"SELECT * FROM diomond_type WHERE `id`='$typeId'"));
-                                            echo @$typeData["name"];
-                                            ?></span>
-                                        </td>
-                                        <td>
-                                            <span class="usr-name" ><?php @$shopData = mysqli_fetch_assoc(mysqli_query($conn,"SELECT * FROM shop WHERE `id`='$shopId'"));
-                                            echo @$shopData["name"]."<br/>(".$shopData['owner_name'].")";
-                                            ?></span>
-                                        </td>
-                                        <td>
-                                            <span class="usr-name" ><?php echo $row['pkt_qty']; ?></span>
-                                        </td>
-                                        <td>
-                                            <span class="usr-name" ><?php echo $row['qty_per_pkt']; ?></span>
-                                        </td>
-                                        <td>
-                                            <span class="usr-name" ><?php echo $row['price']; ?></span>
-                                        </td>
-                                        <td>
-                                            <span class="usr-name" ><?php echo $row['date']; ?></span>
-                                        </td>
-                                        <td>
-                                            <div class="action-btn">
-                                                <a href="add-diomond.php?id=<?php echo $row['id']; ?>" class="text-primary edit">
-                        <i class="ti ti-edit fs-5"></i>
-                        </a>
-                                                <a href="javascript:void(0)" class="text-dark delete ms-2">
-                        <i class="ti ti-trash fs-5"></i>
-                        </a>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                   
-                                <?php 
-                                }
-                                ?>
-                                </tbody>
-                            </table>
-                        </div>
-                        </div>
+                  <div class="table-responsive">
+                    <table class="table search-table align-middle text-nowrap">
+                      <thead class="header-item">
+
+                        <th>Type</th>
+                        <th>Shop</th>
+                        <th>Packet Qty</th>
+                        <th>Diomond Qty</th>
+                        <th>Price</th>
+                        <th>Date</th>
+                      </thead>
+                      <tbody>
+
+                        <!-- start row -->
+                        <?php
+
+                        $que = "SELECT * FROM diomond_stock";
+                        $res = mysqli_query($conn, $que);
+                        while ($row = mysqli_fetch_assoc($res)) {
+                          @$typeId = $row["type"];
+                          @$shopId = $row["shop"];
+
+                        ?>
+                          <tr class="search-items">
+                            <td>
+                              <span class="usr-name"><?php @$typeData = mysqli_fetch_assoc(mysqli_query($conn, "SELECT * FROM diomond_type WHERE `id`='$typeId'"));
+                                                      echo @$typeData["name"];
+                                                      ?></span>
+                            </td>
+                            <td>
+                              <span class="usr-name"><?php @$shopData = mysqli_fetch_assoc(mysqli_query($conn, "SELECT * FROM shop WHERE `id`='$shopId'"));
+                                                      echo @$shopData["name"] . "<br/>(" . $shopData['owner_name'] . ")";
+                                                      ?></span>
+                            </td>
+                            <td>
+                              <span class="usr-name"><?php echo $row['pkt_qty']; ?></span>
+                            </td>
+                            <td>
+                              <span class="usr-name"><?php echo $row['qty_per_pkt']; ?></span>
+                            </td>
+                            <td>
+                              <span class="usr-name"><?php echo $row['price']; ?></span>
+                            </td>
+                            <td>
+                              <span class="usr-name"><?php echo $row['date']; ?></span>
+                            </td>
+                            <td>
+                              <div class="action-btn">
+                                <a href="add-diomond.php?id=<?php echo $row['id']; ?>" class="text-primary edit">
+                                  <i class="ti ti-edit fs-5"></i>
+                                </a>
+                                <a href="diomond-stock-list.php?d_id=<?php echo $row['id']; ?>" class="text-dark delete ms-2" onclick="return confirmDelete()">
+                                  <i class="ti ti-trash fs-5"></i>
+                                </a>
+                              </div>
+                            </td>
+                          </tr>
+
+                        <?php
+                        }
+                        ?>
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
               </div>
             </div>
@@ -110,6 +115,7 @@
         </div>
       </div>
     </div>
+  </div>
   </div>
   <script src="src/assets/libs/jquery/dist/jquery.min.js"></script>
   <script src="src/assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
@@ -121,30 +127,10 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
 
   <script>
-
-    $(document).ready(function(){
-
-      $('#kapadType').change(function() {
-        var selectedValue = $(this).val();
-       
-        // Call AJAX function with selected value as parameter
-        $.ajax({
-            url: 'ajax/sadi-ajax.php',
-            type: 'POST',
-            data: { 'type': selectedValue },
-            success: function(response) {
-              //  alert("hello");
-                // Handle the response from the PHP script
-                $('#sadityperesult').html(response);
-            }
-        });
-      });
-        
-    });
-
+    function confirmDelete() {
+        return confirm("Are you sure you want to delete this item?");
+    }
   </script>
 
-
 </body>
-
 </html>

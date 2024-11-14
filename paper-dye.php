@@ -1,10 +1,8 @@
-<?php 
-
-  include('conn.php');
+<?php
+include('conn.php');
 
 
 ?>
-
 
 <!doctype html>
 <html lang="en">
@@ -27,7 +25,7 @@
         <!--  Main wrapper -->
         <div class="body-wrapper">
             <!--  Header Start -->
-            <?php include('header.php');?>
+            <?php include('header.php'); ?>
             <!--  Header End -->
             <div class="container-fluid">
                 <div class="container-fluid">
@@ -44,36 +42,39 @@
                                     <div class="border-bottom">
                                         <div class="row">
                                             <?php
-                                          $que = mysqli_query($conn,"SELECT * FROM dye");
-                                          while ($row = mysqli_fetch_assoc($que)) {
-                                                                        
-                                          ?>
-                                            <div class="col-sm-6 col-md-4 col-lg-3">
-                                                <div class="product hover-img mb-7">
-                                                    
-                                                    <div
-                                                        class="product-img position-relative rounded-4 mb-6 overflow-hidden">
-                                                        
-                                                        <a href="sadi-stock-detail.php?id=<?php echo $row['id'] ?>">
-                                                            <img src="uploads/<?php echo $row['photo']; ?>"
-                                                                alt="spike-img" class="w-100">
-                                                        </a>
-                                                        
-                                                    </div>
-                                                    <div>
-                                                    <!-- <input type="checkbox" name="sadi_main_ids[]" value="<?php echo $row['id']; ?>"> -->
-                                                      
-                                                            <h5 class="mb-2"><?php echo $row['number']; ?></h5>
-                                         
-                                                        <div class="d-flex align-items-center mb-2">
-                                                           
-                                                            <h6 class="mb-0 me-1"><?php echo $row['count']; ?></h6>
-                                                            <p class="mb-0"><?php echo $row['type']; ?></p>
+                                            $que = mysqli_query($conn, "SELECT * FROM dye");
+                                            while ($row = mysqli_fetch_assoc($que)) {
+                                            ?>
+                                                <div class="col-sm-6 col-md-4 col-lg-3">
+                                                    <div class="product hover-img mb-7">
+                                                        <div class="product-img position-relative rounded-4 mb-6 overflow-hidden">
+                                                            <a href="sadi-stock-detail.php?id=<?php echo $row['id'] ?>">
+                                                                <img src="uploads/<?php echo $row['photo']; ?>"
+                                                                    alt="spike-img" class="w-100">
+                                                            </a>
                                                         </div>
-                                                        <h6 class="mb-0 fs-4"><?php echo "₹ ".$row['price']; ?></h6>
+                                                        <div>
+                                                            <!-- <input type="checkbox" name="sadi_main_ids[]" value="<?php echo $row['id']; ?>"> -->
+
+                                                            <h5 class="mb-2"><?php echo $row['number']; ?></h5>
+
+                                                            <div class="d-flex align-items-center mb-2">
+
+                                                                <h6 class="mb-0 me-1"><?php echo $row['count']; ?></h6>
+                                                                <p class="mb-0"><?php echo $row['type']; ?></p>
+                                                            </div>
+                                                            <h6 class="mb-0 fs-4"><?php echo "₹ " . $row['price']; ?></h6>
+                                                        </div>
+                                                        <div class="action-btn mt-3">
+                                                            <a href="add-diomond.php?id=<?php echo $row['id']; ?>" class="text-primary edit">
+                                                                <i class="ti ti-edit fs-5"></i>
+                                                            </a>
+                                                            <a href="diomond-stock-list.php?d_id=<?php echo $row['id']; ?>" class="text-dark delete ms-2" onclick="return confirmDelete()">
+                                                                <i class="ti ti-trash fs-5"></i>
+                                                            </a>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
                                             <?php } ?>
                                         </div>
                                     </div>
@@ -98,30 +99,30 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
 
     <script>
-    $(document).ready(function() {
+        $(document).ready(function() {
 
-        $('#kapadType').change(function() {
-            var selectedValue = $(this).val();
+            $('#kapadType').change(function() {
+                var selectedValue = $(this).val();
 
-            // Call AJAX function with selected value as parameter
-            $.ajax({
-                url: 'ajax/sadi-ajax.php',
-                type: 'POST',
-                data: {
-                    'type': selectedValue
-                },
-                success: function(response) {
-                    //  alert("hello");
-                    // Handle the response from the PHP script
-                    $('#sadityperesult').html(response);
-                }
+                // Call AJAX function with selected value as parameter
+                $.ajax({
+                    url: 'ajax/sadi-ajax.php',
+                    type: 'POST',
+                    data: {
+                        'type': selectedValue
+                    },
+                    success: function(response) {
+                        //  alert("hello");
+                        // Handle the response from the PHP script
+                        $('#sadityperesult').html(response);
+                    }
+                });
             });
-        });
 
 
-         $('input[name="sadi_main_ids[]"]').change(function () {
+            $('input[name="sadi_main_ids[]"]').change(function() {
                 var selectedIds = [];
-                $('input[name="sadi_main_ids[]"]:checked').each(function () {
+                $('input[name="sadi_main_ids[]"]:checked').each(function() {
                     selectedIds.push($(this).val());
                 });
 
@@ -130,11 +131,13 @@
                     $.ajax({
                         url: 'ajax/main-check.php',
                         type: 'POST',
-                        data: { sadi_main_ids: selectedIds },
-                        success: function (response) {
+                        data: {
+                            sadi_main_ids: selectedIds
+                        },
+                        success: function(response) {
                             $('#stockDetails').html(response);
                         },
-                        error: function () {
+                        error: function() {
                             alert('An error occurred while fetching the stock data.');
                         }
                     });
@@ -143,7 +146,7 @@
                     $('#stockDetails').html('Select entries to view stock details...');
                 }
             });
-    });
+        });
     </script>
 
 

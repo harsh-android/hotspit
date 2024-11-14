@@ -1,10 +1,15 @@
-<?php 
+<?php
+include('conn.php');
 
-  include('conn.php');
+if (isset($_GET['d_id'])) {
+  $dId = $_GET['d_id'];
 
+  $sql_delete = "DELETE FROM `shop` WHERE `id` = $dId";
+  mysqli_query($conn,$sql_delete);
 
+  header('location:shop-list.php');
+}
 ?>
-
 
 <!doctype html>
 <html lang="en">
@@ -27,7 +32,7 @@
     <!--  Main wrapper -->
     <div class="body-wrapper">
       <!--  Header Start -->
-      <?php include('header.php');?>
+      <?php include('header.php'); ?>
       <!--  Header End -->
       <div class="container-fluid">
         <div class="container-fluid">
@@ -37,64 +42,59 @@
               <a href="add-shop.php"><button class="btn btn-info mb-2" type="button">Add Shop</button></a>
               <div class="card">
                 <div class="card-body">
-               
-                        <div class="table-responsive">
-                            <table class="table search-table align-middle text-nowrap">
-                                <thead class="header-item">
-                                   
-                                    <th>Name</th>
-                                    <th>Owner Name</th>
-                                    <th>Mobile</th>
-                                    <th>GST</th>
-                                    <th>Address</th>
-                                    <th>Action</th>
-                                </thead>
-                                <tbody>
 
-                                  <!-- start row -->
-                                <?php 
-                                
-                                $que = "SELECT * FROM shop";
-                                $res = mysqli_query($conn, $que);
-                                while ($row = mysqli_fetch_assoc($res)) {
-                                  
-                                
-                                ?>
-                                    <tr class="search-items">
-                                        <td>
-                                            <span class="usr-name" ><?php echo $row['name']; ?></span>
-                                        </td>
-                                        <td>
-                                            <span class="usr-name" ><?php echo $row['owner_name']; ?></span>
-                                        </td>
-                                        <td>
-                                            <span class="usr-name" ><?php echo $row['mobile_number']; ?></span>
-                                        </td>
-                                        <td>
-                                            <span class="usr-name" ><?php echo $row['gst_number']; ?></span>
-                                        </td>
-                                        <td>
-                                            <span class="usr-name" ><?php echo $row['address']; ?></span>
-                                        </td>
-                                        <td>
-                                            <div class="action-btn">
-                                                <a href="add-shop.php?id=<?php echo $row['id']; ?>" class="text-primary edit">
-                        <i class="ti ti-edit fs-5"></i>
-                        </a>
-                                                <a href="javascript:void(0)" class="text-dark delete ms-2">
-                        <i class="ti ti-trash fs-5"></i>
-                        </a>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                   
-                                <?php 
-                                }
-                                ?>
-                                </tbody>
-                            </table>
-                        </div>
-                        </div>
+                  <div class="table-responsive">
+                    <table class="table search-table align-middle text-nowrap">
+                      <thead class="header-item">
+                        <th>Name</th>
+                        <th>Owner Name</th>
+                        <th>Mobile</th>
+                        <th>GST</th>
+                        <th>Address</th>
+                        <th>Action</th>
+                      </thead>
+                      <tbody>
+
+                        <!-- start row -->
+                        <?php
+                        $que = "SELECT * FROM shop";
+                        $res = mysqli_query($conn, $que);
+                        while ($row = mysqli_fetch_assoc($res)) {
+                        ?>
+                          <tr class="search-items">
+                            <td>
+                              <span class="usr-name"><?php echo $row['name']; ?></span>
+                            </td>
+                            <td>
+                              <span class="usr-name"><?php echo $row['owner_name']; ?></span>
+                            </td>
+                            <td>
+                              <span class="usr-name"><?php echo $row['mobile_number']; ?></span>
+                            </td>
+                            <td>
+                              <span class="usr-name"><?php echo $row['gst_number']; ?></span>
+                            </td>
+                            <td>
+                              <span class="usr-name"><?php echo $row['address']; ?></span>
+                            </td>
+                            <td>
+                              <div class="action-btn">
+                                <a href="add-shop.php?id=<?php echo $row['id']; ?>" class="text-primary edit">
+                                  <i class="ti ti-edit fs-5"></i>
+                                </a>
+                                <a href="shop-list.php?d_id=<?php echo $row['id']; ?>" class="text-dark delete ms-2" onclick="return confirmDelete()">
+                                  <i class="ti ti-trash fs-5"></i>
+                                </a>
+                              </div>
+                            </td>
+                          </tr>
+
+                        <?php
+                        }
+                        ?>
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
               </div>
             </div>
@@ -102,6 +102,7 @@
         </div>
       </div>
     </div>
+  </div>
   </div>
   <script src="src/assets/libs/jquery/dist/jquery.min.js"></script>
   <script src="src/assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
@@ -113,30 +114,10 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
 
   <script>
-
-    $(document).ready(function(){
-
-      $('#kapadType').change(function() {
-        var selectedValue = $(this).val();
-       
-        // Call AJAX function with selected value as parameter
-        $.ajax({
-            url: 'ajax/sadi-ajax.php',
-            type: 'POST',
-            data: { 'type': selectedValue },
-            success: function(response) {
-              //  alert("hello");
-                // Handle the response from the PHP script
-                $('#sadityperesult').html(response);
-            }
-        });
-      });
-        
-    });
-
+    function confirmDelete() {
+        return confirm("Are you sure you want to delete this item?");
+    }
   </script>
 
-
 </body>
-
 </html>
