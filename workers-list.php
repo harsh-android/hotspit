@@ -70,7 +70,7 @@
                                         </td>
                                         <td>
                                             <div class="action-btn">
-                                                <a href="add-blouse-stock.php?id=<?php echo $row['id']; ?>" class="text-primary edit">
+                                                <a href="add-worker.php?id=<?php echo $row['id']; ?>" class="text-primary edit">
                         <i class="ti ti-edit fs-5"></i>
                         </a>
                                                 <a href="javascript:void(0)" class="text-dark delete ms-2">

@@ -37,7 +37,7 @@ if (isset($_POST['sadi_main_ids']) && !empty($_POST['sadi_main_ids'])) {
                                             ?></span>
     </td>
     <td><?php echo $row['qty']; ?></td>
-    <td><input type="number" id="use<?php echo $row['id']; ?>" name="use<?php echo $row['id']; ?>" value="<?php echo $row['qty'] - $row['use_qty']; ?>" class="used-qty-input" style="color:green;"></td>
+    <td><input type="number" id="use<?php echo $row['id']; ?>" name="use<?php echo $row['id']; ?>" value="<?php echo $row['qty']?>" class="used-qty-input" style="color:green;"></td>
 </tr>
 
 <?php

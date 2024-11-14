@@ -29,10 +29,10 @@ include("../conn.php");
         <input type="number" name="qty<?php echo $i; ?>" class="form-control" id="qty" placeholder="10">
     </div>
 
-    <dl̥iv class=" col-lg-4 col-12 mb-3">
+    <!-- <dl̥iv class=" col-lg-4 col-12 mb-3">
         <label for="price" class="form-label">Price</label>
         <input type="number" name="price<?php echo $i; ?>" class="form-control" id="price" placeholder="1000">
-    </dl̥iv>
+    </dl̥iv> -->
 </div>
 
 
