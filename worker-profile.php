@@ -86,23 +86,25 @@
     <link rel="stylesheet" href="src/assets/css/styles.min.css" />
     <!-- <link rel="stylesheet" href="src/styles.css" /> -->
     <style>
-        .nav-tabs .nav-link {
-            margin: 0px;
-            font-family: inherit;
-            color: #000;
-            font-weight: 400;
-            font-size: 16px;
-            margin: 4px;
-        }
-        .nav-tabs .nav-link.active {
-            /* box-shadow: 1px 1px 1px rgba(0, 133, 219, .3); */
-            background-color: #0085db;
-            color: #fff;
-        }
-        
-        .nav-tabs, .nav-tabs .nav-link {
-            border-radius: 30px;
-        }
+    .nav-tabs .nav-link {
+        margin: 0px;
+        font-family: inherit;
+        color: #000;
+        font-weight: 400;
+        font-size: 16px;
+        margin: 4px;
+    }
+
+    .nav-tabs .nav-link.active {
+        /* box-shadow: 1px 1px 1px rgba(0, 133, 219, .3); */
+        background-color: #0085db;
+        color: #fff;
+    }
+
+    .nav-tabs,
+    .nav-tabs .nav-link {
+        border-radius: 30px;
+    }
     </style>
 </head>
 
@@ -140,7 +142,8 @@
                                             </span>
 
                                             <div class="ms-3">
-                                                <p class="fw-normal text-dark fs-5 mb-0"><?php echo $row['salary']-$row['upad']; ?></p>
+                                                <p class="fw-normal text-dark fs-5 mb-0">
+                                                    <?php echo $row['salary']-$row['upad']; ?></p>
                                                 <p class="mb-0 fs-3">Pending Salary</p>
                                             </div>
                                         </div>
@@ -171,7 +174,7 @@
                                                 </p>
                                             </li>
 
-                                          
+
                                             <li class="py-2">
                                                 <p class="fw-normal text-dark mb-0">
                                                     Id No. :
@@ -225,9 +228,8 @@
                                     </button>
                                 </li>
                                 <li class="nav-item me-2" role="presentation">
-                                    <button class="nav-link" id="less-tab" data-bs-toggle="tab"
-                                        data-bs-target="#less" type="button" role="tab" aria-controls="less"
-                                        aria-selected="true">
+                                    <button class="nav-link" id="less-tab" data-bs-toggle="tab" data-bs-target="#less"
+                                        type="button" role="tab" aria-controls="less" aria-selected="true">
                                         Less Fiting
                                     </button>
                                 </li>
@@ -253,9 +255,8 @@
                                     </button>
                                 </li>
                                 <li class="nav-item me-2" role="presentation">
-                                    <button class="nav-link" id="sheet-tab" data-bs-toggle="tab"
-                                        data-bs-target="#sheet" type="button" role="tab" aria-controls="sheet"
-                                        aria-selected="true">
+                                    <button class="nav-link" id="sheet-tab" data-bs-toggle="tab" data-bs-target="#sheet"
+                                        type="button" role="tab" aria-controls="sheet" aria-selected="true">
                                         Sheet Work
                                     </button>
                                 </li>
@@ -278,9 +279,14 @@
                                                 <h4 class="card-title mb-0">23 Nidel</h4>
                                             </div>
                                             <div class="table-responsive overflow-x-auto">
+                                                <a href="return-stock.php" class="qty-submit-button"
+                                                    style="pointer-events: none; opacity: 0.5;"><button
+                                                        class="btn btn-success ms-2" type="submit">Checked Return
+                                                        All</button></a>
                                                 <table class="table align-middle text-nowrap">
                                                     <thead>
                                                         <tr>
+                                                            <th scope="col">Check</th>
                                                             <th scope="col">Date</th>
                                                             <th scope="col">Quantity</th>
                                                             <th scope="col">Return</th>
@@ -300,6 +306,19 @@
                                                         ?>
                                                         <tr>
                                                             <td>
+                                                                <?php if ($row['use_qty']!=$row['return_qty']+$row['second_qty']) {
+                                                           
+                                                                ?>
+                                                                <input type="checkbox" class="select-stock"
+                                                                    id="select-stock" data-id="<?php echo $row['id'] ?>"
+                                                                    data-work="nidel"
+                                                                    data-cn-number="<?php echo $row['sadi_stock_id'] ?>"
+                                                                    data-color="<?php echo $row['use_qty'] ?>"
+                                                                    data-qty="<?php echo $row['workers_id']; ?>"
+                                                                    data-price="<?php echo $row['price'] ?>">
+                                                                <?php } ?>
+                                                            </td>
+                                                            <td>
                                                                 <p class="fw-bold text-info mb-0">
                                                                     <?php echo $row['date']; ?></p>
                                                             </td>
@@ -326,12 +345,12 @@
                                                             </td>
 
                                                             <td>
-                                                                <a class="text-primary edit open-actiona-model" 
-                                                                id="<?php echo $row['id']; ?>"
-                                                                data-action-name="nidel-action"
-                                                                data-title="23 Nidel"
-                                                                data-return="<?php echo $row['return_qty']; ?>"
-                                                                data-second="<?php echo $row['second_qty']; ?>">
+                                                                <a class="text-primary edit open-actiona-model"
+                                                                    id="<?php echo $row['id']; ?>"
+                                                                    data-action-name="nidel-action"
+                                                                    data-title="23 Nidel"
+                                                                    data-return="<?php echo $row['return_qty']; ?>"
+                                                                    data-second="<?php echo $row['second_qty']; ?>">
                                                                     <i class="ti ti-edit fs-5"></i>
                                                                 </a>
                                                             </td>
@@ -343,15 +362,19 @@
                                         </div>
 
                                         <!-- Less Fiting -->
-                                        <div class="tab-pane fade" id="less" role="tabpanel"
-                                            aria-labelledby="less-tab">
+                                        <div class="tab-pane fade" id="less" role="tabpanel" aria-labelledby="less-tab">
                                             <div class="mb-4 border-bottom pb-3">
                                                 <h4 class="card-title mb-0">Less Fiting</h4>
                                             </div>
+                                            <a href="return-stock.php" class="qty-submit-button"
+                                                    style="pointer-events: none; opacity: 0.5;"><button
+                                                        class="btn btn-success ms-2" type="submit">Checked Return
+                                                        All</button></a></thead>
                                             <div class="table-responsive overflow-x-auto">
                                                 <table class="table align-middle text-nowrap">
                                                     <thead>
                                                         <tr>
+                                                            <th scope="col">Check</th>
                                                             <th scope="col">Date</th>
                                                             <th scope="col">Quantity</th>
                                                             <th scope="col">Return</th>
@@ -362,6 +385,7 @@
                                                         </tr>
                                                     </thead>
                                                     <tbody class="border-top">
+                                                        
                                                         <?php 
                                                         
                                                           $que = "SELECT * FROM less_fiting WHERE workers_id='$worker_id'";
@@ -370,6 +394,19 @@
                                                             
                                                         ?>
                                                         <tr>
+                                                            <td>
+                                                                <?php if ($row['use_qty']!=$row['return_qty']+$row['second_qty']) {
+                                                           
+                                                                ?>
+                                                                <input type="checkbox" class="select-stock"
+                                                                    id="select-stock" data-id="<?php echo $row['id'] ?>"
+                                                                    data-work="less"
+                                                                    data-cn-number="<?php echo $row['sadi_stock_id'] ?>"
+                                                                    data-color="<?php echo $row['use_qty'] ?>"
+                                                                    data-qty="<?php echo $row['workers_id']; ?>"
+                                                                    data-price="<?php echo $row['price'] ?>">
+                                                                <?php } ?>
+                                                            </td>
                                                             <td>
                                                                 <p class="fw-bold text-info mb-0">
                                                                     <?php echo $row['date']; ?></p>
@@ -397,12 +434,12 @@
                                                             </td>
 
                                                             <td>
-                                                                <a class="text-primary edit open-actiona-model" 
-                                                                id="<?php echo $row['id']; ?>"
-                                                                data-action-name="less-fiting-action"
-                                                                data-title="Less Fiting"
-                                                                data-return="<?php echo $row['return_qty']; ?>"
-                                                                data-second="<?php echo $row['second_qty']; ?>">
+                                                                <a class="text-primary edit open-actiona-model"
+                                                                    id="<?php echo $row['id']; ?>"
+                                                                    data-action-name="less-fiting-action"
+                                                                    data-title="Less Fiting"
+                                                                    data-return="<?php echo $row['return_qty']; ?>"
+                                                                    data-second="<?php echo $row['second_qty']; ?>">
                                                                     <i class="ti ti-edit fs-5"></i>
                                                                 </a>
                                                             </td>
@@ -419,10 +456,15 @@
                                             <div class="mb-4 border-bottom pb-3">
                                                 <h4 class="card-title mb-0">Hotfix</h4>
                                             </div>
+                                            <a href="return-stock.php" class="qty-submit-button"
+                                                    style="pointer-events: none; opacity: 0.5;"><button
+                                                        class="btn btn-success ms-2" type="submit">Checked Return
+                                                        All</button></a>
                                             <div class="table-responsive overflow-x-auto">
                                                 <table class="table align-middle text-nowrap">
                                                     <thead>
                                                         <tr>
+                                                            <th scope="col">Check</th>
                                                             <th scope="col">Date</th>
                                                             <th scope="col">Quantity</th>
                                                             <th scope="col">Return</th>
@@ -448,6 +490,19 @@
                                                             
                                                         ?>
                                                         <tr>
+                                                        <td>
+                                                                <?php if ($row['use_qty']!=$row['return_qty']+$row['second_qty']) {
+                                                           
+                                                                ?>
+                                                                <input type="checkbox" class="select-stock"
+                                                                    id="select-stock" data-id="<?php echo $row['id'] ?>"
+                                                                    data-work="hotfix"
+                                                                    data-cn-number="<?php echo $row['sadi_stock_id'] ?>"
+                                                                    data-color="<?php echo $row['use_qty'] ?>"
+                                                                    data-qty="<?php echo $row['workers_id']; ?>"
+                                                                    data-price="<?php echo $row['price'] ?>">
+                                                                <?php } ?>
+                                                            </td>l̥
                                                             <td>
                                                                 <p class="fw-bold text-info mb-0">
                                                                     <?php echo $row['date']; ?></p>
@@ -513,12 +568,11 @@
                                                             </td>
 
                                                             <td>
-                                                                <a class="text-primary edit open-actiona-model" 
-                                                                id="<?php echo $row['id']; ?>"
-                                                                data-action-name="hotfix-action"
-                                                                data-title="Hotfix"
-                                                                data-return="<?php echo $row['return_qty']; ?>"
-                                                                data-second="<?php echo $row['second_qty']; ?>">
+                                                                <a class="text-primary edit open-actiona-model"
+                                                                    id="<?php echo $row['id']; ?>"
+                                                                    data-action-name="hotfix-action" data-title="Hotfix"
+                                                                    data-return="<?php echo $row['return_qty']; ?>"
+                                                                    data-second="<?php echo $row['second_qty']; ?>">
                                                                     <i class="ti ti-edit fs-5"></i>
                                                                 </a>
                                                             </td>
@@ -535,10 +589,15 @@
                                             <div class="mb-4 border-bottom pb-3">
                                                 <h4 class="card-title mb-0">Fusing</h4>
                                             </div>
+                                            <a href="return-stock.php" class="qty-submit-button"
+                                                    style="pointer-events: none; opacity: 0.5;"><button
+                                                        class="btn btn-success ms-2" type="submit">Checked Return
+                                                        All</button></a>
                                             <div class="table-responsive overflow-x-auto">
                                                 <table class="table align-middle text-nowrap">
                                                     <thead>
                                                         <tr>
+                                                            <th scope="col">Check</th>
                                                             <th scope="col">Date</th>
                                                             <th scope="col">Quantity</th>
                                                             <th scope="col">Return</th>
@@ -556,6 +615,19 @@
                                                             
                                                         ?>
                                                         <tr>
+                                                            <td>
+                                                                <?php if ($row['use_qty']!=$row['return_qty']+$row['second_qty']) {
+                                                           
+                                                                ?>
+                                                                <input type="checkbox" class="select-stock"
+                                                                    id="select-stock" data-id="<?php echo $row['id'] ?>"
+                                                                    data-work="fusing"
+                                                                    data-cn-number="<?php echo $row['sadi_stock_id'] ?>"
+                                                                    data-color="<?php echo $row['use_qty'] ?>"
+                                                                    data-qty="<?php echo $row['workers_id']; ?>"
+                                                                    data-price="<?php echo $row['price'] ?>">
+                                                                <?php } ?>
+                                                            </td>
                                                             <td>
                                                                 <p class="fw-bold text-info mb-0">
                                                                     <?php echo $row['date']; ?></p>
@@ -583,12 +655,11 @@
                                                             </td>
 
                                                             <td>
-                                                                <a class="text-primary edit open-actiona-model" 
-                                                                id="<?php echo $row['id']; ?>"
-                                                                data-action-name="fusing-action"
-                                                                data-title="Fusing"
-                                                                data-return="<?php echo $row['return_qty']; ?>"
-                                                                data-second="<?php echo $row['second_qty']; ?>">
+                                                                <a class="text-primary edit open-actiona-model"
+                                                                    id="<?php echo $row['id']; ?>"
+                                                                    data-action-name="fusing-action" data-title="Fusing"
+                                                                    data-return="<?php echo $row['return_qty']; ?>"
+                                                                    data-second="<?php echo $row['second_qty']; ?>">
                                                                     <i class="ti ti-edit fs-5"></i>
                                                                 </a>
                                                             </td>
@@ -605,10 +676,15 @@
                                             <div class="mb-4 border-bottom pb-3">
                                                 <h4 class="card-title mb-0">Reniya Cuting</h4>
                                             </div>
+                                            <a href="return-stock.php" class="qty-submit-button"
+                                                    style="pointer-events: none; opacity: 0.5;"><button
+                                                        class="btn btn-success ms-2" type="submit">Checked Return
+                                                        All</button></a>
                                             <div class="table-responsive overflow-x-auto">
                                                 <table class="table align-middle text-nowrap">
                                                     <thead>
                                                         <tr>
+                                                            <th scope="col">Check</th>
                                                             <th scope="col">Date</th>
                                                             <th scope="col">Quantity</th>
                                                             <th scope="col">Return</th>
@@ -628,6 +704,19 @@
                                                         ?>
                                                         <tr>
                                                             <td>
+                                                                <?php if ($row['use_qty']!=$row['return_qty']+$row['second_qty']) {
+                                                           
+                                                                ?>
+                                                                <input type="checkbox" class="select-stock"
+                                                                    id="select-stock" data-id="<?php echo $row['id'] ?>"
+                                                                    data-work="reniya"
+                                                                    data-cn-number="<?php echo $row['sadi_stock_id'] ?>"
+                                                                    data-color="<?php echo $row['use_qty'] ?>"
+                                                                    data-qty="<?php echo $row['workers_id']; ?>"
+                                                                    data-price="<?php echo $row['price'] ?>">
+                                                                <?php } ?>
+                                                            </td>
+                                                            <td>
                                                                 <p class="fw-bold text-info mb-0">
                                                                     <?php echo $row['date']; ?></p>
                                                             </td>
@@ -654,11 +743,12 @@
                                                             </td>
 
                                                             <td>
-                                                                <a class="text-primary edit open-actiona-model" id="<?php echo $row['id']; ?>"
-                                                                data-action-name="reniya-cuting-action"
-                                                                data-title="Reniya Cuting"
-                                                                data-return="<?php echo $row['return_qty']; ?>"
-                                                                data-second="<?php echo $row['second_qty']; ?>">
+                                                                <a class="text-primary edit open-actiona-model"
+                                                                    id="<?php echo $row['id']; ?>"
+                                                                    data-action-name="reniya-cuting-action"
+                                                                    data-title="Reniya Cuting"
+                                                                    data-return="<?php echo $row['return_qty']; ?>"
+                                                                    data-second="<?php echo $row['second_qty']; ?>">
                                                                     <i class="ti ti-edit fs-5"></i>
                                                                 </a>
                                                             </td>
@@ -715,12 +805,12 @@
                                                             </td>
                                                             <td>
                                                                 <p class="text-dark mb-0 fw-normal">
-                                                                <?php echo $row['use_diomond_pkt']; ?>
+                                                                    <?php echo $row['use_diomond_pkt']; ?>
                                                                 </p>
                                                             </td>
                                                             <td>
                                                                 <p class="text-dark mb-0 fw-normal">
-                                                                <?php echo $row['return_diomond_pkt']; ?>
+                                                                    <?php echo $row['return_diomond_pkt']; ?>
                                                                 </p>
                                                             </td>
 
@@ -741,14 +831,14 @@
                                                             </td>
 
                                                             <td>
-                                                                <a class="text-primary edit open-actiona-model" 
-                                                                id="<?php echo $row['id']; ?>"
-                                                                data-action-name="sheet-work-action"
-                                                                data-title="Sheet Work"
-                                                                data-return-paper="<?php echo $row['return_paper']; ?>"
-                                                                data-return-diomond-pkt="<?php echo $row['return_diomond_pkt']; ?>"
-                                                                data-return-complete-sheet="<?php echo $row['return_complete_sheet']; ?>"
-                                                                data-second-sheet="<?php echo $row['second_sheet']; ?>">
+                                                                <a class="text-primary edit open-actiona-model"
+                                                                    id="<?php echo $row['id']; ?>"
+                                                                    data-action-name="sheet-work-action"
+                                                                    data-title="Sheet Work"
+                                                                    data-return-paper="<?php echo $row['return_paper']; ?>"
+                                                                    data-return-diomond-pkt="<?php echo $row['return_diomond_pkt']; ?>"
+                                                                    data-return-complete-sheet="<?php echo $row['return_complete_sheet']; ?>"
+                                                                    data-second-sheet="<?php echo $row['second_sheet']; ?>">
                                                                     <i class="ti ti-edit fs-5"></i>
                                                                 </a>
                                                             </td>
@@ -821,12 +911,14 @@
         </div>
     </div>
 
-    <div class="modal fade" id="addnotesmodal" tabindex="-1" role="dialog" aria-labelledby="addnotesmodalTitle" aria-modal="true" style="display: none;">
+    <div class="modal fade" id="addnotesmodal" tabindex="-1" role="dialog" aria-labelledby="addnotesmodalTitle"
+        aria-modal="true" style="display: none;">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content" style="border-radius: 10px;">
                 <div class="modal-header text-bg-primary">
                     <h6 class="modal-title text-white">Add Notes</h6>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
                 </div>
                 <form method="post">
                     <div class="modal-body">
@@ -836,13 +928,15 @@
                                     <div class="col-md-12 mb-3">
                                         <div class="note-title">
                                             <label class="form-label">Return Quantity</label>
-                                            <input type="number" name="return_qty" id="return_qty" class="form-control" placeholder="Title">
+                                            <input type="number" name="return_qty" id="return_qty" class="form-control"
+                                                placeholder="Title">
                                         </div>
                                     </div>
                                     <div class="col-md-12">
                                         <div class="note-description">
                                             <label class="form-label">Second Quantity</label>
-                                            <input type="number" name="second_qty" id="second_qty" class="form-control" placeholder="Title">
+                                            <input type="number" name="second_qty" id="second_qty" class="form-control"
+                                                placeholder="Title">
                                             <input type="hidden" name="action_name" id="action_name">
                                             <input type="hidden" name="action_id" id="action_id">
                                         </div>
@@ -854,7 +948,8 @@
                     <div class="modal-footer">
                         <div class="d-flex gap-6">
                             <button class="btn bg-danger-subtle text-danger" data-bs-dismiss="modal">Discard</button>
-                            <button id="btn-n-add" class="btn btn-primary" type="submit" name="modalSubmit">Submit</button>
+                            <button id="btn-n-add" class="btn btn-primary" type="submit"
+                                name="modalSubmit">Submit</button>
                         </div>
                     </div>
                 </form>
@@ -873,13 +968,72 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
 
     <script>
-    $(document).ready(function(){
-        $(document).on("click", ".open-actiona-model", function(){
+    $(document).ready(function() {
+
+        $(document).on('change', '.select-stock', function() {
+            updateSelectedStocks();
+        });
+
+        function updateSelectedStocks() {
+            var selectedStocks = {}; // Reset selected stocks
+
+            if ($('.select-stock:checked').length === 0) {
+                $('.qty-submit-button').attr('disabled', true).css('pointer-events', 'none').css('opacity',
+                    '0.5');
+            } else {
+                $('.qty-submit-button').attr('disabled', false).css('pointer-events', 'auto').css('opacity',
+                    '1');
+            }
+
+            $('.select-stock:checked').each(function() {
+                let stockId = $(this).data('id'); // Get the stock ID
+                // const use = document.getElementById("use" + stockId).value;
+
+                // const total_qty = $(this).data('qty');
+                // if(use == "" || use > total_qty){
+                //     used_qty_high = true;
+                //     $("#use"+stockId).css("color","red");
+                // } else {
+                //     $("#use"+stockId).css("color","green");
+                // }
+                // if(used_qty_high) {
+                //     $('.qty-submit-button').attr('disabled', true).css('pointer-events', 'none').css('opacity', '0.5');
+                // } else {
+                //     $('.qty-submit-button').attr('disabled', false).css('pointer-events', 'auto').css('opacity', '1');
+                // }
+
+                selectedStocks[stockId] = {
+                    stock_id: stockId,
+                    work: $(this).data('work'),
+                    sadi_stock_id: $(this).data('cn-number'),
+                    use_qty: $(this).data('color'),
+                    workers_id: $(this).data('qty'),
+                    price: $(this).data('price')
+                };
+            });
+
+            // Send the updated array to the server using AJAX
+            $.ajax({
+                url: 'ajax/worker-return.php',
+                method: 'POST',
+                data: {
+                    stocks: selectedStocks
+                },
+                success: function(response) {
+                    console.log('Selected Stocks Updated:', response);
+                },
+                error: function(error) {
+                    console.error('Error updating selected stocks:', error);
+                }
+            });
+        }
+
+        $(document).on("click", ".open-actiona-model", function() {
             const actionId = $(this).attr("id");
             const modelTitle = $(this).attr("data-title");
             const actionName = $(this).attr("data-action-name");
-            
-            if(actionName === "sheet-work-action"){
+
+            if (actionName === "sheet-work-action") {
                 const returnPaper = $(this).attr("data-return-paper");
                 const returnDiamondPkt = $(this).attr("data-return-diomond-pkt");
                 const returnCompleteSheet = $(this).attr("data-return-complete-sheet");
@@ -913,7 +1067,7 @@
                         </div>
                     </div>
                 `);
-                
+
                 $(".modal-title").text(modelTitle);
             } else {
                 const returnQty = $(this).attr("data-return");
