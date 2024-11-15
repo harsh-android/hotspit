@@ -39,7 +39,7 @@ if (isset($_GET['d_id'])) {
         <div class="container-fluid">
           <div class="card">
             <div class="card-body">
-              <h5 class="card-title fw-semibold mb-4">Fusing Paper Type</h5>
+              <h5 class="card-title fw-semibold mb-4">Fusing Paper Type List</h5>
               <a href="add-fusing-paper-type.php"><button class="btn btn-info mb-2" type="button">Add Fusing Paper Type</button></a>
               <div class="card">
                 <div class="card-body">

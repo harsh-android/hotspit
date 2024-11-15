@@ -67,7 +67,7 @@
                 <div class="container-fluid">
                     <div class="card">
                         <div class="card-body">
-                            <h5 class="card-title fw-semibold mb-4">Add Sadi Stock</h5>
+                            <h5 class="card-title fw-semibold mb-4"><?php echo $isupdate ? 'Edit' : 'Add' ?> Sadi Stock</h5>
                             <div class="card">
                                 <div class="card-body">
                                     <form method="post" enctype="multipart/form-data">

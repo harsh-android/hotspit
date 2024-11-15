@@ -58,7 +58,7 @@ if (isset($_POST['submit'])) {
         <div class="container-fluid">
           <div class="card">
             <div class="card-body">
-              <h5 class="card-title fw-semibold mb-4">Add Diomond Type</h5>
+              <h5 class="card-title fw-semibold mb-4"><?php echo $isupdate ? 'Edit' : 'Add' ?> Diomond Stock</h5>
               <div class="card">
                 <div class="card-body">
                   <form method="post">
@@ -129,31 +129,5 @@ if (isset($_POST['submit'])) {
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
 
-  <script>
-    $(document).ready(function() {
-
-      $('#kapadType').change(function() {
-        var selectedValue = $(this).val();
-
-        // Call AJAX function with selected value as parameter
-        $.ajax({
-          url: 'ajax/sadi-ajax.php',
-          type: 'POST',
-          data: {
-            'type': selectedValue
-          },
-          success: function(response) {
-            //  alert("hello");
-            // Handle the response from the PHP script
-            $('#sadityperesult').html(response);
-          }
-        });
-      });
-
-    });
-  </script>
-
-
 </body>
-
 </html>

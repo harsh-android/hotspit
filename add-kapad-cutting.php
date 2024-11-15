@@ -1,7 +1,7 @@
 <?php 
   include("conn.php");
 
-
+  $isupdate = false;
   if(isset($_GET['id'])){ 
     $id = $_GET['id'];
     $isupdate = true;
@@ -64,7 +64,7 @@
         <div class="container-fluid">
           <div class="card">
             <div class="card-body">
-              <h5 class="card-title fw-semibold mb-4">Add Kapad Cutting</h5>
+              <h5 class="card-title fw-semibold mb-4"><?php echo $isupdate ? 'Edit' : 'Add' ?> Kapad Cutting</h5>
               <div class="card">
                 <div class="card-body">
                   <form method="post">

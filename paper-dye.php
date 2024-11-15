@@ -1,7 +1,22 @@
 <?php
 include('conn.php');
 
+if (isset($_GET['d_id'])) {
+    $dId = $_GET['d_id'];
+  
+    $quee = mysqli_query($conn, "SELECT * FROM `dye` WHERE `id`='$dId'");
+    $editRes = mysqli_fetch_assoc($quee);
+    $existingImage = $editRes['photo'];
+    $target_dir = "uploads/";
+    if ($existingImage && file_exists($target_dir . $existingImage)) {
+        unlink($target_dir . $existingImage);
+    }
 
+    $sql_delete = "DELETE FROM `dye` WHERE `id` = $dId";
+    mysqli_query($conn,$sql_delete);
+  
+    header('location:paper-dye.php');
+}
 ?>
 
 <!doctype html>
@@ -36,9 +51,6 @@ include('conn.php');
                             <div class="card">
                                 <div id="stockDetails"></div>
                                 <div class="card-body">
-
-
-
                                     <div class="border-bottom">
                                         <div class="row">
                                             <?php
@@ -66,10 +78,10 @@ include('conn.php');
                                                             <h6 class="mb-0 fs-4"><?php echo "₹ " . $row['price']; ?></h6>
                                                         </div>
                                                         <div class="action-btn mt-3">
-                                                            <a href="add-diomond.php?id=<?php echo $row['id']; ?>" class="text-primary edit">
+                                                            <a href="add-dye.php?id=<?php echo $row['id']; ?>" class="text-primary edit">
                                                                 <i class="ti ti-edit fs-5"></i>
                                                             </a>
-                                                            <a href="diomond-stock-list.php?d_id=<?php echo $row['id']; ?>" class="text-dark delete ms-2" onclick="return confirmDelete()">
+                                                            <a href="paper-dye.php?d_id=<?php echo $row['id']; ?>" class="text-dark delete ms-2" onclick="return confirmDelete()">
                                                                 <i class="ti ti-trash fs-5"></i>
                                                             </a>
                                                         </div>
@@ -99,27 +111,13 @@ include('conn.php');
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
 
     <script>
+        function confirmDelete() {
+            return confirm("Are you sure you want to delete this item?");
+        }
+    </script>
+
+    <script>
         $(document).ready(function() {
-
-            $('#kapadType').change(function() {
-                var selectedValue = $(this).val();
-
-                // Call AJAX function with selected value as parameter
-                $.ajax({
-                    url: 'ajax/sadi-ajax.php',
-                    type: 'POST',
-                    data: {
-                        'type': selectedValue
-                    },
-                    success: function(response) {
-                        //  alert("hello");
-                        // Handle the response from the PHP script
-                        $('#sadityperesult').html(response);
-                    }
-                });
-            });
-
-
             $('input[name="sadi_main_ids[]"]').change(function() {
                 var selectedIds = [];
                 $('input[name="sadi_main_ids[]"]:checked').each(function() {
@@ -149,7 +147,5 @@ include('conn.php');
         });
     </script>
 
-
 </body>
-
 </html>

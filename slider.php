@@ -1,4 +1,8 @@
 <aside class="left-sidebar">
+  <?php
+    $current_page = basename($_SERVER['PHP_SELF']);
+  ?>
+
   <!-- Sidebar scroll-->
   <div class="scroll-sidebar" data-simplebar>
     <div class="d-flex mb-4 align-items-center justify-content-between">
@@ -12,7 +16,9 @@
     <!-- Sidebar navigation-->
     <nav class="sidebar-nav">
       <ul id="sidebarnav" class="mb-4 pb-2" class="accordion" id="demo">
-        <li class="sidebar-item accordion-item">
+
+        <!-- Dashboard -->
+        <li class="sidebar-item accordion-item <?= in_array($current_page, ['worker-profile.php']) ? 'selected' : '' ?>">
           <a class="sidebar-link sidebar-link primary-hover-bg" href="./index.php" aria-expanded="false">
             <span class="aside-icon p-2 bg-light-primary rounded-3">
               <i class="ti ti-layout-dashboard fs-7 text-primary"></i>
@@ -20,64 +26,72 @@
             <span class="hide-menu ms-2 ps-1">Dashboard</span>
           </a>
         </li>
-        <li class="sidebar-item accordion-item">
+
+        <!-- Materials -->
+        <li class="sidebar-item accordion-item <?= in_array($current_page, ['kapad-stock-list.php','add-kapad.php', 'diomond-stock-list.php','add-diomond.php', 'blouse-stock-list.php','add-blouse-stock.php', 'paper-stock-list.php','add-paper-stock.php', 'fusing-paper-stock-list.php','add-fusing-paper-stock.php']) ? 'selected' : '' ?>">
           <a class="sidebar-link sidebar-link warning-hover-bg accordion-button" data-bs-toggle="collapse" href="#one">
             <span class="aside-icon p-2 bg-light-warning rounded-3">
               <i class="ti ti-article fs-7 text-warning"></i>
             </span>
             <span class="hide-menu ms-2 ps-1">Materials</span>
           </a>
-          <div class="accordion-collapse collapse" id="one" data-bs-parent="#demo">
+          <div class="accordion-collapse collapse <?= in_array($current_page, ['kapad-stock-list.php','add-kapad.php', 'diomond-stock-list.php','add-diomond.php', 'blouse-stock-list.php','add-blouse-stock.php', 'paper-stock-list.php','add-paper-stock.php', 'fusing-paper-stock-list.php','add-fusing-paper-stock.php']) ? 'show' : '' ?>" id="one" data-bs-parent="#demo">
             <div class="accordion-body">
               <ul class="list-unstyled ms-4">
-              <li class="list-item mb-3"><a href="kapad-stock-list.php" class="nav-link text-black">Kapad</a></li>
-              <li class="list-item mb-3"><a href="diomond-stock-list.php" class="nav-link text-black">Diomond</a></li>
-              <li class="list-item mb-3"><a href="blouse-stock-list.php" class="nav-link text-black">Blouse</a></li>
-              <li class="list-item mb-3"><a href="paper-stock-list.php" class="nav-link text-black">Paper</a></li>
-              <li class="list-item mb-3"><a href="fusing-paper-stock-list.php" class="nav-link text-black">Fusing Paper</a></li>
-            </ul>
+                <li class="list-item mb-3"><a href="kapad-stock-list.php" class="nav-link text-black">Kapad</a></li>
+                <li class="list-item mb-3"><a href="diomond-stock-list.php" class="nav-link text-black">Diomond</a></li>
+                <li class="list-item mb-3"><a href="blouse-stock-list.php" class="nav-link text-black">Blouse</a></li>
+                <li class="list-item mb-3"><a href="paper-stock-list.php" class="nav-link text-black">Paper</a></li>
+                <li class="list-item mb-3"><a href="fusing-paper-stock-list.php" class="nav-link text-black">Fusing Paper</a></li>
+              </ul>
             </div>
           </div>
         </li>
-        <li class="sidebar-item accordion-item">
+
+        <!-- Main Type -->
+        <li class="sidebar-item accordion-item <?= in_array($current_page, ['diomond-list.php', 'add-diomond-type.php', 'blouse-type-list.php', 'add-blouse-type.php', 'paper-list.php', 'add-paper-type.php', 'fusing-paper-list.php', 'add-fusing-paper-type.php', 'fusing-paper-list.php', 'add-fusing-paper-type.php', 'color-list.php', 'add-color.php']) ? 'selected' : '' ?>">
           <a class="sidebar-link sidebar-link danger-hover-bg accordion-button" data-bs-toggle="collapse" href="#two">
             <span class="aside-icon p-2 bg-light-danger rounded-3">
               <i class="ti ti-alert-circle fs-7 text-danger"></i>
             </span>
             <span class="hide-menu ms-2 ps-1">Main Type</span>
           </a>
-          <div class="accordion-collapse collapse" id="two" data-bs-parent="#demo">
+          <div class="accordion-collapse collapse <?= in_array($current_page, ['diomond-list.php', 'add-diomond-type.php', 'blouse-type-list.php', 'add-blouse-type.php', 'paper-list.php', 'add-paper-type.php', 'fusing-paper-list.php', 'add-fusing-paper-type.php', 'fusing-paper-list.php', 'add-fusing-paper-type.php', 'color-list.php', 'add-color.php']) ? 'show' : '' ?>" id="two" data-bs-parent="#demo">
             <div class="accordion-body">
               <ul class="list-unstyled ms-4">
-              <li class="list-item mb-3"><a href="diomond-list.php" class="nav-link text-black">Diomond Type</a></li>
-              <li class="list-item mb-3"><a href="blouse-type-list.php" class="nav-link text-black">Blouse Type</a></li>
-              <li class="list-item mb-3"><a href="paper-list.php" class="nav-link text-black">Paper Type</a></li>
-              <li class="list-item mb-3"><a href="fusing-paper-list.php" class="nav-link text-black">Fusing Paper Type</a></li>
-              <li class="list-item mb-3"><a href="color-list.php" class="nav-link text-black">Color</a></li>
-            </ul>
+                <li class="list-item mb-3"><a href="diomond-list.php" class="nav-link text-black">Diomond Type</a></li>
+                <li class="list-item mb-3"><a href="blouse-type-list.php" class="nav-link text-black">Blouse Type</a></li>
+                <li class="list-item mb-3"><a href="paper-list.php" class="nav-link text-black">Paper Type</a></li>
+                <li class="list-item mb-3"><a href="fusing-paper-list.php" class="nav-link text-black">Fusing Paper Type</a></li>
+                <li class="list-item mb-3"><a href="color-list.php" class="nav-link text-black">Color</a></li>
+              </ul>
             </div>
           </div>
         </li>
-        <li class="sidebar-item accordion-item">
+
+        <!-- Other -->
+        <li class="sidebar-item accordion-item <?= in_array($current_page, ['shop-list.php', 'add-shop.php', 'paper-dye.php', 'add-dye.php', 'workers-list.php', 'add-workers.php', 'dealer-list.php', 'add-dealer.php', 'banking-list.php', 'sadi-stock-list.php', 'add-sadi.php']) ? 'selected' : '' ?>">
           <a class="sidebar-link sidebar-link success-hover-bg accordion-button" data-bs-toggle="collapse" href="#three">
             <span class="aside-icon p-2 bg-light-success rounded-3">
               <i class="ti ti-cards fs-7 text-success"></i>
             </span>
             <span class="hide-menu ms-2 ps-1">Other</span>
           </a>
-          <div class="accordion-collapse collapse" id="three" data-bs-parent="#demo">
+          <div class="accordion-collapse collapse <?= in_array($current_page, ['shop-list.php', 'add-shop.php', 'paper-dye.php', 'add-dye.php', 'workers-list.php', 'add-workers.php', 'dealer-list.php', 'add-dealer.php', 'banking-list.php', 'sadi-stock-list.php', 'add-sadi.php']) ? 'show' : '' ?>" id="three" data-bs-parent="#demo">
             <div class="accordion-body">
               <ul class="list-unstyled ms-4">
-              <li class="list-item mb-3"><a href="shop-list.php" class="nav-link text-black">Shop</a></li>
-              <li class="list-item mb-3"><a href="paper-dye.php" class="nav-link text-black">Dye</a></li>
-              <li class="list-item mb-3"><a href="workers-list.php" class="nav-link text-black">Workers</a></li>
-              <li class="list-item mb-3"><a href="dealer-list.php" class="nav-link text-black">Dealer</a></li>
-              <li class="list-item mb-3"><a href="banking-list.php" class="nav-link text-black">Banking</a></li>
-            </ul>
+                <li class="list-item mb-3"><a href="shop-list.php" class="nav-link text-black">Shop</a></li>
+                <li class="list-item mb-3"><a href="paper-dye.php" class="nav-link text-black">Dye</a></li>
+                <li class="list-item mb-3"><a href="workers-list.php" class="nav-link text-black">Workers</a></li>
+                <li class="list-item mb-3"><a href="dealer-list.php" class="nav-link text-black">Dealer</a></li>
+                <li class="list-item mb-3"><a href="banking-list.php" class="nav-link text-black">Banking</a></li>
+              </ul>
             </div>
           </div>
         </li>
-        <li class="sidebar-item accordion-item">
+
+        <!-- Main Stock -->
+        <!-- <li class="sidebar-item accordion-item">
           <a class="sidebar-link sidebar-link primary-hover-bg accordion-button" data-bs-toggle="collapse" href="#four">
             <span class="aside-icon p-2 bg-light-primary rounded-3">
               <i class="ti ti-file-description fs-7 text-primary"></i>
@@ -91,23 +105,26 @@
             </ul>
             </div>
           </div>
-        </li>
-        <li class="sidebar-item accordion-item">
+        </li> -->
+
+        <!-- Process -->
+        <li class="sidebar-item accordion-item <?= in_array($current_page, ['add-kapad-cutting.php', 'add-sheet-work.php']) ? 'selected' : '' ?>">
           <a class="sidebar-link sidebar-link indigo-hover-bg accordion-button" data-bs-toggle="collapse" href="#five">
             <span class="aside-icon p-2 bg-light-indigo rounded-3">
               <i class="ti ti-typography fs-7 text-indigo"></i>
             </span>
             <span class="hide-menu ms-2 ps-1">Process</span>
           </a>
-          <div class="accordion-collapse collapse" id="five" data-bs-parent="#demo">
+          <div class="accordion-collapse collapse <?= in_array($current_page, ['add-kapad-cutting.php', 'add-sheet-work.php']) ? 'show' : '' ?>" id="five" data-bs-parent="#demo">
             <div class="accordion-body">
               <ul class="list-unstyled ms-4">
-              <li class="list-item mb-3"><a href="add-kapad-cutting.php" class="nav-link text-black">Kapad Cutting</a></li>
-              <li class="list-item mb-3"><a href="add-sheet-work.php" class="nav-link text-black">Sheet Work</a></li>
-            </ul>
+                <li class="list-item mb-3"><a href="add-kapad-cutting.php" class="nav-link text-black">Kapad Cutting</a></li>
+                <li class="list-item mb-3"><a href="add-sheet-work.php" class="nav-link text-black">Sheet Work</a></li>
+              </ul>
             </div>
           </div>
         </li>
+
         <!-- <li class="nav-small-cap">
               <i class="ti ti-dots nav-small-cap-icon fs-5"></i>
               <span class="hide-menu">Auth</span>

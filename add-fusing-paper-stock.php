@@ -54,7 +54,7 @@ if (isset($_POST['submit'])) {
         <div class="container-fluid">
           <div class="card">
             <div class="card-body">
-              <h5 class="card-title fw-semibold mb-4">Add Fusing Paper</h5>
+              <h5 class="card-title fw-semibold mb-4"><?php echo $isupdate ? 'Edit' : 'Add' ?> Fusing Paper Stock</h5>
               <div class="card">
                 <div class="card-body">
                   <form method="post">
