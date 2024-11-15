@@ -70,14 +70,14 @@
         </li>
 
         <!-- Other -->
-        <li class="sidebar-item accordion-item <?= in_array($current_page, ['shop-list.php', 'add-shop.php', 'paper-dye.php', 'add-dye.php', 'workers-list.php', 'add-workers.php', 'dealer-list.php', 'add-dealer.php', 'banking-list.php', 'sadi-stock-list.php', 'add-sadi.php']) ? 'selected' : '' ?>">
+        <li class="sidebar-item accordion-item <?= in_array($current_page, ['shop-list.php', 'add-shop.php', 'paper-dye.php', 'add-dye.php', 'workers-list.php', 'add-workers.php', 'dealer-list.php', 'add-dealer.php', 'banking-list.php', 'sadi-stock-list.php', 'add-sadi.php', 'add-process.php']) ? 'selected' : '' ?>">
           <a class="sidebar-link sidebar-link success-hover-bg accordion-button" data-bs-toggle="collapse" href="#three">
             <span class="aside-icon p-2 bg-light-success rounded-3">
               <i class="ti ti-cards fs-7 text-success"></i>
             </span>
             <span class="hide-menu ms-2 ps-1">Other</span>
           </a>
-          <div class="accordion-collapse collapse <?= in_array($current_page, ['shop-list.php', 'add-shop.php', 'paper-dye.php', 'add-dye.php', 'workers-list.php', 'add-workers.php', 'dealer-list.php', 'add-dealer.php', 'banking-list.php', 'sadi-stock-list.php', 'add-sadi.php']) ? 'show' : '' ?>" id="three" data-bs-parent="#demo">
+          <div class="accordion-collapse collapse <?= in_array($current_page, ['shop-list.php', 'add-shop.php', 'paper-dye.php', 'add-dye.php', 'workers-list.php', 'add-workers.php', 'dealer-list.php', 'add-dealer.php', 'banking-list.php', 'sadi-stock-list.php', 'add-sadi.php', 'add-process.php']) ? 'show' : '' ?>" id="three" data-bs-parent="#demo">
             <div class="accordion-body">
               <ul class="list-unstyled ms-4">
                 <li class="list-item mb-3"><a href="shop-list.php" class="nav-link text-black">Shop</a></li>
