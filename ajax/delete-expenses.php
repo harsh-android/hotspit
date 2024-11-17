@@ -69,6 +69,17 @@ if(isset($_POST['actionId']) && isset($_POST['actionName'])){
          exit;
       }
    }
+
+   if($_POST['actionName'] == 'kapad-cutting-action'){
+      $sql_delete = "DELETE FROM `kapad_cutting` WHERE `id`=$id";
+      if (mysqli_query($conn, $sql_delete)) {
+         echo json_encode([
+            'status' => true,
+            'message' => 'Kapad cutting expenses deleted successfully...',
+         ]);
+         exit;
+      }
+   }
 }
 
 // Default response for invalid or missing data

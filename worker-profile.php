@@ -261,6 +261,13 @@ if (isset($_POST["modalSubmit"])) {
                                     </button>
                                 </li>
                                 <li class="nav-item" role="presentation">
+                                    <button class="nav-link" id="kapad-cutting-tab" data-bs-toggle="tab"
+                                        data-bs-target="#kapad-cutting" type="button" role="tab" aria-controls="kapad-cutting"
+                                        aria-selected="false">
+                                        Kapad Cutting
+                                    </button>
+                                </li>
+                                <li class="nav-item" role="presentation">
                                     <button class="nav-link" id="profile-tab" data-bs-toggle="tab"
                                         data-bs-target="#profile" type="button" role="tab" aria-controls="profile"
                                         aria-selected="false">
@@ -279,10 +286,9 @@ if (isset($_POST["modalSubmit"])) {
                                                 <h4 class="card-title mb-0">23 Nidel</h4>
                                             </div>
                                             <div class="table-responsive overflow-x-auto">
-                                                <a href="return-stock.php" class="qty-submit-button"
-                                                    style="pointer-events: none; opacity: 0.5;"><button
-                                                        class="btn btn-success ms-2" type="submit">Checked Return
-                                                        All</button></a>
+                                                <button class="btn btn-success ms-2 qty-submit-button" type="submit" style="pointer-events: none; opacity: 0.5;">
+                                                    Return Checked Nidel Stock
+                                                </button>
                                                 <table class="table align-middle text-nowrap">
                                                     <thead>
                                                         <tr>
@@ -303,16 +309,15 @@ if (isset($_POST["modalSubmit"])) {
                                                         ?>
                                                             <tr>
                                                                 <td>
-                                                                    <?php if ($row['use_qty'] != $row['return_qty'] + $row['second_qty']) {
+                                                                    <?php if ($row['use_qty'] > $row['return_qty'] + $row['second_qty']) {
 
                                                                     ?>
                                                                         <input type="checkbox" class="select-stock"
-                                                                            id="select-stock" data-id="<?php echo $row['id'] ?>"
+                                                                            id="select-stock" 
+                                                                            data-id="<?php echo $row['id'] ?>"
                                                                             data-work="nidel"
-                                                                            data-cn-number="<?php echo $row['sadi_stock_id'] ?>"
-                                                                            data-color="<?php echo $row['use_qty'] ?>"
-                                                                            data-qty="<?php echo $row['workers_id']; ?>"
-                                                                            data-price="<?php echo $row['price'] ?>">
+                                                                            data-qty="<?php echo $row['use_qty'] ?>"
+                                                                            data-second="<?php echo $row['second_qty'] ?>">
                                                                     <?php } ?>
                                                                 </td>
                                                                 <td>
@@ -371,10 +376,9 @@ if (isset($_POST["modalSubmit"])) {
                                             <div class="mb-4 border-bottom pb-3">
                                                 <h4 class="card-title mb-0">Less Fiting</h4>
                                             </div>
-                                            <a href="return-stock.php" class="qty-submit-button"
-                                                style="pointer-events: none; opacity: 0.5;"><button
-                                                    class="btn btn-success ms-2" type="submit">Checked Return
-                                                    All</button></a></thead>
+                                            <button class="btn btn-success ms-2 qty-submit-button" type="submit" style="pointer-events: none; opacity: 0.5;">
+                                                Return Checked Less Fiting Stock
+                                            </button>
                                             <div class="table-responsive overflow-x-auto">
                                                 <table class="table align-middle text-nowrap">
                                                     <thead>
@@ -400,16 +404,15 @@ if (isset($_POST["modalSubmit"])) {
                                                         ?>
                                                             <tr>
                                                                 <td>
-                                                                    <?php if ($row['use_qty'] != $row['return_qty'] + $row['second_qty']) {
+                                                                    <?php if ($row['use_qty'] > $row['return_qty'] + $row['second_qty']) {
 
                                                                     ?>
                                                                         <input type="checkbox" class="select-stock"
-                                                                            id="select-stock" data-id="<?php echo $row['id'] ?>"
-                                                                            data-work="less"
-                                                                            data-cn-number="<?php echo $row['sadi_stock_id'] ?>"
-                                                                            data-color="<?php echo $row['use_qty'] ?>"
-                                                                            data-qty="<?php echo $row['workers_id']; ?>"
-                                                                            data-price="<?php echo $row['price'] ?>">
+                                                                            id="select-stock" 
+                                                                            data-id="<?php echo $row['id'] ?>"
+                                                                            data-work="less-fiting"
+                                                                            data-qty="<?php echo $row['use_qty'] ?>"
+                                                                            data-second="<?php echo $row['second_qty'] ?>">
                                                                     <?php } ?>
                                                                 </td>
                                                                 <td>
@@ -469,10 +472,9 @@ if (isset($_POST["modalSubmit"])) {
                                             <div class="mb-4 border-bottom pb-3">
                                                 <h4 class="card-title mb-0">Hotfix</h4>
                                             </div>
-                                            <a href="return-stock.php" class="qty-submit-button"
-                                                style="pointer-events: none; opacity: 0.5;"><button
-                                                    class="btn btn-success ms-2" type="submit">Checked Return
-                                                    All</button></a>
+                                            <button class="btn btn-success ms-2 qty-submit-button" type="submit" style="pointer-events: none; opacity: 0.5;">
+                                                Return Checked Hotfix Stock
+                                            </button>
                                             <div class="table-responsive overflow-x-auto">
                                                 <table class="table align-middle text-nowrap">
                                                     <thead>
@@ -504,16 +506,15 @@ if (isset($_POST["modalSubmit"])) {
                                                         ?>
                                                             <tr>
                                                                 <td>
-                                                                    <?php if ($row['use_qty'] != $row['return_qty'] + $row['second_qty']) {
+                                                                    <?php if ($row['use_qty'] > $row['return_qty'] + $row['second_qty']) {
 
                                                                     ?>
                                                                         <input type="checkbox" class="select-stock"
-                                                                            id="select-stock" data-id="<?php echo $row['id'] ?>"
+                                                                            id="select-stock" 
+                                                                            data-id="<?php echo $row['id'] ?>"
                                                                             data-work="hotfix"
-                                                                            data-cn-number="<?php echo $row['sadi_stock_id'] ?>"
-                                                                            data-color="<?php echo $row['use_qty'] ?>"
-                                                                            data-qty="<?php echo $row['workers_id']; ?>"
-                                                                            data-price="<?php echo $row['price'] ?>">
+                                                                            data-qty="<?php echo $row['use_qty'] ?>"
+                                                                            data-second="<?php echo $row['second_qty'] ?>">
                                                                     <?php } ?>
                                                                 </td>
                                                                 <td>
@@ -606,10 +607,9 @@ if (isset($_POST["modalSubmit"])) {
                                             <div class="mb-4 border-bottom pb-3">
                                                 <h4 class="card-title mb-0">Fusing</h4>
                                             </div>
-                                            <a href="return-stock.php" class="qty-submit-button"
-                                                style="pointer-events: none; opacity: 0.5;"><button
-                                                    class="btn btn-success ms-2" type="submit">Checked Return
-                                                    All</button></a>
+                                            <button class="btn btn-success ms-2 qty-submit-button" type="submit" style="pointer-events: none; opacity: 0.5;">
+                                                Return Checked Fusing Stock
+                                            </button>
                                             <div class="table-responsive overflow-x-auto">
                                                 <table class="table align-middle text-nowrap">
                                                     <thead>
@@ -633,16 +633,15 @@ if (isset($_POST["modalSubmit"])) {
                                                         ?>
                                                             <tr>
                                                                 <td>
-                                                                    <?php if ($row['use_qty'] != $row['return_qty'] + $row['second_qty']) {
+                                                                    <?php if ($row['use_qty'] > $row['return_qty'] + $row['second_qty']) {
 
                                                                     ?>
                                                                         <input type="checkbox" class="select-stock"
-                                                                            id="select-stock" data-id="<?php echo $row['id'] ?>"
+                                                                            id="select-stock" 
+                                                                            data-id="<?php echo $row['id'] ?>"
                                                                             data-work="fusing"
-                                                                            data-cn-number="<?php echo $row['sadi_stock_id'] ?>"
-                                                                            data-color="<?php echo $row['use_qty'] ?>"
-                                                                            data-qty="<?php echo $row['workers_id']; ?>"
-                                                                            data-price="<?php echo $row['price'] ?>">
+                                                                            data-qty="<?php echo $row['use_qty'] ?>"
+                                                                            data-second="<?php echo $row['second_qty'] ?>">
                                                                     <?php } ?>
                                                                 </td>
                                                                 <td>
@@ -701,10 +700,9 @@ if (isset($_POST["modalSubmit"])) {
                                             <div class="mb-4 border-bottom pb-3">
                                                 <h4 class="card-title mb-0">Reniya Cuting</h4>
                                             </div>
-                                            <a href="return-stock.php" class="qty-submit-button"
-                                                style="pointer-events: none; opacity: 0.5;"><button
-                                                    class="btn btn-success ms-2" type="submit">Checked Return
-                                                    All</button></a>
+                                            <button class="btn btn-success ms-2 qty-submit-button" type="submit" style="pointer-events: none; opacity: 0.5;">
+                                                Return Checked Reniya Cuting Stock
+                                            </button>
                                             <div class="table-responsive overflow-x-auto">
                                                 <table class="table align-middle text-nowrap">
                                                     <thead>
@@ -716,7 +714,6 @@ if (isset($_POST["modalSubmit"])) {
                                                             <th scope="col">Second Peice</th>
                                                             <th scope="col">Salary</th>
                                                             <th scope="col">Action</th>
-
                                                         </tr>
                                                     </thead>
                                                     <tbody class="border-top">
@@ -729,16 +726,15 @@ if (isset($_POST["modalSubmit"])) {
                                                         ?>
                                                             <tr>
                                                                 <td>
-                                                                    <?php if ($row['use_qty'] != $row['return_qty'] + $row['second_qty']) {
+                                                                    <?php if ($row['use_qty'] > $row['return_qty'] + $row['second_qty']) {
 
                                                                     ?>
                                                                         <input type="checkbox" class="select-stock"
-                                                                            id="select-stock" data-id="<?php echo $row['id'] ?>"
-                                                                            data-work="reniya"
-                                                                            data-cn-number="<?php echo $row['sadi_stock_id'] ?>"
-                                                                            data-color="<?php echo $row['use_qty'] ?>"
-                                                                            data-qty="<?php echo $row['workers_id']; ?>"
-                                                                            data-price="<?php echo $row['price'] ?>">
+                                                                            id="select-stock" 
+                                                                            data-id="<?php echo $row['id'] ?>"
+                                                                            data-work="reniya-cutting"
+                                                                            data-qty="<?php echo $row['use_qty'] ?>"
+                                                                            data-second="<?php echo $row['second_qty'] ?>">
                                                                     <?php } ?>
                                                                 </td>
                                                                 <td>
@@ -890,7 +886,76 @@ if (isset($_POST["modalSubmit"])) {
                                             </div>
                                         </div>
 
+                                        <!-- Kapad Cutting -->
+                                        <div class="tab-pane fade" id="kapad-cutting" role="tabpanel"
+                                            aria-labelledby="kapad-cutting-tab">
+                                            <div class="mb-4 border-bottom pb-3">
+                                                <h4 class="card-title mb-0">Kapad Cutting</h4>
+                                            </div>
+                                            <div class="table-responsive overflow-x-auto">
+                                                <table class="table align-middle text-center">
+                                                    <thead>
+                                                        <tr>
+                                                            <th scope="col">Date</th>
+                                                            <th scope="col">Use Meter</th>
+                                                            <th scope="col">Line Size</th>
+                                                            <th scope="col">Salary</th>
+                                                            <th scope="col">Work Completed</th>
+                                                            <th scope="col">Action</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody class="border-top">
+                                                        <?php
 
+                                                        $que = "SELECT * FROM kapad_cutting WHERE workers_id='$worker_id'";
+                                                        $res = mysqli_query($conn, $que);
+                                                        while ($row = mysqli_fetch_assoc($res)) {
+
+                                                        ?>
+                                                            <tr>
+                                                                <td>
+                                                                    <p class="fw-bold text-info mb-0">
+                                                                        <?php echo $row['date']; ?></p>
+                                                                </td>
+                                                                <td>
+                                                                    <p class="fw-normal mb-0 fs-3 text-dark">
+                                                                        <?php echo $row['use_meter']; ?>
+                                                                    </p>
+                                                                </td>
+                                                                <td>
+                                                                    <p class="fw-normal mb-0 fs-3 text-dark">
+                                                                        <?php echo $row['line_size']; ?>
+                                                                    </p>
+                                                                </td>
+                                                                <td>
+                                                                    <p class="fw-bold text-success mb-0">
+                                                                        <!-- <?php echo $row['price'] * $row['return_complete_sheet'] . " (" . $row['price'] . ")"; ?> -->
+                                                                    </p>
+                                                                </td>
+                                                                <td>
+                                                                    <p class="fw-bold text-success mb-0">
+                                                                        <input class="form-check-input work-status-change" type="checkbox" role="switch" 
+                                                                        <?php echo $row['complete_work'] == 1 ? 'checked' : '' ?> 
+                                                                        data-id="<?php echo $row['id']; ?>"
+                                                                        data-action="kapad-cutting-status">
+                                                                    </p>
+                                                                </td>
+                                                                <td>
+                                                                    <a href="edit-kapad-cutting-expenses.php?id=<?php echo $row['id']; ?>" class="text-primary">
+                                                                        <i class="ti ti-edit fs-5"></i>
+                                                                    </a>
+                                                                    <a class="text-danger delete-single-expense"
+                                                                        id="<?php echo $row['id']; ?>"
+                                                                        data-action-name="kapad-cutting-action">
+                                                                        <i class="ti ti-trash fs-5"></i>
+                                                                    </a>
+                                                                </td>
+                                                            </tr>
+                                                        <?php } ?>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
 
                                         <!-- Salary Report -->
                                         <div class="tab-pane fade" id="profile" role="tabpanel"
@@ -1040,56 +1105,50 @@ if (isset($_POST["modalSubmit"])) {
         $(document).ready(function() {
 
             $(document).on('change', '.select-stock', function() {
-                updateSelectedStocks();
+                const tabPane = $(this).closest('.tab-pane');
+                const submitButton = tabPane.find('.qty-submit-button');
+
+                const anyChecked = tabPane.find('.select-stock:checked').length > 0;
+
+                // enable or disable button
+                if (anyChecked) {
+                    submitButton.attr('disabled', false).css('pointer-events', 'auto').css('opacity', '1');
+                } else {
+                    submitButton.attr('disabled', true).css('pointer-events', 'none').css('opacity', '0.5');
+                }
             });
 
-            function updateSelectedStocks() {
-                var selectedStocks = {}; // Reset selected stocks
+            $(document).on('click', '.qty-submit-button', function() {
+                const tabPane = $(this).closest('.tab-pane');
 
-                if ($('.select-stock:checked').length === 0) {
-                    $('.qty-submit-button').attr('disabled', true).css('pointer-events', 'none').css('opacity',
-                        '0.5');
-                } else {
-                    $('.qty-submit-button').attr('disabled', false).css('pointer-events', 'auto').css('opacity',
-                        '1');
-                }
+                updateSelectedStocks(tabPane);
+            });
 
-                $('.select-stock:checked').each(function() {
-                    let stockId = $(this).data('id'); // Get the stock ID
-                    // const use = document.getElementById("use" + stockId).value;
+            function updateSelectedStocks(tabPane) {
+                var selectedStocks = []; // Reset selected stocks
 
-                    // const total_qty = $(this).data('qty');
-                    // if(use == "" || use > total_qty){
-                    //     used_qty_high = true;
-                    //     $("#use"+stockId).css("color","red");
-                    // } else {
-                    //     $("#use"+stockId).css("color","green");
-                    // }
-                    // if(used_qty_high) {
-                    //     $('.qty-submit-button').attr('disabled', true).css('pointer-events', 'none').css('opacity', '0.5');
-                    // } else {
-                    //     $('.qty-submit-button').attr('disabled', false).css('pointer-events', 'auto').css('opacity', '1');
-                    // }
+                tabPane.find('.select-stock:checked').each(function() {
+                    const stockId = $(this).attr('data-id');
+                    const stockWork = $(this).attr('data-work');
+                    const useQty = $(this).attr('data-qty');
+                    const secondQty = $(this).attr('data-second');
 
-                    selectedStocks[stockId] = {
-                        stock_id: stockId,
-                        work: $(this).data('work'),
-                        sadi_stock_id: $(this).data('cn-number'),
-                        use_qty: $(this).data('color'),
-                        workers_id: $(this).data('qty'),
-                        price: $(this).data('price')
-                    };
+                    selectedStocks.push({
+                        stockId: stockId,
+                        stockWork: stockWork,
+                        useQty: useQty,
+                        secondQty: secondQty
+                    });
                 });
 
-                // Send the updated array to the server using AJAX
                 $.ajax({
-                    url: 'ajax/worker-return.php',
+                    url: 'ajax/return-checked-stock.php',
                     method: 'POST',
                     data: {
                         stocks: selectedStocks
                     },
                     success: function(response) {
-                        console.log('Selected Stocks Updated:', response);
+                        location.reload();
                     },
                     error: function(error) {
                         console.error('Error updating selected stocks:', error);
@@ -1180,13 +1239,33 @@ if (isset($_POST["modalSubmit"])) {
                 }
             });
 
-            $(document).on("click", ".delete-check-confirm", function(){
+            $(document).on("click", ".delete-check-confirm", function() {
                 location.reload();
-            })
+            });
+
+            $(document).on("change", ".work-status-change", function(){
+                const stockId = $(this).attr('data-id');
+                const stockAction = $(this).attr('data-action');
+                const status = $(this).prop('checked') ? 1 : 0;
+
+                $.ajax({
+                    url: 'ajax/kapad-cutting-status.php',
+                    method: 'POST',
+                    data: {
+                        stockId: stockId,
+                        stockAction: stockAction,
+                        status: status
+                    },
+                    success: function(response) {
+                        location.reload();
+                    },
+                    error: function(error) {
+                        console.error('Error updating selected stocks:', error);
+                    }
+                });
+            });
         });
     </script>
 
-
 </body>
-
 </html>

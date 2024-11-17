@@ -47,12 +47,18 @@ if (isset($_GET['d_id'])) {
                     <div class="card">
                         <div class="card-body">
                             <h5 class="card-title fw-semibold mb-4">Dye</h5>
-                            <a href="add-dye.php"><button class="btn btn-info mb-2" type="button">Add Dye</button></a>
+                            <div class="d-flex justify-content-between align-items-center gap-6 mb-4">
+                                <a href="add-dye.php"><button class="btn btn-info mb-2" type="button">Add Dye</button></a>
+                                <form class="position-relative">
+                                    <input type="text" class="form-control search-chat py-2 ps-5" id="search-dye" placeholder="Search Dye Number">
+                                    <i class="ti ti-search position-absolute top-50 start-0 translate-middle-y fs-6 text-dark ms-3"></i>
+                                </form>
+                            </div>
                             <div class="card">
                                 <div id="stockDetails"></div>
                                 <div class="card-body">
                                     <div class="border-bottom">
-                                        <div class="row">
+                                        <div class="row search-dye-response">
                                             <?php
                                             $que = mysqli_query($conn, "SELECT * FROM dye");
                                             while ($row = mysqli_fetch_assoc($que)) {
@@ -62,7 +68,7 @@ if (isset($_GET['d_id'])) {
                                                         <div class="product-img position-relative rounded-4 mb-6 overflow-hidden">
                                                             <a href="sadi-stock-detail.php?id=<?php echo $row['id'] ?>">
                                                                 <img src="uploads/<?php echo $row['photo']; ?>"
-                                                                    alt="spike-img" class="w-100">
+                                                                    alt="spike-img" class="w-100" style="min-height: 140px;">
                                                             </a>
                                                         </div>
                                                         <div>
@@ -143,6 +149,29 @@ if (isset($_GET['d_id'])) {
                     // Clear the stock details if no checkbox is selected
                     $('#stockDetails').html('Select entries to view stock details...');
                 }
+            });
+        });
+    </script>
+
+    <script>
+        $(document).ready(function(){
+            $(document).on("input", "#search-dye", function(){
+                const searchValue = $(this).val();
+
+                $.ajax({
+                    url: 'ajax/search-dye.php',
+                    type: 'POST',
+                    data: {
+                        searchValue: searchValue
+                    },
+                    success: function(response) {
+                        $('.search-dye-response').html(response);
+                    },
+                    error: function() {
+                        console.error("AJAX Error:", status, error);
+                        $('.search-dye-response').html('<p class="text-danger">Something went wrong..! Please try again later.</p>');
+                    }
+                });
             });
         });
     </script>
