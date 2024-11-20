@@ -35,7 +35,7 @@ $id = $_GET['id'];
               <a href="add-paper-stock.php"><button class="btn btn-info mb-2" type="button">Add Paper Stock</button></a> -->
               <div class="card">
                 <div class="card-body">
-
+                  <a href="bill-form.php?id=<?php echo $id; ?>"><button class="btn btn-info">Generate Bill</button></a>
                   <div class="table-responsive">
                     <table class="table search-table align-middle text-nowrap">
                       <thead class="header-item">
