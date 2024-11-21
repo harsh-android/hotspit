@@ -1,7 +1,45 @@
 <?php
 
+
+
 include('conn.php');
 $worker_id = $_GET['id'];
+
+// Query to get price and total across all tables for a specific worker
+$query = "
+    SELECT 'less_fiting' AS less_fiting, price,return_qty FROM less_fiting WHERE workers_id = $worker_id
+    UNION ALL
+    SELECT 'nidel_expence' AS nidel_expence, price,return_qty FROM nidel_expence WHERE workers_id = $worker_id
+     UNION ALL
+    SELECT 'kapad_cutting' AS kapad_cutting, price,use_meter FROM kapad_cutting WHERE workers_id = $worker_id AND complete_work=1
+     UNION ALL
+    SELECT 'reniya_cutting' AS reniya_cutting, price,return_qty FROM reniya_cutting WHERE workers_id = $worker_id
+     UNION ALL
+    SELECT 'sheet_work' AS sheet_work, price,return_complete_sheet FROM sheet_work WHERE workers_id = $worker_id
+";
+
+$rrr = mysqli_query($conn,$query);
+
+$total = 0;
+while($roww = mysqli_fetch_assoc($rrr)) {
+    $total += $roww['price']*$roww['return_qty'];
+}
+
+
+
+$qq = "SELECT * FROM hotfix WHERE workers_id=$worker_id";
+$rr = mysqli_query($conn,$qq);
+while($roo = mysqli_fetch_assoc($rr)) {
+    $total += ($roo['butta_count']*$roo['butta_price']) + ($roo['line_count']*$roo['line_price']) + $roo['border_price'];
+}
+
+// Output results
+// echo "Price details for Worker ID $workerId:<br>";
+
+// echo "Total Price: $total";
+
+
+
 
 $q = "SELECT * FROM workers WHERE id='$worker_id'";
 $r = mysqli_query($conn, $q);
@@ -169,7 +207,7 @@ if (isset($_POST["salarySubmit"])) {
 
                                             <div class="ms-3">
                                                 <p class="fw-normal text-dark fs-5 mb-0">
-                                                    <?php echo $row['salary'] - $row['upad'] - $paid_salary['paid_salary']; ?></p>
+                                                    <?php echo $total - $paid_salary['paid_salary']; ?></p>
                                                 <p class="mb-0 fs-3">Pending Salary</p>
                                             </div>
                                         </div>
