@@ -7,6 +7,11 @@ $q = "SELECT * FROM workers WHERE id='$worker_id'";
 $r = mysqli_query($conn, $q);
 $row = mysqli_fetch_assoc($r);
 
+// total paid salary count/get
+$sql_paid_salary = "SELECT SUM(amount) AS paid_salary FROM banking WHERE workers_id='$worker_id'";
+$paid_salary_get = mysqli_query($conn, $sql_paid_salary);
+$paid_salary = mysqli_fetch_assoc($paid_salary_get);
+
 if (isset($_POST["modalSubmit"])) {
     $action_name = $_POST["action_name"];
     $action_id = $_POST["action_id"];
@@ -69,6 +74,27 @@ if (isset($_POST["modalSubmit"])) {
             header("Location: " . $_SERVER['REQUEST_URI']);
             exit();
         }
+    }
+}
+
+// add salary
+if (isset($_POST["salarySubmit"])) {
+    $in_out = "expence";
+    $category = "salary";
+    $type = $_POST["type"];
+    $amount = $_POST["amount"];
+    $note = $_POST["note"];
+    $today = date("d-m-Y");
+    $cheque_no = isset($_POST['cheque_no']) && $_POST['cheque_no'] !== '' ? strval($_POST['cheque_no']) : null;
+    $account_no = isset($_POST['account_no']) && $_POST['account_no'] !== '' ? strval($_POST['account_no']) : null;
+
+    $cheque_no_value = is_null($cheque_no) ? "NULL" : "'$cheque_no'";
+    $account_no_value = is_null($account_no) ? "NULL" : "'$account_no'";
+
+    $sql_insert_salary = "INSERT INTO `banking`(`in_out`, `category`, `type`, `cheque_no`, `account_no`, `amount`, `workers_id`, `note`, `date`) VALUES ('$in_out', '$category', '$type', $cheque_no_value, $account_no_value, '$amount', '$worker_id', '$note', '$today')";
+    if (mysqli_query($conn, $sql_insert_salary)) {
+        header("Location: " . $_SERVER['REQUEST_URI']);
+        exit();
     }
 }
 
@@ -143,7 +169,7 @@ if (isset($_POST["modalSubmit"])) {
 
                                             <div class="ms-3">
                                                 <p class="fw-normal text-dark fs-5 mb-0">
-                                                    <?php echo $row['salary'] - $row['upad']; ?></p>
+                                                    <?php echo $row['salary'] - $row['upad'] - $paid_salary['paid_salary']; ?></p>
                                                 <p class="mb-0 fs-3">Pending Salary</p>
                                             </div>
                                         </div>
@@ -313,7 +339,7 @@ if (isset($_POST["modalSubmit"])) {
 
                                                                     ?>
                                                                         <input type="checkbox" class="select-stock"
-                                                                            id="select-stock" 
+                                                                            id="select-stock"
                                                                             data-id="<?php echo $row['id'] ?>"
                                                                             data-work="nidel"
                                                                             data-qty="<?php echo $row['use_qty'] ?>"
@@ -408,7 +434,7 @@ if (isset($_POST["modalSubmit"])) {
 
                                                                     ?>
                                                                         <input type="checkbox" class="select-stock"
-                                                                            id="select-stock" 
+                                                                            id="select-stock"
                                                                             data-id="<?php echo $row['id'] ?>"
                                                                             data-work="less-fiting"
                                                                             data-qty="<?php echo $row['use_qty'] ?>"
@@ -510,7 +536,7 @@ if (isset($_POST["modalSubmit"])) {
 
                                                                     ?>
                                                                         <input type="checkbox" class="select-stock"
-                                                                            id="select-stock" 
+                                                                            id="select-stock"
                                                                             data-id="<?php echo $row['id'] ?>"
                                                                             data-work="hotfix"
                                                                             data-qty="<?php echo $row['use_qty'] ?>"
@@ -637,7 +663,7 @@ if (isset($_POST["modalSubmit"])) {
 
                                                                     ?>
                                                                         <input type="checkbox" class="select-stock"
-                                                                            id="select-stock" 
+                                                                            id="select-stock"
                                                                             data-id="<?php echo $row['id'] ?>"
                                                                             data-work="fusing"
                                                                             data-qty="<?php echo $row['use_qty'] ?>"
@@ -730,7 +756,7 @@ if (isset($_POST["modalSubmit"])) {
 
                                                                     ?>
                                                                         <input type="checkbox" class="select-stock"
-                                                                            id="select-stock" 
+                                                                            id="select-stock"
                                                                             data-id="<?php echo $row['id'] ?>"
                                                                             data-work="reniya-cutting"
                                                                             data-qty="<?php echo $row['use_qty'] ?>"
@@ -934,10 +960,10 @@ if (isset($_POST["modalSubmit"])) {
                                                                 </td>
                                                                 <td>
                                                                     <p class="fw-bold text-success mb-0">
-                                                                        <input class="form-check-input work-status-change" type="checkbox" role="switch" 
-                                                                        <?php echo $row['complete_work'] == 1 ? 'checked' : '' ?> 
-                                                                        data-id="<?php echo $row['id']; ?>"
-                                                                        data-action="kapad-cutting-status">
+                                                                        <input class="form-check-input work-status-change" type="checkbox" role="switch"
+                                                                            <?php echo $row['complete_work'] == 1 ? 'checked' : '' ?>
+                                                                            data-id="<?php echo $row['id']; ?>"
+                                                                            data-action="kapad-cutting-status">
                                                                     </p>
                                                                 </td>
                                                                 <td>
@@ -960,51 +986,76 @@ if (isset($_POST["modalSubmit"])) {
                                         <!-- Salary Report -->
                                         <div class="tab-pane fade" id="profile" role="tabpanel"
                                             aria-labelledby="profile-tab">
-                                            <div class="mb-4 border-bottom pb-3">
-                                                <h4 class="card-title mb-0">Salary Report</h4>
-                                            </div>
-                                            <div class="d-flex justify-content-between align-items-start">
-                                                <span class="badge text-bg-primary">Standard</span>
-                                                <div class="d-flex justify-content-center">
-                                                    <sup class="h5 mt-3 mb-0 me-1 text-primary">$</sup>
-                                                    <h1 class="display-5 mb-0 text-primary">50</h1>
-                                                    <sub class="fs-6 pricing-duration mt-auto mb-3">/ month</sub>
-                                                </div>
-                                            </div>
-                                            <ul class="g-2 my-4">
-                                                <li class="mb-2 align-middle">
-                                                    <i class="ti ti-circle-check fs-5 me-2 text-success"></i> 3 Periods
-                                                    per day
-                                                </li>
-
-                                                <li class="mb-2 align-middle">
-                                                    <i class="ti ti-circle-check fs-5 me-2 text-success"></i> Included
-                                                    Documents
-                                                </li>
-
-                                                <li class="mb-2 align-middle">
-                                                    <i class="ti ti-circle-check fs-5 me-2 text-success"></i> Free Books
-                                                </li>
-
-                                                <li class="mb-2 align-middle">
-                                                    <i class="ti ti-circle-check fs-5 me-2 text-success"></i> Students
-                                                    Help Salary
-                                                </li>
-                                            </ul>
-                                            <div class="d-flex justify-content-between align-items-center mb-1">
-                                                <span>Days</span>
-                                                <span>75% Completed</span>
-                                            </div>
-                                            <div class="progress bg-primary-subtle mb-1">
-                                                <div class="progress-bar text-bg-primary w-75" role="progressbar"
-                                                    aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
-                                            </div>
-                                            <span>4 days remaining</span>
-                                            <div class="d-grid w-100 mt-4 pt-2">
-                                                <button class="btn btn-primary" data-bs-target="#upgradePlanModal"
-                                                    data-bs-toggle="modal">
-                                                    Pay Full Salary
+                                            <div class="d-flex justify-content-between align-items-center border-bottom mb-6">
+                                                <h4 class="card-title mb-3">Salary</h4>
+                                                <button class="btn btn-primary mb-3 addSalaryButton" type="submit">
+                                                    Add Salary
                                                 </button>
+                                            </div>
+                                            <div class="table-responsive overflow-x-auto">
+                                                <table class="table align-middle text-center">
+                                                    <thead>
+                                                        <tr>
+                                                            <th scope="col">Date</th>
+                                                            <th scope="col">Mode</th>
+                                                            <th scope="col">Cheque No</th>
+                                                            <th scope="col">A/c No</th>
+                                                            <th scope="col">Amount</th>
+                                                            <th scope="col">Note</th>
+                                                            <th scope="col">Action</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody class="border-top">
+                                                        <?php
+
+                                                        $que = "SELECT * FROM banking WHERE workers_id='$worker_id'";
+                                                        $res = mysqli_query($conn, $que);
+                                                        while ($row = mysqli_fetch_assoc($res)) {
+                                                        ?>
+                                                            <tr>
+                                                                <td>
+                                                                    <p class="fw-bold text-info mb-0">
+                                                                        <?php echo $row['date']; ?></p>
+                                                                </td>
+                                                                <td>
+                                                                    <p class="fw-normal mb-0 fs-3 text-dark">
+                                                                        <?php echo $row['type']; ?>
+                                                                    </p>
+                                                                </td>
+                                                                <td>
+                                                                    <p class="fw-normal mb-0 fs-3 text-dark">
+                                                                        <?php echo $row['cheque_no'] ?? '-' ; ?>
+                                                                    </p>
+                                                                </td>
+                                                                <td>
+                                                                    <p class="fw-normal mb-0 fs-3 text-dark">
+                                                                        <?php echo $row['account_no'] ?? '-'; ?>
+                                                                    </p>
+                                                                </td>
+                                                                <td>
+                                                                    <p class="fw-normal mb-0 text-danger">
+                                                                        <b><?php echo $row['amount']; ?></b>
+                                                                    </p>
+                                                                </td>
+                                                                <td>
+                                                                    <p class="fw-bold mb-0">
+                                                                        <?php echo $row['note']; ?>
+                                                                    </p>
+                                                                </td>
+                                                                <td>
+                                                                    <a href="edit-salary-expenses.php?id=<?php echo $row['id']; ?>" class="text-primary">
+                                                                        <i class="ti ti-edit fs-5"></i>
+                                                                    </a>
+                                                                    <a class="text-danger delete-single-expense"
+                                                                        id="<?php echo $row['id']; ?>"
+                                                                        data-action-name="salary-action">
+                                                                        <i class="ti ti-trash fs-5"></i>
+                                                                    </a>
+                                                                </td>
+                                                            </tr>
+                                                        <?php } ?>
+                                                    </tbody>
+                                                </table>
                                             </div>
                                         </div>
                                     </div>
@@ -1018,7 +1069,7 @@ if (isset($_POST["modalSubmit"])) {
     </div>
 
     <!-- Return and Second qty edit model -->
-    <div class="modal fade" id="addnotesmodal" tabindex="-1" role="dialog" aria-labelledby="addnotesmodalTitle"
+    <div class="modal fade" id="addNoteModal" tabindex="-1" role="dialog" aria-labelledby="addNoteModalTitle"
         aria-modal="true" style="display: none;">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content" style="border-radius: 10px;">
@@ -1065,7 +1116,7 @@ if (isset($_POST["modalSubmit"])) {
     </div>
 
     <!-- Delete confirmation model -->
-    <div class="modal fade" id="deleteConfirmationModel" tabindex="-1" role="dialog" aria-labelledby="addnotesmodalTitle"
+    <div class="modal fade" id="deleteConfirmationModel" tabindex="-1" role="dialog" aria-labelledby="deleteConfirmationModelTitle"
         aria-modal="true" data-bs-backdrop="static" data-bs-keyboard="false" style="display: none;">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content" style="border-radius: 10px;">
@@ -1087,6 +1138,63 @@ if (isset($_POST["modalSubmit"])) {
                         <button class="btn btn-primary delete-check-confirm">Ok</button>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add salary model -->
+    <div class="modal fade" id="addSalaryModal" tabindex="-1" role="dialog" aria-labelledby="addSalaryModalTitle"
+        aria-modal="true" style="display: none;">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content" style="border-radius: 10px;">
+                <div class="modal-header text-bg-primary">
+                    <h6 class="modal-title text-white">Worker Salary</h6>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+                </div>
+                <form method="post">
+                    <div class="modal-body">
+                        <div class="notes-box">
+                            <div class="notes-content">
+                                <div class="row modal-input-fields">
+                                    <div class="col-md-12 mb-3">
+                                        <div class="note-title">
+                                            <label class="form-label">Mode</label>
+                                            <select class="form-control mode-type" id="type" name="type" required>
+                                                <option value="cash">Cash</option>
+                                                <option value="cheque">Cheque</option>
+                                                <option value="upi">UPI</option>
+                                                <option value="bank_transfer">Bank Transfer</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 add-new-field">
+
+                                    </div>
+                                    <div class="col-md-12 mb-3">
+                                        <div class="note-description">
+                                            <label class="form-label">Amount</label>
+                                            <input type="number" name="amount" id="amount" class="form-control" placeholder="Amount" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="note-description">
+                                            <label class="form-label">Note</label>
+                                            <input type="text" name="note" id="note" class="form-control" placeholder="Note" required>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <div class="d-flex gap-6">
+                            <button class="btn bg-danger-subtle text-danger" data-bs-dismiss="modal">Discard</button>
+                            <button id="btn-n-add" class="btn btn-primary" type="submit"
+                                name="salarySubmit">Submit</button>
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
@@ -1208,7 +1316,7 @@ if (isset($_POST["modalSubmit"])) {
                     $("#second_qty").val(secondQty);
                 }
 
-                $("#addnotesmodal").modal("show");
+                $("#addNoteModal").modal("show");
             });
 
             $(document).on("click", ".delete-single-expense", function() {
@@ -1243,7 +1351,7 @@ if (isset($_POST["modalSubmit"])) {
                 location.reload();
             });
 
-            $(document).on("change", ".work-status-change", function(){
+            $(document).on("change", ".work-status-change", function() {
                 const stockId = $(this).attr('data-id');
                 const stockAction = $(this).attr('data-action');
                 const status = $(this).prop('checked') ? 1 : 0;
@@ -1265,7 +1373,38 @@ if (isset($_POST["modalSubmit"])) {
                 });
             });
         });
+
+        $(document).on("click", ".addSalaryButton", function() {
+            $("#addSalaryModal").modal("show");
+            addDynamicField();
+        });
+
+        $(document).on("change", ".mode-type", function() {
+            addDynamicField();
+        });
+        function addDynamicField() {
+            const selectedType = $('.mode-type').val();
+
+            if (selectedType == "cheque") {
+                $('.add-new-field').html(`
+                  <div class="note-description mb-3">
+                     <label class="form-label">Cheque No</label>
+                     <input type="number" name="cheque_no" id="cheque_no" class="form-control" placeholder="Cheque No" required>
+                  </div>
+               `);
+            } else if (selectedType == "bank_transfer") {
+                $('.add-new-field').html(`
+                  <div class="note-description mb-3">
+                     <label class="form-label">Account No</label>
+                     <input type="number" name="account_no" id="account_no" class="form-control" placeholder="To Account No" required>
+                  </div>
+               `);
+            } else {
+                $('.add-new-field').html('');
+            }
+        }
     </script>
 
 </body>
+
 </html>

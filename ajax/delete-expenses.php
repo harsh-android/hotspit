@@ -80,6 +80,17 @@ if(isset($_POST['actionId']) && isset($_POST['actionName'])){
          exit;
       }
    }
+
+   if($_POST['actionName'] == 'salary-action'){
+      $sql_delete = "DELETE FROM `banking` WHERE `id`=$id";
+      if (mysqli_query($conn, $sql_delete)) {
+         echo json_encode([
+            'status' => true,
+            'message' => 'Salary expenses deleted successfully...',
+         ]);
+         exit;
+      }
+   }
 }
 
 // Default response for invalid or missing data

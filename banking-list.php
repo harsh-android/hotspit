@@ -39,12 +39,14 @@
                 <div class="card-body">
                
                         <div class="table-responsive">
-                            <table class="table search-table align-middle text-nowrap">
+                            <table class="table search-table align-middle text-nowrap text-center">
                                 <thead class="header-item">
                                    
                                     <th>Date</th>
                                     <th>Category</th>
                                     <th>Type</th>
+                                    <th>Cheque No</th>
+                                    <th>Account No</th>
                                     <th>Income</th>
                                     <th>Expence</th>
                                     <th>Note</th>
@@ -71,6 +73,12 @@
                                         </td>
                                         <td>
                                             <span class="usr-name" ><?php echo $row['type']; ?></span>
+                                        </td>
+                                        <td>
+                                            <span class="usr-name" ><?php echo $row['cheque_no'] ?? '-'; ?></span>
+                                        </td>
+                                        <td>
+                                            <span class="usr-name" ><?php echo $row['account_no'] ?? '-'; ?></span>
                                         </td>
                                         <td>
                                             <span class="usr-name" style="color:darkgreen; font-weight:bold"><?php if ($row['in_out']=="income") {
