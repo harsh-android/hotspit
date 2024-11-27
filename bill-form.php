@@ -39,7 +39,7 @@ if (isset($_POST['submit'])) {
 
     unset($_SESSION['bill_data']); // unset session first
     $_SESSION['bill_data'] = $data;
-    header("location:generate-bill.php");
+    header("location:generate-bill-old.php");
     exit;
 }
 ?>

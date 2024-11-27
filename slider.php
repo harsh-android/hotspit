@@ -125,6 +125,24 @@
           </div>
         </li>
 
+        <!-- Generate Bill -->
+        <li class="sidebar-item accordion-item <?= in_array($current_page, ['generate-bill.php', 'view-all-bills.php']) ? 'selected' : '' ?>">
+          <a class="sidebar-link sidebar-link indigo-hover-bg accordion-button" data-bs-toggle="collapse" href="#six">
+            <span class="aside-icon p-2 bg-light-indigo rounded-3">
+              <i class="ti ti-files fs-7 text-indigo"></i>
+            </span>
+            <span class="hide-menu ms-2 ps-1">Bill Section</span>
+          </a>
+          <div class="accordion-collapse collapse <?= in_array($current_page, ['generate-bill.php', 'view-all-bills.php']) ? 'show' : '' ?>" id="six" data-bs-parent="#demo">
+            <div class="accordion-body">
+              <ul class="list-unstyled ms-4">
+                <li class="list-item mb-3"><a href="generate-bill.php" class="nav-link text-black">Generate Bill</a></li>
+                <li class="list-item mb-3"><a href="view-all-bills.php" class="nav-link text-black">View All Bills</a></li>
+              </ul>
+            </div>
+          </div>
+        </li>
+
         <!-- <li class="nav-small-cap">
               <i class="ti ti-dots nav-small-cap-icon fs-5"></i>
               <span class="hide-menu">Auth</span>

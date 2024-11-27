@@ -2,279 +2,186 @@
 include('conn.php');
 session_start();
 
-if (isset($_SESSION['bill_data'])) {
-   $data = $_SESSION['bill_data'];
-   $id = $data['id'];
+$sql_select_party = "SELECT * FROM shop";
+$result_party = mysqli_query($conn, $sql_select_party);
 
-   $shop_detail_query = "SELECT dealer.* FROM dealer INNER JOIN sadi_main ON sadi_main.shop = dealer.id WHERE sadi_main.id = $id";
-   $result = mysqli_query($conn, $shop_detail_query);
+if (isset($_POST['submit'])) {
 
-   if ($result && mysqli_num_rows($result) > 0) {
-      $shop_detail = mysqli_fetch_assoc($result);
-   } else {
-      $shop_detail = null;
+   $descriptions = $_POST['description'] ?? [];
+   $quantities = $_POST['qty'] ?? [];
+   $chalan_numbers = $_POST['cn_number'] ?? [];
+   $used_quantities = $_POST['use_qty'] ?? [];
+   $prices = $_POST['price'] ?? [];
+
+   $sadi_stocks = [];
+   for ($i = 0; $i < count($descriptions); $i++) {
+      $description = $descriptions[$i];
+      $qty = $quantities[$i];
+      $cn_number = $chalan_numbers[$i];
+      $use_qty = $used_quantities[$i];
+      $price = $prices[$i];
+
+      $sadi_stocks[] = [
+         'description' => $description,
+         'cn_number' => $cn_number,
+         'qty' => $qty,
+         'use_qty' => $use_qty,
+         'price' => $price
+      ];
    }
+
+   $color_str = implode(',|,', $descriptions);
+   $qty_str = implode(',|,', $quantities);
+   $cn_number_str = implode(',|,', $chalan_numbers);
+   $use_qty_str = implode(',|,', $used_quantities);
+   $price_str = implode(',|,', $prices);
+   $shop_id = $_POST['select_party'];
+   $igst = $_POST['igst'] ?? 0;
+   $cgst = $_POST['cgst'] ?? 0;
+   $sgst = $_POST['sgst'] ?? 0;
+   $discount = $_POST['discount'] ?? 0;
+   $bill_date = date('Y-m-d');
+
+   $sql_insert_bill_data = "INSERT INTO `generate_bill_data`(`shop_id`, `bill_date`, `color`, `qty`, `cn_number`, `use_qty`, `price`, `discount`, `cgst`, `sgst`, `igst`) VALUES ('$shop_id','$bill_date','$color_str','$qty_str','$cn_number_str','$use_qty_str','$price_str','$discount','$cgst','$sgst','$igst')";
+   $result_bill_data = mysqli_query($conn, $sql_insert_bill_data);
+   $invoice_number = mysqli_insert_id($conn);
+
+   $data['sadi_stocks'] = $sadi_stocks;
+   $data['id'] = $shop_id;
+   $data['igst'] = $igst;
+   $data['cgst'] = $cgst;
+   $data['sgst'] = $sgst;
+   $data['discount'] = $discount;
+   $data['invoice_number'] = $invoice_number;
+   $data['bill_date'] = $bill_date;
+
+   unset($_SESSION['bill_data']); // unset session first
+   $_SESSION['bill_data'] = $data;
+   header("location:bill.php");
+   exit;
 }
 ?>
 
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 
 <head>
-   <meta charset="UTF-8">
-   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <title>Responsive Invoice</title>
-   <style>
-      body {
-         font-family: Arial, sans-serif;
-         margin: 0;
-         padding: 0;
-         line-height: 1.5;
-         color: #333;
-      }
-
-      .invoice-container {
-         max-width: 900px;
-         margin: 20px auto;
-         padding: 20px;
-         border: 1px solid #ddd;
-         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-      }
-
-      .invoice-header {
-         text-align: center;
-         margin-bottom: 20px;
-      }
-
-      .invoice-header h1 {
-         margin: 0;
-         font-size: 24px;
-         text-transform: uppercase;
-         color: #000;
-      }
-
-      .invoice-header p {
-         margin: 5px 0;
-         font-size: 14px;
-      }
-
-      .party-details,
-      .bank-details {
-         margin-bottom: 20px;
-         font-size: 14px;
-      }
-
-      .party-details span,
-      .bank-details span {
-         display: block;
-      }
-
-      .details-row {
-         display: flex;
-         justify-content: space-between;
-      }
-
-      .details-row div {
-         width: 48%;
-      }
-
-      .invoice-table {
-         width: 100%;
-         border-collapse: collapse;
-         margin-bottom: 20px;
-      }
-
-      .invoice-table th,
-      .invoice-table td {
-         border: 1px solid #ddd;
-         padding: 8px;
-         text-align: left;
-         font-size: 14px;
-      }
-
-      .invoice-table th {
-         background-color: #f9f9f9;
-      }
-
-      .totals {
-         margin-top: 20px;
-         display: flex;
-         justify-content: flex-end;
-         font-size: 14px;
-      }
-
-      .totals div {
-         width: 50%;
-      }
-
-      .totals-table {
-         width: 100%;
-         border-collapse: collapse;
-      }
-
-      .totals-table th,
-      .totals-table td {
-         padding: 8px;
-         text-align: right;
-         border: none;
-      }
-
-      .totals-table th {
-         text-align: left;
-      }
-
-      .footer {
-         font-size: 12px;
-         margin-top: 20px;
-      }
-
-      .footer p {
-         margin: 5px 0;
-      }
-
-      @media (max-width: 600px) {
-         .details-row {
-            flex-direction: column;
-         }
-
-         .details-row div {
-            width: 100%;
-         }
-
-         .totals div {
-            width: 100%;
-         }
-      }
-   </style>
+   <meta charset="utf-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+   <title>Spike Free</title>
+   <link rel="shortcut icon" type="image/png" href="src/assets/images/logos/favicon.png" />
+   <link rel="stylesheet" href="src/assets/css/styles.min.css" />
 </head>
 
 <body>
-   <div class="invoice-container">
-      <!-- Header / Letter head -->
-      <div class="invoice-header">
-         <h1>Aadhya Creation</h1>
-         <p>62, Suvidha Row House, Simada Gam, Surat - 395006</p>
-         <p>GSTIN: 24CHRP8947Q1ZF</p>
-      </div>
+   <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
+      data-sidebar-position="fixed" data-header-position="fixed">
+      <?php include('slider.php'); ?> <!-- sidebar -->
+      <div class="body-wrapper">
+         <?php include('header.php'); ?> <!-- header -->
+         <div class="container-fluid">
+            <div class="container-fluid">
+               <div class="card">
+                  <div class="card-body">
+                     <h5 class="card-title fw-semibold mb-5">Generate Bill</h5>
+                     <form method="post">
+                        <div class="mb-3">
 
-      <!-- Date & Invoice number -->
-      <div style="text-align: end; margin-bottom: 10px; font-size: 15px;">
-         <!-- <div class="mb-2">
-            <span><strong>Invoice No:</strong></span>
-         </div> -->
-         <div class="mb-2">
-            <span><strong>Date :</strong> <?php echo date('d/m/Y'); ?></span>
+                           <div class="mb-4">
+                              <label for="select_party" class="form-label">Select Party</label>
+                              <select class="form-control" id="select_party" name="select_party" required>
+                                 <option value="" selected disabled>Select number of colors</option>
+                                 <?php while ($row = mysqli_fetch_assoc($result_party)) { ?>
+                                    <option value="<?php echo $row['id']; ?>"><?php echo $row['name']; ?> (<?php echo $row['owner_name']; ?>)</option>
+                                 <?php } ?>
+                              </select>
+                           </div>
+
+                           <div class="mb-4">
+                              <label for="select_number_of_color" class="form-label">Select Number of Colors</label>
+                              <select class="form-control" id="select_number_of_color" name="select_number_of_color" required>
+                                 <option value="" selected disabled>Select Party</option>
+                                 <?php for ($i = 1; $i <= 10; $i++) { ?>
+                                    <option value="<?php echo $i; ?>"><?php echo $i; ?></option>
+                                 <?php } ?>
+                              </select>
+                           </div>
+
+                           <div class="row mt-3" id="color_cols">
+                              <!-- data from script -->
+                           </div>
+
+                           <div class="col-lg-4 mb-3">
+                              <label for="discount" class="form-label">Discount</label>
+                              <input type="number" step="0.01" name="discount" class="form-control" id="discount" placeholder="Enter Discount %">
+                           </div>
+                           <div class="col-lg-4 mb-3">
+                              <label for="igst" class="form-label">IGST</label>
+                              <input type="number" step="0.01" name="igst" class="form-control" id="igst" placeholder="Enter IGST %">
+                           </div>
+                           <div class="col-lg-4 mb-3">
+                              <label for="cgst" class="form-label">CGST</label>
+                              <input type="number" step="0.01" name="cgst" class="form-control" id="cgst" placeholder="Enter CGST %">
+                           </div>
+                           <div class="col-lg-4 mb-3">
+                              <label for="sgst" class="form-label">SGST</label>
+                              <input type="number" step="0.01" name="sgst" class="form-control" id="sgst" placeholder="Enter SGST %">
+                           </div>
+
+                           <button type="submit" name="submit" class="btn btn-info mt-4">Generate Bill</button>
+                        </div>
+                     </form>
+                  </div>
+               </div>
+            </div>
          </div>
-      </div>
-
-      <!-- Party Details -->
-      <div class="party-details">
-         <span><strong>Party's Name:</strong> M/S <?php echo $shop_detail['name']; ?></span>
-         <span>Address: <?php echo $shop_detail['address']; ?></span>
-         <span>GSTIN: <?php echo $shop_detail['gst_number']; ?></span>
-      </div>
-
-      <!-- Invoice Table -->
-      <table class="invoice-table">
-         <thead>
-            <tr>
-               <th>No.</th>
-               <th>Descriptions</th>
-               <th>HSN Code</th>
-               <th>Used Qty</th>
-               <th>Rate</th>
-               <th>Amount</th>
-            </tr>
-         </thead>
-         <tbody>
-            <!-- Dynamic data rows -->
-            <?php
-            $total_gross_amount = 0;
-            foreach ($data['sadi_stocks'] as $i => $item) { ?>
-               <tr>
-                  <td><?php echo $i + 1; ?></td>
-                  <td><?php echo $item['color_name']; ?> (<?php echo $item['qty']; ?>)</td>
-                  <td><?php echo $item['cn_number']; ?></td>
-                  <td><?php echo $item['use_qty']; ?></td>
-                  <td><?php echo $item['price']; ?></td>
-                  <td><?php echo $item['use_qty'] * $item['price']; ?></td>
-               </tr>
-            <?php
-               $total_gross_amount = $total_gross_amount + ($item['use_qty'] * $item['price']);
-            } ?>
-         </tbody>
-      </table>
-
-      <!-- Bank Details -->
-      <div class="bank-details">
-         <span><strong>Bank Name:</strong> Kotak Mahindra Bank</span>
-         <span><strong>A/C No.:</strong> 7545239919</span>
-         <span><strong>IFSC Code:</strong> KKBK0000883</span>
-      </div>
-
-      <!-- Totals / Amount calculation -->
-      <div class="totals">
-         <div>
-            <table class="totals-table">
-               <tr>
-                  <th>Total Gross Amount (Before Discount):</th>
-                  <td><?php echo number_format($total_gross_amount, 2); ?></td>
-               </tr>
-               <tr>
-                  <?php
-                     $discount_rate = floatval($data['discount']);
-                     $discount = $total_gross_amount * $discount_rate / 100; 
-                  ?>
-                  <th>Discount: (<?php echo $discount_rate ?>%)</th>
-                  <td><?php echo number_format($discount, 2); ?></td>
-               </tr>
-               <tr>
-                  <?php $net_amt_before_tax = $total_gross_amount - $discount; ?>
-                  <th>Net Amount Before Tax:</th>
-                  <td><?php echo number_format($net_amt_before_tax, 2); ?></td>
-               </tr>
-               <tr>
-                  <?php
-                     $cgst_rate = floatval($data['cgst']);
-                     $cgst = $net_amt_before_tax * $cgst_rate / 100; 
-                     ?>
-                  <th>CGST: (<?php echo $cgst_rate ?>%)</th>
-                  <td><?php echo number_format($cgst, 2); ?></td>
-               </tr>
-               <tr>
-                  <?php
-                     $sgst_rate = floatval($data['sgst']);
-                     $sgst = $net_amt_before_tax * $sgst_rate / 100; 
-                  ?>
-                  <th>SGST: (<?php echo $sgst_rate ?>%)</th>
-                  <td><?php echo number_format($sgst, 2); ?></td>
-               </tr>
-               <tr>
-                  <?php
-                     $igst_rate = floatval($data['igst']);
-                     $igst = $net_amt_before_tax * $igst_rate / 100; 
-                  ?>
-                  <th>IGST: (<?php echo $igst_rate ?>%)</th>
-                  <td><?php echo number_format($igst, 2); ?></td>
-               </tr>
-               <tr>
-                  <th>Total:</th>
-                  <?php $net_amount = $net_amt_before_tax + $cgst + $sgst + $igst; ?>
-                  <td><?php echo number_format($net_amount, 2); ?></td>
-               </tr>
-            </table>
-         </div>
-      </div>
-
-      <!-- Footer / Conditions -->
-      <div class="footer">
-         <p>1. Interest 24% per annum will be charged after the due date of the bill.</p>
-         <p>2. Any complaint for the goods should be made within 7 days.</p>
-         <p>3. Subject to Surat Jurisdictions.</p>
-         <p><strong>For Aadhya Creation</strong></p>
-         <p>Authorized Signatory</p>
       </div>
    </div>
+   </div>
+   <script src="src/assets/libs/jquery/dist/jquery.min.js"></script>
+   <script src="src/assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+   <script src="src/assets/js/sidebarmenu.js"></script>
+   <script src="src/assets/js/app.min.js"></script>
+   <script src="src/assets/libs/simplebar/dist/simplebar.js"></script>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+
+   <script>
+      $(document).ready(function() {
+         $(document).on("change", "#select_number_of_color", function() {
+            var selectedValue = $(this).val();
+
+            let response = $("#color_cols");
+            response.empty();
+            for (let i = 1; i <= selectedValue; i++) {
+               response.append(`
+                  <div class="col-lg-4 mb-4">
+                     <label for="description" class="form-label">${i}. Description</label>
+                     <input type="text" name="description[]" class="form-control" id="description" placeholder="Description" required>
+                  </div>
+                  <div class="col-lg-2 mb-4">
+                     <label for="qty" class="form-label">Total Qty</label>
+                     <input type="number" name="qty[]" class="form-control" id="qty" placeholder="Total Qty" required>
+                  </div>
+                  <div class="col-lg-2 mb-4">
+                     <label for="cn_number" class="form-label">Chalan Number</label>
+                     <input type="text" name="cn_number[]" class="form-control" id="cn_number" placeholder="Chalan Number" required>
+                  </div>
+                  <div class="col-lg-2 mb-4">
+                     <label for="use_qty" class="form-label">Used Qty</label>
+                     <input type="number" name="use_qty[]" class="form-control" id="use_qty" placeholder="Used Qty" required>
+                  </div>
+                  <div class="col-lg-2 mb-4">
+                     <label for="price" class="form-label">Rate</label>
+                     <input type="number" step="0.01" name="price[]" class="form-control" id="price" placeholder="Rate/Price" required>
+                  </div>
+               `);
+            }
+         });
+      });
+   </script>
+
 </body>
 
 </html>
