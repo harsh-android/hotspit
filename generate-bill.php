@@ -6,7 +6,7 @@ if (isset($_SESSION['bill_data'])) {
    $data = $_SESSION['bill_data'];
    $id = $data['id'];
 
-   $shop_detail_query = "SELECT shop.* FROM shop INNER JOIN sadi_main ON sadi_main.shop = shop.id WHERE sadi_main.id = $id";
+   $shop_detail_query = "SELECT dealer.* FROM dealer INNER JOIN sadi_main ON sadi_main.shop = dealer.id WHERE sadi_main.id = $id";
    $result = mysqli_query($conn, $shop_detail_query);
 
    if ($result && mysqli_num_rows($result) > 0) {

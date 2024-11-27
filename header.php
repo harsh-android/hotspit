@@ -15,6 +15,7 @@
           </ul>
           <div class="navbar-collapse justify-content-end px-0" id="navbarNav">
             <ul class="navbar-nav flex-row ms-auto align-items-center justify-content-end">
+            <div id="google_translate_element"></div>
               
               <li class="nav-item dropdown">
                 <a class="nav-link nav-icon-hover" href="javascript:void(0)" id="drop2" data-bs-toggle="dropdown"
@@ -43,3 +44,49 @@
           </div>
         </nav>
       </header>
+
+      <script>
+   $('#manage_my_account').click(function(){
+     uni_modal("Manage Account","manage_user.php?id=<?php echo $_SESSION['login_id'] ?>&mtype=own")
+   })
+</script>
+
+
+<script language="javascript">
+    var today = new Date();
+    document.getElementById('time').innerHTML = today;
+</script>
+
+<script type="text/javascript">
+function googleTranslateElementInit() {
+  new google.translate.TranslateElement({pageLanguage: 'en'}, 'google_translate_element');
+}
+</script>
+
+<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+
+<script type="text/javascript">
+    function googleTranslateElementInit() {
+        new google.translate.TranslateElement({
+            pageLanguage: 'en'
+        }, 'google_translate_element');
+
+        var $googleDiv = $("#google_translate_element .skiptranslate");
+        var $googleDivChild = $("#google_translate_element .skiptranslate div");
+        $googleDivChild.next().remove();
+
+        $googleDiv.contents().filter(function() {
+            return this.nodeType === 3 && $.trim(this.nodeValue) !== '';
+        }).remove();
+
+    }
+</script>
+<style>
+    .goog-te-gadget .goog-te-combo {
+        margin: 0px 0;
+        padding: 8px;
+        color: #000;
+        background: #eeee;
+    }
+</style>
