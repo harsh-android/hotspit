@@ -96,7 +96,7 @@ if (isset($_POST['submit'])) {
                                                     <img src="uploads/<?php echo $editRes['photo']; ?>"
                                                     alt="spike-img" class="w-100" >
                                                 </div>
-                                                <?php } ?>
+                                            <?php } ?>
                                             <label for="image" class="form-label">Upload New Image</label>
                                             <input type="file" class="form-control" id="image" name="image">
                                         </div>

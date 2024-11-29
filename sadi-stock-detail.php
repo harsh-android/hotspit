@@ -2,6 +2,15 @@
 include('conn.php');
 $id = $_GET['id'];
 
+if (isset($_GET['d_id'])) {
+  $dId = intval($_GET['d_id']);
+
+  $sql_delete = "DELETE FROM `sadi_stock` WHERE `id` = $dId";
+  mysqli_query($conn, $sql_delete);
+
+  header('Location: sadi-stock-detail.php?id='.$id);
+  exit;
+}
 ?>
 
 <!doctype html>
@@ -16,17 +25,11 @@ $id = $_GET['id'];
 </head>
 
 <body>
-  <!--  Body Wrapper -->
   <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
     data-sidebar-position="fixed" data-header-position="fixed">
-    <!-- Sidebar Start -->
     <?php include('slider.php'); ?>
-    <!--  Sidebar End -->
-    <!--  Main wrapper -->
     <div class="body-wrapper">
-      <!--  Header Start -->
       <?php include('header.php'); ?>
-      <!--  Header End -->
       <div class="container-fluid">
         <div class="container-fluid">
           <div class="card">
@@ -35,7 +38,10 @@ $id = $_GET['id'];
               <a href="add-paper-stock.php"><button class="btn btn-info mb-2" type="button">Add Paper Stock</button></a> -->
               <div class="card">
                 <div class="card-body">
-                  <a href="bill-form.php?id=<?php echo $id; ?>"><button class="btn btn-info">Generate Bill</button></a>
+                  <div class="d-flex justify-content-between align-items-center mb-4">
+                    <a href="add-single-sadi-stock.php?dealer=<?php echo $id; ?>"><button class="btn btn-info">Add Stock Below</button></a>
+                    <!-- <a href="bill-form.php?id=<?php echo $id; ?>"><button class="btn btn-success">Generate Bill</button></a> -->
+                  </div>
                   <div class="table-responsive">
                     <table class="table search-table align-middle text-nowrap">
                       <thead class="header-item">
@@ -69,10 +75,10 @@ $id = $_GET['id'];
                             </td>
                             <td>
                               <div class="action-btn">
-                                <a href="add-kapad.php?id=<?php echo $row['id']; ?>" class="text-primary edit">
+                                <a href="add-single-sadi-stock.php?dealer=<?php echo $id; ?>&id=<?php echo $row['id']; ?>" class="text-primary edit">
                                   <i class="ti ti-edit fs-5"></i>
                                 </a>
-                                <a href="javascript:void(0)" class="text-dark delete ms-2">
+                                <a href="sadi-stock-detail.php?id=<?php echo $id; ?>&d_id=<?php echo $row['id']; ?>" class="text-dark delete ms-2" onclick="return confirmDelete()">
                                   <i class="ti ti-trash fs-5"></i>
                                 </a>
                               </div>
@@ -93,7 +99,7 @@ $id = $_GET['id'];
       </div>
     </div>
   </div>
-  </div>
+
   <script src="src/assets/libs/jquery/dist/jquery.min.js"></script>
   <script src="src/assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
   <script src="src/assets/js/sidebarmenu.js"></script>
@@ -103,6 +109,11 @@ $id = $_GET['id'];
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
 
-</body>
+  <script>
+    function confirmDelete() {
+      return confirm("Are you sure you want to delete this item?");
+    }
+  </script>
 
+</body>
 </html>

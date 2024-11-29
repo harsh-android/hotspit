@@ -1,6 +1,23 @@
 <?php
 include('conn.php');
 $dealerId = $_GET['id'];
+
+if (isset($_GET['d_id'])) {
+    $dId = $_GET['d_id'];
+
+    $quee = mysqli_query($conn, "SELECT * FROM `sadi_main` WHERE `id`='$dId'");
+    $editRes = mysqli_fetch_assoc($quee);
+    $existingImage = $editRes['image'];
+    $target_dir = "uploads/";
+    if ($existingImage && file_exists($target_dir . $existingImage)) {
+        unlink($target_dir . $existingImage);
+    }
+
+    $sql_delete = "DELETE FROM `sadi_main` WHERE `id` = $dId";
+    mysqli_query($conn, $sql_delete);
+
+    header('location:sadi-stock-list.php?id='.$dealerId);
+}
 ?>
 
 <!doctype html>
@@ -55,25 +72,33 @@ $dealerId = $_GET['id'];
                                                 <div class="col-sm-6 col-md-4 col-lg-3">
                                                     <div class="product hover-img mb-7">
 
-                                                        <div
-                                                            class="product-img position-relative rounded-4 mb-6 overflow-hidden">
-
+                                                        <div class="product-img position-relative rounded-1 mb-6 overflow-hidden">
                                                             <a href="sadi-stock-detail.php?id=<?php echo $row['id'] ?>">
                                                                 <img src="uploads/<?php echo $row['image']; ?>"
-                                                                    alt="spike-img" class="w-100" style="min-height: 140px;">
+                                                                    alt="spike-img" class="w-100" style="min-height: 140px; max-height: 140px;">
                                                             </a>
-
                                                         </div>
+
                                                         <div>
                                                             <input type="checkbox" name="sadi_main_ids[]" value="<?php echo $row['id']; ?>">
 
                                                             <h5 class="mb-2 mt-2">
                                                                 <?php @$shopData = mysqli_fetch_assoc(mysqli_query($conn, "SELECT * FROM shop WHERE `id`='$shopId'"));
-                                                                echo @$shopData["name"] . "<br/>(" . $shopData['owner_name'] . ")";?>
+                                                                echo @$shopData["name"] . "<br/>(" . $shopData['owner_name'] . ")"; ?>
                                                             </h5>
                                                             <h6 class="mb-0 fs-4 mt-3"><?php echo $row['date']; ?></h6>
                                                             <h6 class="mb-0 fs-4 mt-3">CN No: <?php echo $row['cn_number']; ?></h6>
                                                         </div>
+
+                                                        <div class="action-btn mt-3">
+                                                            <a href="add-sadi.php?id=<?php echo $row['id']; ?>" class="text-primary edit">
+                                                                <i class="ti ti-edit fs-5"></i>
+                                                            </a>
+                                                            <a href="sadi-stock-list.php?id=<?php echo $dealerId; ?>&d_id=<?php echo $row['id']; ?>" class="text-dark delete ms-2" onclick="return confirmDelete()">
+                                                                <i class="ti ti-trash fs-5"></i>
+                                                            </a>
+                                                        </div>
+                                                        
                                                     </div>
                                                 </div>
                                             <?php } ?>
@@ -98,6 +123,12 @@ $dealerId = $_GET['id'];
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+
+    <script>
+        function confirmDelete() {
+            return confirm("Are you sure you want to delete this item?");
+        }
+    </script>
 
     <script>
         $(document).ready(function() {
@@ -131,8 +162,8 @@ $dealerId = $_GET['id'];
     </script>
 
     <script>
-        $(document).ready(function(){
-            $(document).on("input", "#search-sadi", function(){
+        $(document).ready(function() {
+            $(document).on("input", "#search-sadi", function() {
                 const searchValue = $(this).val();
                 const shopId = $(this).attr('data-shop');
 
@@ -157,4 +188,5 @@ $dealerId = $_GET['id'];
 
 
 </body>
+
 </html>

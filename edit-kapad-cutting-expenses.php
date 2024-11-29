@@ -63,17 +63,17 @@ if (isset($_POST['submit'])) {
 
                     <div class="mb-3">
                       <label for="use_meter" class="form-label">Use Meter</label>
-                      <input type="number" name="use_meter" class="form-control" id="use_meter" placeholder="" value="<?php echo $editRes['use_meter']; ?>">
+                      <input type="number" name="use_meter" class="form-control" id="use_meter" placeholder="" step="0.01" value="<?php echo $editRes['use_meter']; ?>">
                     </div>
 
                     <div class="mb-3">
                       <label for="line_size" class="form-label">Line Size</label>
-                      <input type="number" name="line_size" class="form-control" id="line_size" placeholder="" value="<?php echo $editRes['line_size']; ?>">
+                      <input type="number" name="line_size" class="form-control" id="line_size" placeholder="" step="0.01" value="<?php echo $editRes['line_size']; ?>">
                     </div>
 
                     <div class="mb-3">
                       <label for="price" class="form-label">Price</label>
-                      <input type="number" name="price" step="0.01" class="form-control" id="price" placeholder="" value="<?php echo $editRes['price']; ?>">
+                      <input type="number" name="price" step="0.01" class="form-control" id="price" placeholder="" step="0.01" value="<?php echo $editRes['price']; ?>">
                     </div>
 
                     <button type="submit" name="submit" class="btn btn-primary">Submit (Kapad Cutting)</button>

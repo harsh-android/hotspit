@@ -65,10 +65,10 @@ if (isset($_GET['d_id'])) {
                                             ?>
                                                 <div class="col-sm-6 col-md-4 col-lg-3">
                                                     <div class="product hover-img mb-7">
-                                                        <div class="product-img position-relative rounded-4 mb-6 overflow-hidden">
+                                                        <div class="product-img position-relative rounded-1 mb-6 overflow-hidden">
                                                             <a href="sadi-stock-detail.php?id=<?php echo $row['id'] ?>">
                                                                 <img src="uploads/<?php echo $row['photo']; ?>"
-                                                                    alt="spike-img" class="w-100" style="min-height: 140px;">
+                                                                    alt="spike-img" class="w-100" style="min-height: 140px; max-height: 140px;">
                                                             </a>
                                                         </div>
                                                         <div>
