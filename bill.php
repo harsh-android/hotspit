@@ -5,7 +5,7 @@ session_start();
 if (isset($_POST['id'])) {
   $bill_id = $_POST['id'];
 
-  $sql_select_bill_data = "SELECT generate_bill_data.*, shop.* FROM generate_bill_data INNER JOIN shop ON shop.id = generate_bill_data.shop_id WHERE generate_bill_data.id = $bill_id";
+  $sql_select_bill_data = "SELECT generate_bill_data.*, dealer.* FROM generate_bill_data INNER JOIN dealer ON dealer.id = generate_bill_data.shop_id WHERE generate_bill_data.id = $bill_id";
   $res = mysqli_query($conn, $sql_select_bill_data);
 
   if ($res && mysqli_num_rows($res) > 0) {
@@ -58,7 +58,7 @@ if (isset($_POST['id'])) {
   $data = $_SESSION['bill_data'];
   $id = $data['id'];
 
-  $sql_select_party = "SELECT * FROM shop WHERE id = $id";
+  $sql_select_party = "SELECT * FROM dealer WHERE id = $id";
   $result_party = mysqli_query($conn, $sql_select_party);
 
   if ($result_party && mysqli_num_rows($result_party) > 0) {

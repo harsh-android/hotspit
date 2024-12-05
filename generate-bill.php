@@ -2,7 +2,7 @@
 include('conn.php');
 session_start();
 
-$sql_select_party = "SELECT * FROM shop";
+$sql_select_party = "SELECT * FROM dealer";
 $result_party = mysqli_query($conn, $sql_select_party);
 
 if (isset($_POST['submit'])) {
@@ -40,7 +40,7 @@ if (isset($_POST['submit'])) {
    $cgst = $_POST['cgst'] ?? 0;
    $sgst = $_POST['sgst'] ?? 0;
    $discount = $_POST['discount'] ?? 0;
-   $bill_date = date('Y-m-d');
+   $bill_date = $_POST['bill_date'];
 
    $sql_insert_bill_data = "INSERT INTO `generate_bill_data`(`shop_id`, `bill_date`, `color`, `qty`, `cn_number`, `use_qty`, `price`, `discount`, `cgst`, `sgst`, `igst`) VALUES ('$shop_id','$bill_date','$color_str','$qty_str','$cn_number_str','$use_qty_str','$price_str','$discount','$cgst','$sgst','$igst')";
    $result_bill_data = mysqli_query($conn, $sql_insert_bill_data);
@@ -126,6 +126,10 @@ if (isset($_POST['submit'])) {
                            <div class="col-lg-4 mb-3">
                               <label for="sgst" class="form-label">SGST</label>
                               <input type="number" step="0.01" name="sgst" class="form-control" id="sgst" placeholder="Enter SGST %">
+                           </div>
+                           <div class="col-lg-4 mb-3">
+                              <label for="sgst" class="form-label">Bill Date</label>
+                              <input type="date" name="bill_date" class="form-control" id="sgst" >
                            </div>
 
                            <button type="submit" name="submit" class="btn btn-info mt-4">Generate Bill</button>

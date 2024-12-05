@@ -52,7 +52,7 @@ unset($_SESSION['bill_data']); // unset old session
 
                                     <!-- start row -->
                                     <?php
-                                    $que = "SELECT generate_bill_data.*, shop.name, shop.owner_name FROM generate_bill_data INNER JOIN shop ON shop.id = generate_bill_data.shop_id";
+                                    $que = "SELECT generate_bill_data.*, dealer.name, dealer.owner_name FROM generate_bill_data INNER JOIN dealer ON dealer.id = generate_bill_data.shop_id";
                                     $res = mysqli_query($conn, $que);
                                     while ($row = mysqli_fetch_assoc($res)) {
                                     ?>
