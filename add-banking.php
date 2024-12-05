@@ -96,8 +96,7 @@ if (isset($_POST['submit'])) {
 
                                         <div class="mb-3">
                                             <label for="amount" class="form-label">Amount</label>
-                                            <input type="number" name="amount" class="form-control" id="amount"
-                                                placeholder="10" value="<?php echo $isupdate ? $editRes['amount'] : ''; ?>">
+                                            <input type="number" name="amount" class="form-control" id="amount" placeholder="10" value="<?php echo $isupdate ? $editRes['amount'] : ''; ?>">
                                         </div>
 
                                         <div class="mb-3">

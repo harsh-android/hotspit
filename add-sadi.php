@@ -1,42 +1,60 @@
-<?php 
-  include("conn.php");
+<?php
+include("conn.php");
 
+$isupdate = false;
+if (isset($_GET['id'])) {
+    $id = $_GET['id'];
+    $isupdate = true;
+    $quee = mysqli_query($conn, "SELECT * FROM `sadi_main` WHERE `id`='$id'");
+    $editRes = mysqli_fetch_assoc($quee);
+    $existingImage = $editRes['image'];
+}
 
-  if(isset($_POST['submit'])) {
-
-    $colorNumber = $_POST['kapadType'];
+if (isset($_POST['submit'])) {
     $cnNumber = $_POST['cnNumber'];
+    $colorNumber = $_POST['colorNumber'];
     $shop = $_POST['shop'];
     $today = date("d-m-Y");
-    
-    $file = $_FILES['image'];
-    $filename = date('YmdHis') . '_' . basename($file['name']);
-    $target_dir = "uploads/";
-    $target_file = $target_dir . $filename;
-    if (move_uploaded_file($file['tmp_name'], $target_file)) {
-   
-      $mainIn = "INSERT INTO sadi_main(`cn_number`,`image`,`shop`,`date`) VALUES ('$cnNumber','$filename','$shop','$today')";
-      $res = mysqli_query($conn,$mainIn); 
-      $lastId = mysqli_insert_id($conn);
-      for ($i=0; $i <$colorNumber ; $i++) { 
-      
-        $color = $_POST['color'.$i];
-        $qty = $_POST['qty'.$i];
-        $price = $_POST['price'.$i];
-    
-        $in = "INSERT INTO sadi_stock(`color`,`qty`,`price`,`sadi_main_id`) VALUES ('$color','$qty','$price','$lastId')";
-        $res = mysqli_query($conn,$in); 
-  
-      }
-      header("location:sadi-stock-list.php");
-    
-  
-  
-    } else {
-        echo "Sorry, there was an error uploading your file.";
+
+    $filename = $existingImage;
+    if (isset($_FILES['image']) && $_FILES['image']['error'] == 0) {
+        $file = $_FILES['image'];
+        $filename = date('YmdHis') . '_' . basename($file['name']);
+        $target_dir = "uploads/";
+        $target_file = $target_dir . $filename;
+
+        if (move_uploaded_file($file['tmp_name'], $target_file)) {
+            if ($existingImage && file_exists($target_dir . $existingImage)) {
+                unlink($target_dir . $existingImage);
+            }
+        } else {
+            echo "Sorry, there was an error uploading your file.";
+            exit;
+        }
     }
 
-  }
+    if ($isupdate) {
+        $query = "UPDATE sadi_main SET `cn_number`='$cnNumber', `image`='$filename', `shop`='$shop' WHERE `id`='$id'";
+        $res = mysqli_query($conn, $query);
+
+        header("location:sadi-stock-list.php?id=" . $shop);
+    } else {
+        $mainIn = "INSERT INTO sadi_main(`cn_number`,`image`,`shop`,`date`) VALUES ('$cnNumber','$filename','$shop','$today')";
+        $res = mysqli_query($conn, $mainIn);
+        $insertedId = mysqli_insert_id($conn);
+
+        for ($i = 0; $i < $colorNumber; $i++) {
+            $color = $_POST['color' . $i];
+            $qty = $_POST['qty' . $i];
+            $price = $_POST['price' . $i] ?? 0;
+
+            $in = "INSERT INTO sadi_stock(`color`,`qty`,`price`,`sadi_main_id`) VALUES ('$color','$qty','$price','$insertedId')";
+            $res = mysqli_query($conn, $in);
+        }
+
+        header("location:sadi-stock-list.php?id=" . $shop);
+    }
+}
 
 ?>
 
@@ -61,7 +79,7 @@
         <!--  Main wrapper -->
         <div class="body-wrapper">
             <!--  Header Start -->
-            <?php include('header.php');?>
+            <?php include('header.php'); ?>
             <!--  Header End -->
             <div class="container-fluid">
                 <div class="container-fluid">
@@ -71,51 +89,54 @@
                             <div class="card">
                                 <div class="card-body">
                                     <form method="post" enctype="multipart/form-data">
-                                        <div class="mb-3">
+                                        <div class="mb-4">
                                             <label for="cnNumber" class="form-label">CN Number</label>
-                                            <input type="number" class="form-control" id="cnNumber" name="cnNumber"
-                                                <?php if(@$isupdate) {?> value="<?php echo $ress['cn_number'] ?>" <?php } ?>>
+                                            <input type="number" class="form-control" id="cnNumber" name="cnNumber" placeholder="Enter chalan number"
+                                                <?php if (@$isupdate) { ?> value="<?php echo $editRes['cn_number'] ?>" <?php } ?> required>
                                         </div>
 
-                                        <div class="mb-3">
-                                            <label for="image" class="form-label">Upload Image</label>
+                                        <div class="mb-4">
+                                            <?php if($isupdate) { ?>
+                                                <label for="image" class="form-label">Uploaded Image</label>
+                                                <div class="product-img position-relative overflow-hidden" style="width: 170px; height: 120px;">
+                                                    <img src="uploads/<?php echo $editRes['image']; ?>"
+                                                    alt="spike-img" class="w-100" >
+                                                </div>
+                                            <?php } ?>
+                                            <label for="image" class="form-label"><?php echo $isupdate ? 'Update' : 'Upload' ?> Stock Image</label>
                                             <input type="file" class="form-control" id="image" name="image"
-                                                <?php if(@$isupdate) {?> value="<?php echo $ress['image'] ?>"
-                                                <?php } ?>>
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="kapadType" class="form-label">Select Number of Colors</label>
-                                            <select class="form-control" id="kapadType" name="kapadType">
-                                                <?php 
-                          for ($i=1; $i <=10 ; $i++) { 
-                        ?>
-                                                <option value="<?php echo $i; ?>"><?php echo $i; ?></option>
-                                                <?php } ?>
-                                            </select>
+                                                <?php if (@$isupdate) { ?> value="<?php echo $editRes['image'] ?>"
+                                                <?php } ?> <?php echo $isupdate ? '' : 'required' ?>>
                                         </div>
 
+                                        <?php if(!$isupdate) { ?>
+                                            <div class="mb-4">
+                                                <label for="colorNumber" class="form-label">Select Number of Colors to Add</label>
+                                                <select class="form-control" id="colorNumber" name="colorNumber" <?php echo $isupdate ? '' : 'required' ?>>
+                                                    <option value="" selected disabled>Select Color to Add</option>
+                                                    <?php for ($i = 1; $i <= 10; $i++) { ?>
+                                                        <option value="<?php echo $i; ?>">
+                                                            <?php echo $i; ?>
+                                                        </option>
+                                                    <?php } ?>
+                                                </select>
+                                            </div>
 
+                                            <div id="sadityperesult">
 
-                                        <div id="sadityperesult">
+                                            </div>
+                                        <?php } ?>
 
-                                        </div>
-
-
-                                        <div class="mb-3">
-                                            <label for="shop" class="form-label">Shop</label>
-                                            <?php 
-                        $queShop = mysqli_query($conn,"SELECT * FROM dealer");
-                      
-                      ?>
+                                        <div class="mb-4">
+                                            <label for="shop" class="form-label">Select Dealer</label>
+                                            <?php $queShop = mysqli_query($conn, "SELECT * FROM dealer"); ?>
                                             <select class="form-control" id="shop" name="shop">
-                                                <?php 
-                          while ($row = mysqli_fetch_assoc($queShop)) {
-                        ?>
-                                                <option value="<?php echo $row['id'] ?>"><?php echo $row['name'] ?>
-                                                </option>
-                                                <?php 
-                          }
-                        ?>
+                                                <?php while ($row = mysqli_fetch_assoc($queShop)) { ?>
+                                                    <option value="<?php echo $row['id'] ?>"
+                                                    <?php echo $isupdate && $row['id'] == $editRes['shop'] ? 'selected' : '' ?>>
+                                                        <?php echo $row['name'] ?>
+                                                    </option>
+                                                <?php } ?>
                                             </select>
                                         </div>
 
@@ -139,27 +160,27 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
 
     <script>
-    $(document).ready(function() {
+        $(document).ready(function() {
 
-        $('#kapadType').change(function() {
-            var selectedValue = $(this).val();
+            $('#colorNumber').change(function() {
+                var selectedValue = $(this).val();
 
-            // Call AJAX function with selected value as parameter
-            $.ajax({
-                url: 'ajax/sadi-color-ajax.php',
-                type: 'POST',
-                data: {
-                    'type': selectedValue
-                },
-                success: function(response) {
-                    //  alert("hello");
-                    // Handle the response from the PHP script
-                    $('#sadityperesult').html(response);
-                }
+                // Call AJAX function with selected value as parameter
+                $.ajax({
+                    url: 'ajax/sadi-color-ajax.php',
+                    type: 'POST',
+                    data: {
+                        'type': selectedValue
+                    },
+                    success: function(response) {
+                        //  alert("hello");
+                        // Handle the response from the PHP script
+                        $('#sadityperesult').html(response);
+                    }
+                });
             });
-        });
 
-    });
+        });
     </script>
 
 

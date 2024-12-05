@@ -103,7 +103,7 @@
 
                                             <div class="mb-3">
                                                 <label for="usepaper" class="form-label">Paper Qty</label>
-                                                <input type="number" step="0.01" name="usepaper" class="form-control"
+                                                <input type="number" name="usepaper" class="form-control"
                                                     id="usepaper" placeholder="10">
                                             </div>
 
@@ -129,7 +129,7 @@
 
                                             <div class="mb-3">
                                                 <label for="usediomond" class="form-label">Diomond Qty</label>
-                                                <input type="number" step="0.01" name="usediomond" class="form-control"
+                                                <input type="number" name="usediomond" class="form-control"
                                                     id="usediomond" placeholder="2">
                                             </div>
                                             

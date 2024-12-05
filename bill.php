@@ -77,27 +77,28 @@ if (isset($_POST['id'])) {
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Tax Invoice</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tax Invoice</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 
-  <style>
+    <style>
     @font-face {
-      font-family: "algeria";
-      src: url("src/assets/Algeria-mZ9.ttf") format("truetype");
+        font-family: "algeria";
+        src: url("src/assets/Algeria-mZ9.ttf") format("truetype");
     }
 
     .font-algeria {
-      font-family: "algeria";
-      font-size: 30px;
-      font-weight: 500;
+        font-family: "algeria";
+        font-size: 30px;
+        font-weight: 500;
     }
 
     /* ========== style ========= */
     body {
-      padding: 20px;
-      color: #000;
+        padding: 20px;
+        color: #000;
     }
 
     h1,
@@ -107,336 +108,333 @@ if (isset($_POST['id'])) {
     h5,
     h6,
     p {
-      padding: 0;
-      margin: 0;
+        padding: 0;
+        margin: 0;
     }
 
     .containers {
-      border: 1px solid #000;
-      padding: 10px;
-      width: 100%;
-      height: 100%;
-      position: relative;
-      margin: 0 auto;
+        border: 1px solid #000;
+        padding: 10px;
+        width: 100%;
+        height: 100%;
+        position: relative;
+        margin: 0 auto;
     }
 
     .invoice-box {
-      border: 2px solid #000;
-      height: 100%;
+        border: 2px solid #000;
+        height: 100%;
     }
 
     .god-name {
-      display: flex;
-      justify-content: space-between;
-      font-weight: 900;
-      font-size: 13px;
+        display: flex;
+        justify-content: space-between;
+        font-weight: 900;
+        font-size: 13px;
     }
 
     .footer {
-      margin-top: -100px;
-      padding: 0px 20px 40px 0px;
-      height: 100px;
-      font-size: 15px;
-      font-weight: 700;
-      font-style: italic;
-      text-align: right;
+        margin-top: -100px;
+        padding: 0px 20px 40px 0px;
+        height: 100px;
+        font-size: 15px;
+        font-weight: 700;
+        font-style: italic;
+        text-align: right;
     }
 
     .header-border {
-      border-bottom: 2px solid #000;
-      width: 100%;
+        border-bottom: 2px solid #000;
+        width: 100%;
     }
 
     .invoice-title {
-      text-align: center;
-      background-color: #d3ebff;
-      font-size: 18px;
-      font-style: italic;
-      font-weight: 900;
-      padding: 5px;
+        text-align: center;
+        background-color: #d3ebff;
+        font-size: 18px;
+        font-style: italic;
+        font-weight: 900;
+        padding: 5px;
     }
 
     .adress {
-      font-size: 13px;
-      font-weight: 500;
+        font-size: 13px;
+        font-weight: 500;
     }
 
     .party-details {
-      padding: 0px 20px;
-      font-size: 13px;
+        padding: 0px 20px;
+        font-size: 13px;
     }
 
     .table-bordered th,
     .table-bordered td {
-      border: 1px solid #000;
+        border: 1px solid #000;
     }
 
     .warranty-terms {
-      font-size: 13px;
-      margin-top: 20px;
-      margin-left: 40px;
-      margin-bottom: 50px;
-      font-weight: 600;
+        font-size: 13px;
+        margin-top: 20px;
+        margin-left: 40px;
+        margin-bottom: 50px;
+        font-weight: 600;
     }
 
     .total-box {
-      background-color: #e9f5ff;
+        background-color: #e9f5ff;
     }
 
     .underline-input {
-      border: none;
-      border-bottom: 1px solid black;
-      width: 78%;
-      outline: none;
-      font-size: 16px;
+        border: none;
+        border-bottom: 1px solid black;
+        width: 78%;
+        outline: none;
+        font-size: 16px;
     }
 
     /* ========== Watermark =========== */
 
     .watermark {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
     }
 
     .watermark img {
-      opacity: 0.1;
-      width: 400px;
-      z-index: -1;
+        opacity: 0.1;
+        width: 400px;
+        z-index: -1;
     }
-  </style>
+    </style>
 </head>
 
 <body>
-  <div class="containers">
-    <div class="watermark">
-      <img src="src/assets/images/logos/logo.png" alt="" />
-    </div>
-    <div class="invoice-box">
-      <div class="header">
-        <div style="border-bottom: 2px solid #000;" class="invoice-title">TAX INVOICE</div>
-        <div class="god-name">
-          <div style="font-size: smaller;">&nbsp;&nbsp;|| શ્રી ગણેશાય નમઃ ||</div>
-          <div style="font-size: smaller;">|| શ્રી ૧| ||</div>
-          <div style="font-size: smaller;">|| જય કષ્ટભંજનદેવ || &nbsp;&nbsp;</div>
+    <div class="containers">
+        <div class="watermark">
+            <img src="src/assets/images/logos/logo.png" alt="" />
         </div>
-        <div class="god-name">
-          <div>&nbsp;&nbsp;+91 95373 50571</div>
-          <div style="font-size: smaller;">|| આય શ્રી ખોડિયાર કૃપા ||</div>
-          <div>+91 99242 86671&nbsp;&nbsp;</div>
-        </div>
-        <div class="god-name">
-          <div></div>
-          <div style="font-size: smaller;">|| જય કાના બાપા ||</div>
-          <div></div>
-        </div>
-      </div>
-      <div class="header-border"></div>
-      <div class="brand-name">
-        <div class="row px-3 py-2">
-          <div class="col-md-3 col-3">
-            <img
-              src="src/assets/images/logos/logo.png"
-              alt="Logo"
-              style="width: 80px; margin-left: 30px" />
-          </div>
-          <div class="col-md-6 col-6 text-center p-0">
-            <h4 class="m-0" style="font-weight:bold; font-size:30px">AADHYA CREATION</h4>
-            <p class="m-0 adress">
-              50, Radhika Park Society, Opp. Sasvat Nagar, Puna Gam, Surat - 395006
-            </p>
-            <p style="font-weight: 500; font-size: 12px">
-              GSTIN: 24CHRPB9473Q1ZF
-            </p>
-          </div>
-        </div>
-        <div class="header-border"></div>
-      </div>
-      <div class="row px-4 mt-2">
-        <div class="col-md-9 col-9 party-details mb-3">
-          <p><strong>PARTY'S NAME : </strong>M/S <?php echo $shop_detail['owner_name']; ?></p>
-          <p><?php echo $shop_detail['name']; ?></p>
-          <p><?php echo $shop_detail['address']; ?></p>
-          <p>GSTIN: <?php echo $shop_detail['gst_number']; ?></p>
-        </div>
-        <div class="col-md-3 col-3 text-right" style="font-size: 13px">
-          <p class="m-0">
-            <strong>INVOICE NO :</strong> <?php echo $data['invoice_number']; ?> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          </p>
-          <p>
-            <?php
+        <div class="invoice-box">
+            <div class="header">
+                <div style="border-bottom: 2px solid #000;" class="invoice-title">TAX INVOICE</div>
+                <div class="god-name">
+                    <div style="font-size: smaller;">&nbsp;&nbsp;|| શ્રી ગણેશાય નમઃ ||</div>
+                    <div style="font-size: smaller;">|| શ્રી ૧| ||</div>
+                    <div style="font-size: smaller;">|| જય કષ્ટભંજનદેવ || &nbsp;&nbsp;</div>
+                </div>
+                <div class="god-name">
+                    <div>&nbsp;&nbsp;+91 95373 50571</div>
+                    <div style="font-size: smaller;">|| આય શ્રી ખોડિયાર કૃપા ||</div>
+                    <div>+91 99242 86671&nbsp;&nbsp;</div>
+                </div>
+                <div class="god-name">
+                    <div></div>
+                    <div style="font-size: smaller;">|| જય કાના બાપા ||</div>
+                    <div></div>
+                </div>
+            </div>
+            <div class="header-border"></div>
+            <div class="brand-name">
+                <div class="row px-3 py-2">
+                    <div class="col-md-3 col-3">
+                        <img src="src/assets/images/logos/logo.png" alt="Logo" style="width: 80px; margin-left: 30px" />
+                    </div>
+                    <div class="col-md-6 col-6 text-center p-0">
+                        <h4 class="m-0" style="font-weight:bold; font-size:30px">AADHYA CREATION</h4>
+                        <p class="m-0 adress">
+                            50, Radhika Park Society, Opp. Sasvat Nagar, Puna Gam, Surat - 395006
+                        </p>
+                        <p style="font-weight: 500; font-size: 12px">
+                            GSTIN: 24CHRPB9473Q1ZF
+                        </p>
+                    </div>
+                </div>
+                <div class="header-border"></div>
+            </div>
+            <div class="row px-4 mt-2">
+                <div class="col-md-9 col-9 party-details mb-3">
+                    <p><strong>PARTY'S NAME : </strong>M/S <?php echo $shop_detail['owner_name']; ?></p>
+                    <p><?php echo $shop_detail['name']; ?></p>
+                    <p><?php echo $shop_detail['address']; ?></p>
+                    <p>GSTIN: <?php echo $shop_detail['gst_number']; ?></p>
+                </div>
+                <div class="col-md-3 col-3 text-right" style="font-size: 13px">
+                    <p class="m-0">
+                        <strong>INVOICE NO :</strong> <?php echo $data['invoice_number']; ?>
+                    </p>
+                    <p>
+                        <?php
             // convert date fomate to dd/mm/yyyy
             $bill_date_get = $data['bill_date'];
             $bill_date = date('d/m/Y', strtotime($bill_date_get));
             ?>
-            <strong>DATE :</strong> <?php echo $bill_date; ?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          </p>
-        </div>
-      </div>
+                        <strong>DATE :</strong> <?php echo $bill_date; ?>
+                    </p>
+                </div>
+            </div>
 
-      <div>
-        <table class="table table-bordered m-0">
-          <thead>
-            <tr
-              text-align="center"
-              style="border-top: solid; border-bottom: solid; font-size: 15px">
-              <th width="7%" style="border-right: solid">No.</th>
-              <th width="45%" style="border-right: solid">Descriptions</th>
-              <th width="13%" style="border-right: solid">HSN Code</th>
-              <th width="9%" style="border-right: solid">Qty</th>
-              <th width="11%" style="border-right: solid">Rate</th>
-              <th width="15%">Amount</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr height="200px">
-              <td style="text-align:center;">
-                <?php
+            <div>
+                <table class="table table-bordered m-0">
+                    <thead>
+                        <tr text-align="center" style="border-top: solid; border-bottom: solid; font-size: 15px">
+                            <th width="7%" style="border-right: solid">No.</th>
+                            <th width="45%" style="border-right: solid">Descriptions</th>
+                            <th width="13%" style="border-right: solid">HSN Code</th>
+                            <th width="9%" style="border-right: solid">Qty</th>
+                            <th width="11%" style="border-right: solid">Rate</th>
+                            <th width="15%">Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr height="270px">
+                            <td style="text-align:center;">
+                                <?php foreach ($data['sadi_stocks'] as $i => $item) { ?>
+
+                                <?php echo $item['cn_number']; ?><br><?php } ?>
+
+                                <?php
                 $total_gross_amount = 0;
+              
                 foreach ($data['sadi_stocks'] as $i => $item) { ?>
-                  <?php echo $i + 1; ?>
-                  <br>
-                <?php
+
+                                <br>
+                                <?php
                   $total_gross_amount = $total_gross_amount + ($item['use_qty'] * $item['price']);
                 } ?>
-              </td>
-              <td>
-                <?php foreach ($data['sadi_stocks'] as $i => $item) { ?>
+                            </td>
+                            <td>
+                                <?php foreach ($data['sadi_stocks'] as $i => $item) { ?>
 
-                  <?php echo $item['description']; ?> (<?php echo $item['qty']; ?>) <br><?php } ?>
-              </td>
-              <td style="text-align:center;">
-                <?php foreach ($data['sadi_stocks'] as $i => $item) { ?>
+                                <?php echo $item['description']; ?> (<?php echo $item['qty']; ?>) <br><?php } ?>
+                            </td>
+                            <td style="text-align:center;">
 
-                  <?php echo $item['cn_number']; ?><br><?php } ?>
-              </td>
-              <td style="text-align:center;">
-                <?php foreach ($data['sadi_stocks'] as $i => $item) { ?>
+                            </td>
+                            <td style="text-align:center;">
+                                <?php foreach ($data['sadi_stocks'] as $i => $item) { ?>
 
-                <?php echo $item['use_qty'] . "<br>";
+                                <?php echo $item['use_qty'] . "<br>";
                 } ?>
-              </td>
-              <td style="text-align:center;">
-                <?php foreach ($data['sadi_stocks'] as $i => $item) { ?>
+                            </td>
+                            <td style="text-align:center;">
+                                <?php foreach ($data['sadi_stocks'] as $i => $item) { ?>
 
-                <?php echo $item['price'] . "<br>";
+                                <?php echo $item['price'] . "<br>";
                 } ?>
-              </td>
-              <td style="text-align:center;">
-                <?php foreach ($data['sadi_stocks'] as $i => $item) { ?>
+                            </td>
+                            <td style="text-align:center;">
+                                <?php foreach ($data['sadi_stocks'] as $i => $item) { ?>
 
-                  <?php echo $item['use_qty'] * $item['price']; ?><br><?php } ?>
-              </td>
-            </tr>
+                                <?php echo $item['use_qty'] * $item['price']; ?><br><?php } ?>
+                            </td>
+                        </tr>
 
-          </tbody>
-        </table>
-      </div>
-      <div>
-        <table class="table table-bordered m-0 total-table">
-          <tbody>
-            <tr style="font-size: 16px">
-              <td
-                width="65%"
-                rowspan="3"
-                style="padding: 10px 20px; font-size: 14px; font-weight: 700">
-                Bank Name : &nbsp;&nbsp;&nbsp;Kotak Mahindra Bank <br />
-                A/C No. :
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;7545239919
-                <br />
-                IFSC Code : &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;KKBK0000883
-              </td>
-              <td width="20%" style="padding: 1px 6px; font-weight: 500">
-                Total Gross Amount
-              </td>
-              <td width="15%" style="font-weight: 500; text-align:center;"><?php echo number_format($total_gross_amount, 2); ?></td>
-            </tr>
-            <tr style="font-size: 14px">
-              <?php
+                    </tbody>
+                </table>
+            </div>
+            <div>
+                <table class="table table-bordered m-0 total-table">
+                    <tbody>
+                        <tr style="font-size: 16px">
+                            <td width="65%" rowspan="3" style="padding: 10px 20px; font-size: 14px; font-weight: 700">
+                                Bank Name : &nbsp;&nbsp;&nbsp;Kotak Mahindra Bank <br />
+                                A/C No. :
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;7545239919
+                                <br />
+                                IFSC Code : &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;KKBK0000883
+                            </td>
+                            <td width="20%" style="padding: 1px 6px; font-weight: 500">
+                                Total Gross Amount
+                            </td>
+                            <td width="15%" style="font-weight: 500; text-align:center;">
+                                <?php echo number_format($total_gross_amount, 2); ?></td>
+                        </tr>
+                        <tr style="font-size: 14px">
+                            <?php
               $discount_rate = floatval($data['discount']);
               $discount = $total_gross_amount * $discount_rate / 100;
               ?>
-              <td style="padding: 1px 6px; font-weight: 500">
-                Discount: (<?php echo $discount_rate ?>%)
-              </td>
-              <td style="font-weight: 500; text-align:center"><?php echo number_format($discount, 2); ?></td>
-            </tr>
-            <tr style="font-size: 14px">
-              <?php $net_amt_before_tax = $total_gross_amount - $discount; ?>
-              <td style="padding: 1px 6px; font-weight: 500">Net Amount Before Tax</td>
-              <td style="font-weight: 500; text-align:center"><?php echo number_format($net_amt_before_tax, 2); ?></td>
-            </tr>
-            <tr style="font-size: 14px">
-              <td
-                width="705px"
-                rowspan="2"
-                style="font-weight: 500">
-                <div>
-                  <label class="label"></label>
-                  &nbsp;&nbsp;
-                  <label class="label"></label>
-                </div>
-                <div>
-                  <label class="label"></label>
-                  &nbsp;&nbsp;
-                  <label class="label"></label>
-                </div>
-              </td>
-              <?php
+                            <td style="padding: 1px 6px; font-weight: 500">
+                                Discount: (<?php echo $discount_rate ?>%)
+                            </td>
+                            <td style="font-weight: 500; text-align:center"><?php echo number_format($discount, 2); ?>
+                            </td>
+                        </tr>
+                        <tr style="font-size: 14px">
+                            <?php $net_amt_before_tax = $total_gross_amount - $discount; ?>
+                            <td style="padding: 1px 6px; font-weight: 500">Net Amount Before Tax</td>
+                            <td style="font-weight: 500; text-align:center">
+                                <?php echo number_format($net_amt_before_tax, 2); ?></td>
+                        </tr>
+                        <tr style="font-size: 14px">
+                            <td width="705px" rowspan="2" style="font-weight: 500">
+                                <div>
+                                    <label class="label"></label>
+                                    &nbsp;&nbsp;
+                                    <label class="label"></label>
+                                </div>
+                                <div>
+                                    <label class="label"></label>
+                                    &nbsp;&nbsp;
+                                    <label class="label"></label>
+                                </div>
+                            </td>
+                            <?php
               $cgst_rate = floatval($data['cgst']);
               $cgst = $net_amt_before_tax * $cgst_rate / 100;
               ?>
-              <td style="padding: 1px 6px; font-weight: 500">CGST: (<?php echo $cgst_rate ?>%)</td>
-              <td style=" font-weight: 500; text-align:center;"><?php echo number_format($cgst, 2); ?></td>
-            </tr>
-            <tr style="font-size: 14px">
-              <?php
+                            <td style="padding: 1px 6px; font-weight: 500">CGST: (<?php echo $cgst_rate ?>%)</td>
+                            <td style=" font-weight: 500; text-align:center;"><?php echo number_format($cgst, 2); ?>
+                            </td>
+                        </tr>
+                        <tr style="font-size: 14px">
+                            <?php
               $sgst_rate = floatval($data['sgst']);
               $sgst = $net_amt_before_tax * $sgst_rate / 100;
               ?>
-              <td style="padding: 1px 6px; font-weight: 500">SGST: (<?php echo $sgst_rate ?>%)</td>
-              <td style="font-weight: 500; text-align:center;"><?php echo number_format($sgst, 2); ?></td>
-            </tr>
-            <tr style="font-size: 14px">
-              <td width="705px" style="padding: 2px 8px; font-weight: 500">
-                <label class="label"></label>
-              </td>
-              <?php
+                            <td style="padding: 1px 6px; font-weight: 500">SGST: (<?php echo $sgst_rate ?>%)</td>
+                            <td style="font-weight: 500; text-align:center;"><?php echo number_format($sgst, 2); ?></td>
+                        </tr>
+                        <tr style="font-size: 14px">
+                            <td width="705px" style="padding: 2px 8px; font-weight: 500">
+                                <label class="label"></label>
+                            </td>
+                            <?php
               $igst_rate = floatval($data['igst']);
               $igst = $net_amt_before_tax * $igst_rate / 100;
               ?>
-              <td style="padding: 1px 6px; font-weight: 500">IGST: (<?php echo $igst_rate ?>%)</td>
-              <td style="font-weight: 500; text-align:center;"><?php echo number_format($igst, 2); ?></td>
-            </tr>
-            <tr style="font-size: 14px">
-              <td width="705px" style="padding: 2px 8px; font-weight: 500">
-                <label class="label"></label>
-              </td>
-              <td style="padding: 1px 6px; font-weight: 500">Total</td>
-              <?php $net_amount = $net_amt_before_tax + $cgst + $sgst + $igst; ?>
-              <td style="font-weight: 500; text-align:center;"><?php echo number_format($net_amount, 2); ?></td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+                            <td style="padding: 1px 6px; font-weight: 500">IGST: (<?php echo $igst_rate ?>%)</td>
+                            <td style="font-weight: 500; text-align:center;"><?php echo number_format($igst, 2); ?></td>
+                        </tr>
+                        <tr style="font-size: 14px">
+                            <td width="705px" style="padding: 2px 8px; font-weight: 500">
+                                <label class="label"></label>
+                            </td>
+                            <td style="padding: 1px 6px; font-weight: 500">Total</td>
+                            <?php $net_amount = $net_amt_before_tax + $cgst + $sgst + $igst; ?>
+                            <td style="font-weight: 500; text-align:center;"><b
+                                    style="font-size:18px;"><?php echo number_format($net_amount, decimals: 0); ?></b></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
 
-      <div class="warranty-terms">
-        <ol>
-          <li>
-            Intrest 24% per annum will be charged after due date of the bill.
-          </li>
-          <li>Any Complain for the Goods should be made within 7 days.</li>
-          <li>Subject to SURAT Jurisdictions.</li>
-        </ol>
-      </div>
+            <div class="warranty-terms">
+                <ol>
+                    <li>
+                        Intrest 24% per annum will be charged after due date of the bill.
+                    </li>
+                    <li>Any Complain for the Goods should be made within 7 days.</li>
+                    <li>Subject to SURAT Jurisdictions.</li>
+                </ol>
+            </div>
 
-      <div class="footer">
-        <p style="height: 70px">For AADHYA CREATION</p>
-        <p>Authorised Signatory</p>
-      </div>
+            <div class="footer">
+                <p style="height: 70px">For AADHYA CREATION</p>
+                <p>Authorised Signatory</p>
+            </div>
+        </div>
     </div>
-  </div>
 </body>
 
 </html>
