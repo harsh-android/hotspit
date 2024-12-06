@@ -3,6 +3,14 @@ include('conn.php');
 
 session_start();
 unset($_SESSION['bill_data']); // unset old session
+
+if(isset($_REQUEST['id'])) {
+   $id = $_REQUEST['id'];
+   $qu = "UPDATE generate_bill_data SET paid='1' WHERE id='$id'";
+   $rs = mysqli_query($conn,$qu);
+   header("location:view-all-bills.php");
+}
+
 ?>
 
 <!doctype html>
@@ -46,6 +54,7 @@ unset($_SESSION['bill_data']); // unset old session
                                     <th>Shop</th>
                                     <th>Bill Date</th>
                                     <th>Colors</th>
+                                    <th>Paid/Not</th>
                                     <th></th>
                                  </thead>
                                  <tbody>
@@ -55,6 +64,7 @@ unset($_SESSION['bill_data']); // unset old session
                                     $que = "SELECT generate_bill_data.*, dealer.name, dealer.owner_name FROM generate_bill_data INNER JOIN dealer ON dealer.id = generate_bill_data.shop_id";
                                     $res = mysqli_query($conn, $que);
                                     while ($row = mysqli_fetch_assoc($res)) {
+                                       
                                     ?>
                                        <tr class="search-items">
                                           <td>
@@ -79,10 +89,20 @@ unset($_SESSION['bill_data']); // unset old session
                                              </span>
                                           </td>
                                           <td>
-                                             <form method="POST" action="bill.php">
-                                                <input type="hidden" name="id" value="<?php echo $row['id']; ?>">
-                                                <button type="submit" class="btn btn-success btn-sm">View Bill</button>
-                                             </form>
+                                             <p><button disabled class="btn btn-outline-<?php  if($row['paid']==0){ echo "danger";} else {echo "success"; } ?>"> <?php  if($row['paid']==0){ echo "Pending";} else {echo "Paid"; } ?></button></p>
+                                          </td>
+                                          <td>
+                                             <div style="display:flex;">
+                                                <?php 
+                                                   if(@$row['paid'] == 0) {
+                                                ?>
+                                                <a href="view-all-bills.php?id=<?php echo $row['id']; ?>"><i class="ti ti-discount-check fs-7 text-success"></i></a>
+                                                <?php } ?>
+                                                <form class="ms-3" method="POST" action="bill.php">
+                                                   <input type="hidden" name="id" value="<?php echo $row['id']; ?>">
+                                                   <button type="submit" class="btn btn-success btn-sm">View Bill</button>
+                                                </form>
+                                             </div>
                                           </td>
                                        </tr>
 
