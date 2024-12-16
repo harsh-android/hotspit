@@ -4,7 +4,7 @@ session_start();
 
 $bill_id = $_GET['id'];
 
-$bill_res = mysqli_query($conn,"SELECT * FROM generate_bill_data WHERE id='$bill_id'");
+$bill_res = mysqli_query($conn, "SELECT * FROM generate_bill_data WHERE id='$bill_id'");
 $bill_row = mysqli_fetch_assoc($bill_res);
 
 $sql_select_party = "SELECT * FROM dealer";
@@ -48,9 +48,9 @@ if (isset($_POST['submit'])) {
    $discount = $_POST['discount'] ?? 0;
    $bill_date = $_POST['bill_date'];
 
-   $sql_insert_bill_data = "INSERT INTO `generate_bill_data`(`shop_id`, `bill_date`, `color`, `qty`, `cn_number`, `use_qty`, `price`, `discount`, `cgst`, `sgst`, `igst`) VALUES ('$shop_id','$bill_date','$color_str','$qty_str','$cn_number_str','$use_qty_str','$price_str','$discount','$cgst','$sgst','$igst')";
-   $result_bill_data = mysqli_query($conn, $sql_insert_bill_data);
-   $invoice_number = mysqli_insert_id($conn);
+   $sql_update_bill_data = "UPDATE `generate_bill_data` SET `shop_id`='$shop_id',`bill_date`='$bill_date',`color`='$color_str',`qty`='$qty_str',`cn_number`='$cn_number_str',`use_qty`='$use_qty_str',`price`='$price_str',`discount`='$discount',`cgst`='$cgst',`sgst`='$sgst',`igst`='$igst' WHERE `id` = $bill_id";
+   $result_bill_data = mysqli_query($conn, $sql_update_bill_data);
+   $invoice_number = $bill_id;
 
    $data['sadi_stocks'] = $sadi_stocks;
    $data['id'] = $shop_id;
@@ -96,49 +96,71 @@ if (isset($_POST['submit'])) {
                            <div class="mb-4">
                               <label for="select_party" class="form-label">Select Party</label>
                               <select class="form-control" id="select_party" name="select_party" required>
-                                 <option value="" selected disabled>Select number of colors</option>
-                                 <?php while ($row = mysqli_fetch_assoc($result_party)) { ?>
-                                    <option value="<?php echo $row['id']; ?>"><?php echo $row['name']; ?> (<?php echo $row['owner_name']; ?>)</option>
-                                 <?php } ?>
-                              </select>
-                           </div>
-
-                           <div class="mb-4">
-                              <label for="select_number_of_color" class="form-label">Select Number of Colors</label>
-                              <select class="form-control" id="select_number_of_color" name="select_number_of_color" required>
                                  <option value="" selected disabled>Select Party</option>
-                                 <?php for ($i = 1; $i <= 10; $i++) { ?>
-                                    <option value="<?php echo $i; ?>"><?php echo $i; ?></option>
+                                 <?php while ($row = mysqli_fetch_assoc($result_party)) { ?>
+                                    <option value="<?php echo $row['id']; ?>" <?php echo ($bill_row['shop_id'] == $row['id']) ? 'selected' : ''; ?>><?php echo $row['name']; ?> (<?php echo $row['owner_name']; ?>)</option>
                                  <?php } ?>
                               </select>
                            </div>
 
+                           <?php
+                              $color = explode(",|,", $bill_row['color']);
+                              $color_count = count($color);
+
+                              $qty = isset($bill_row['qty']) ? explode(",|,", $bill_row['qty']) : [];
+                              $cn_number = isset($bill_row['cn_number']) ? explode(",|,", $bill_row['cn_number']) : [];
+                              $use_qty = isset($bill_row['use_qty']) ? explode(",|,", $bill_row['use_qty']) : [];
+                              $price = isset($bill_row['price']) ? explode(",|,", $bill_row['price']) : [];
+                           ?>
                            <div class="row mt-3" id="color_cols">
-                              <!-- data from script -->
+                              <?php if (!empty($color)) {
+                                 for ($i = 0; $i < $color_count; $i++) { ?>
+                                    <div class="col-lg-4 mb-4">
+                                       <label for="description_<?php echo $i; ?>" class="form-label"><?php echo ($i + 1); ?>. Description</label>
+                                       <input type="text" name="description[]" class="form-control" id="description_<?php echo $i; ?>" placeholder="Description" value="<?php echo $color[$i] ?? ''; ?>" required>
+                                    </div>
+                                    <div class="col-lg-2 mb-4">
+                                       <label for="qty_<?php echo $i; ?>" class="form-label">Total Qty</label>
+                                       <input type="number" name="qty[]" class="form-control" id="qty_<?php echo $i; ?>" placeholder="Total Qty" value="<?php echo $qty[$i] ?? ''; ?>" required>
+                                    </div>
+                                    <div class="col-lg-2 mb-4">
+                                       <label for="cn_number_<?php echo $i; ?>" class="form-label">Chalan Number</label>
+                                       <input type="text" name="cn_number[]" class="form-control" id="cn_number_<?php echo $i; ?>" placeholder="Chalan Number" value="<?php echo $cn_number[$i] ?? ''; ?>" required>
+                                    </div>
+                                    <div class="col-lg-2 mb-4">
+                                       <label for="use_qty_<?php echo $i; ?>" class="form-label">Used Qty</label>
+                                       <input type="number" name="use_qty[]" class="form-control" id="use_qty_<?php echo $i; ?>" placeholder="Used Qty" value="<?php echo $use_qty[$i] ?? ''; ?>" required>
+                                    </div>
+                                    <div class="col-lg-2 mb-4">
+                                       <label for="price_<?php echo $i; ?>" class="form-label">Rate</label>
+                                       <input type="number" step="0.01" name="price[]" class="form-control" id="price_<?php echo $i; ?>" placeholder="Rate/Price" value="<?php echo $price[$i] ?? ''; ?>" required>
+                                    </div>
+                              <?php }
+                              } ?>
                            </div>
 
                            <div class="col-lg-4 mb-3">
                               <label for="discount" class="form-label">Discount</label>
-                              <input type="number" step="0.01" name="discount" class="form-control" id="discount" placeholder="Enter Discount %">
+                              <input type="number" step="0.01" name="discount" class="form-control" id="discount" placeholder="Enter Discount %" value="<?php echo $bill_row['discount'] ?>">
                            </div>
                            <div class="col-lg-4 mb-3">
                               <label for="igst" class="form-label">IGST</label>
-                              <input type="number" step="0.01" name="igst" class="form-control" id="igst" placeholder="Enter IGST %">
+                              <input type="number" step="0.01" name="igst" class="form-control" id="igst" placeholder="Enter IGST %" value="<?php echo $bill_row['igst'] ?>">
                            </div>
                            <div class="col-lg-4 mb-3">
                               <label for="cgst" class="form-label">CGST</label>
-                              <input type="number" step="0.01" name="cgst" class="form-control" id="cgst" placeholder="Enter CGST %">
+                              <input type="number" step="0.01" name="cgst" class="form-control" id="cgst" placeholder="Enter CGST %" value="<?php echo $bill_row['cgst'] ?>">
                            </div>
                            <div class="col-lg-4 mb-3">
                               <label for="sgst" class="form-label">SGST</label>
-                              <input type="number" step="0.01" name="sgst" class="form-control" id="sgst" placeholder="Enter SGST %">
+                              <input type="number" step="0.01" name="sgst" class="form-control" id="sgst" placeholder="Enter SGST %" value="<?php echo $bill_row['sgst'] ?>">
                            </div>
                            <div class="col-lg-4 mb-3">
-                              <label for="sgst" class="form-label">Bill Date</label>
-                              <input type="date" name="bill_date" class="form-control" id="sgst" >
+                              <label for="bill_date" class="form-label">Bill Date</label>
+                              <input type="date" name="bill_date" class="form-control" id="bill_date" value="<?php echo $bill_row['bill_date'] ?>">
                            </div>
 
-                           <button type="submit" name="submit" class="btn btn-info mt-4">Generate Bill</button>
+                           <button type="submit" name="submit" class="btn btn-info mt-4">Update & Generate Bill</button>
                         </div>
                      </form>
                   </div>
@@ -156,41 +178,6 @@ if (isset($_POST['submit'])) {
    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
-
-   <script>
-      $(document).ready(function() {
-         $(document).on("change", "#select_number_of_color", function() {
-            var selectedValue = $(this).val();
-
-            let response = $("#color_cols");
-            response.empty();
-            for (let i = 1; i <= selectedValue; i++) {
-               response.append(`
-                  <div class="col-lg-4 mb-4">
-                     <label for="description" class="form-label">${i}. Description</label>
-                     <input type="text" name="description[]" class="form-control" id="description" placeholder="Description" required>
-                  </div>
-                  <div class="col-lg-2 mb-4">
-                     <label for="qty" class="form-label">Total Qty</label>
-                     <input type="number" name="qty[]" class="form-control" id="qty" placeholder="Total Qty" required>
-                  </div>
-                  <div class="col-lg-2 mb-4">
-                     <label for="cn_number" class="form-label">Chalan Number</label>
-                     <input type="text" name="cn_number[]" class="form-control" id="cn_number" placeholder="Chalan Number" required>
-                  </div>
-                  <div class="col-lg-2 mb-4">
-                     <label for="use_qty" class="form-label">Used Qty</label>
-                     <input type="number" name="use_qty[]" class="form-control" id="use_qty" placeholder="Used Qty" required>
-                  </div>
-                  <div class="col-lg-2 mb-4">
-                     <label for="price" class="form-label">Rate</label>
-                     <input type="number" step="0.01" name="price[]" class="form-control" id="price" placeholder="Rate/Price" required>
-                  </div>
-               `);
-            }
-         });
-      });
-   </script>
 
 </body>
 

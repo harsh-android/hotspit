@@ -90,7 +90,7 @@ if (isset($_POST['submit'])) {
                            <div class="mb-4">
                               <label for="select_party" class="form-label">Select Party</label>
                               <select class="form-control" id="select_party" name="select_party" required>
-                                 <option value="" selected disabled>Select number of colors</option>
+                                 <option value="" selected disabled>Select Party</option>
                                  <?php while ($row = mysqli_fetch_assoc($result_party)) { ?>
                                     <option value="<?php echo $row['id']; ?>"><?php echo $row['name']; ?> (<?php echo $row['owner_name']; ?>)</option>
                                  <?php } ?>
@@ -100,7 +100,7 @@ if (isset($_POST['submit'])) {
                            <div class="mb-4">
                               <label for="select_number_of_color" class="form-label">Select Number of Colors</label>
                               <select class="form-control" id="select_number_of_color" name="select_number_of_color" required>
-                                 <option value="" selected disabled>Select Party</option>
+                                 <option value="" selected disabled>Select Number of Colors</option>
                                  <?php for ($i = 1; $i <= 10; $i++) { ?>
                                     <option value="<?php echo $i; ?>"><?php echo $i; ?></option>
                                  <?php } ?>
@@ -128,8 +128,8 @@ if (isset($_POST['submit'])) {
                               <input type="number" step="0.01" name="sgst" class="form-control" id="sgst" placeholder="Enter SGST %">
                            </div>
                            <div class="col-lg-4 mb-3">
-                              <label for="sgst" class="form-label">Bill Date</label>
-                              <input type="date" name="bill_date" class="form-control" id="sgst" >
+                              <label for="bill_date" class="form-label">Bill Date</label>
+                              <input type="date" name="bill_date" class="form-control" id="bill_date" >
                            </div>
 
                            <button type="submit" name="submit" class="btn btn-info mt-4">Generate Bill</button>
