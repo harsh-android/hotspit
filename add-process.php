@@ -14,56 +14,58 @@
 
     $type = $_POST['type'];
     
+    $use = $_POST['qty'];
     $price = $_POST['price'];
     $worker = $_POST['worker'];
     $today = date("d-m-Y");  
+    $today = $_POST['date'];
 
-    $selectedStocks = $_SESSION['selected_stocks'];
+    // $selectedStocks = $_SESSION['selected_stocks'];
     
     if($type == "23nidel"){
-      foreach ($selectedStocks as $key => $value) {
-        $stockId = $value["stock_id"];
-        $use = $value["use"];
+      // foreach ($selectedStocks as $key => $value) {
+      //   $stockId = $value["stock_id"];
+      //   $use = $value["use"];
 
-        $getUseQty = "SELECT * FROM `sadi_stock` WHERE `id` = '$stockId'";
-        $getUseQtyResult = $conn->query($getUseQty);
-        $row = $getUseQtyResult->fetch_assoc();
-        $usedQtrIs = (int)$row['use_qty'] + (int)$use;
+      //   $getUseQty = "SELECT * FROM `sadi_stock` WHERE `id` = '$stockId'";
+      //   $getUseQtyResult = $conn->query($getUseQty);
+      //   $row = $getUseQtyResult->fetch_assoc();
+      //   $usedQtrIs = (int)$row['use_qty'] + (int)$use;
 
-        if ($usedQtrIs > (int)$row['qty']){
-          $available_qty = (int)$row['qty'] - (int)$row['use_qty'];
-          $error_message = "Insufficient stock, Please enter correct Use Quantity!";
-          break;
-        }
-      }
+      //   if ($usedQtrIs > (int)$row['qty']){
+      //     $available_qty = (int)$row['qty'] - (int)$row['use_qty'];
+      //     $error_message = "Insufficient stock, Please enter correct Use Quantity!";
+      //     break;
+      //   }
+      // }
 
-      if (empty($error_message)) {
-        foreach ($selectedStocks as $key => $value) {
-          $stockId = $value["stock_id"];
-          $use = $value["use"];
+      // if (empty($error_message)) {
+        // foreach ($selectedStocks as $key => $value) {
+          // $stockId = $value["stock_id"];
+          // $use = $value["use"];
 
-          $getUseQty = "SELECT * FROM `sadi_stock` WHERE `id` = '$stockId'";
-          $getUseQtyResult = $conn->query($getUseQty);
-          $row = $getUseQtyResult->fetch_assoc();
-          $usedQtrIs = (int)$row['use_qty'] + (int)$use;
+          // $getUseQty = "SELECT * FROM `sadi_stock` WHERE `id` = '$stockId'";
+          // $getUseQtyResult = $conn->query($getUseQty);
+          // $row = $getUseQtyResult->fetch_assoc();
+          // $usedQtrIs = (int)$row['use_qty'] + (int)$use;
 
-          $useQue = "UPDATE `sadi_stock` SET `use_qty`= $usedQtrIs WHERE `id`='$stockId'";
-          mysqli_query($conn,$useQue);
-          $in = "INSERT INTO nidel_expence(`sadi_stock_id`,`use_qty`,`price`,`workers_id`,`date`) VALUES ('$stockId','$use','$price','$worker','$today')";
+          // $useQue = "UPDATE `sadi_stock` SET `use_qty`= $usedQtrIs WHERE `id`='$stockId'";
+          // mysqli_query($conn,$useQue);
+          $in = "INSERT INTO nidel_expence(`use_qty`,`price`,`workers_id`,`date`) VALUES ('$use','$price','$worker','$today')";
           $res = mysqli_query($conn,$in);
-        }
+        // }
         header("location: dealer-list.php");
-      }
+      // }
     }
 
     if($type == "lessfiting"){
-      foreach ($selectedStocks as $key => $value) {
-        $stockId = $value["stock_id"];
-        $use = $value["use"];
+      // foreach ($selectedStocks as $key => $value) {
+      //   $stockId = $value["stock_id"];
+      //   $use = $value["use"];
 
-        $in = "INSERT INTO less_fiting(`sadi_stock_id`,`use_qty`,`price`,`workers_id`,`date`) VALUES ('$stockId','$use','$price','$worker','$today')";
+        $in = "INSERT INTO less_fiting(`use_qty`,`price`,`workers_id`,`date`) VALUES ('$use','$price','$worker','$today')";
         $res = mysqli_query($conn,$in);
-      }
+      // }
       header("location:dealer-list.php");
     }
 
@@ -77,36 +79,36 @@
       $borderPrice = $_POST['borderPrice'];
 
 
-      foreach ($selectedStocks as $key => $value) {
-        $stockId = $value["stock_id"];
-        $use = $value["use"];
+      // foreach ($selectedStocks as $key => $value) {
+      //   $stockId = $value["stock_id"];
+      //   $use = $value["use"];
 
-        $in = "INSERT INTO hotfix(`sadi_stock_id`,`use_qty`,`workers_id`,`butta_count`,`butta_price`,`line_count`,`line_price`,`sheet_used`,`sheet_price`,`border_price`,`price`,`date`) VALUES ('$stockId','$use','$worker','$buttaCount','$buttaPrice','$lineCount','$linePrice','$sheetUsed','$sheetPrice','$borderPrice','$price','$today')";
+        $in = "INSERT INTO hotfix(`use_qty`,`workers_id`,`butta_count`,`butta_price`,`line_count`,`line_price`,`sheet_used`,`sheet_price`,`border_price`,`price`,`date`) VALUES ('$use','$worker','$buttaCount','$buttaPrice','$lineCount','$linePrice','$sheetUsed','$sheetPrice','$borderPrice','$price','$today')";
         $res = mysqli_query($conn,$in);
-      }
+      // }
       header("location:dealer-list.php");
     }
 
 
     if($type == "fusing"){
-      foreach ($selectedStocks as $key => $value) {
-        $stockId = $value["stock_id"];
-        $use = $value["use"];
+      // foreach ($selectedStocks as $key => $value) {
+      //   $stockId = $value["stock_id"];
+      //   $use = $value["use"];
 
-        $in = "INSERT INTO fusing_expence(`sadi_stock_id`,`use_qty`,`price`,`workers_id`,`date`) VALUES ('$stockId','$use','$price','$worker','$today')";
+        $in = "INSERT INTO fusing_expence(`use_qty`,`price`,`workers_id`,`date`) VALUES ('$use','$price','$worker','$today')";
         $res = mysqli_query($conn,$in);
-      }
+      // }
       header("location:dealer-list.php");
     }
 
     if($type == "reniyacutting"){
-      foreach ($selectedStocks as $key => $value) {
-        $stockId = $value["stock_id"];
-        $use = $value["use"];
+      // foreach ($selectedStocks as $key => $value) {
+      //   $stockId = $value["stock_id"];
+      //   $use = $value["use"];
 
-        $in = "INSERT INTO reniya_cutting(`sadi_stock_id`,`use_qty`,`price`,`workers_id`,`date`) VALUES ('$stockId','$use','$price','$worker','$today')";
+        $in = "INSERT INTO reniya_cutting(`use_qty`,`price`,`workers_id`,`date`) VALUES ('$use','$price','$worker','$today')";
         $res = mysqli_query($conn,$in);
-      }
+      // }
       header("location:dealer-list.php");
     }
 
@@ -171,6 +173,10 @@
                      
                     </div>
               
+                    <div class="mb-3">
+                      <label for="qty" class="form-label">Quantity</label>
+                      <input type="number" name="qty" class="form-control" id="qty" placeholder="100">
+                    </div>
 
                     <div class="mb-3">
                       <label for="price" class="form-label">Price</label>
@@ -193,6 +199,12 @@
                         ?>
                       </select> 
                     </div>
+
+                    <div class="mb-3">
+                      <label for="date" class="form-label">Date</label>
+                      <input type="date"  name="price" class="form-control" id="date" placeholder="1000">
+                    </div>
+
                     <button type="submit" name="submit" class="btn btn-primary">Submit</button>
                   </form>
                 </div>
