@@ -54,12 +54,19 @@ if (isset($_REQUEST['id'])) {
                                     <div class="table-responsive">
                                         <table id="example" class="table search-table align-middle text-nowrap">
                                             <thead class="header-item">
-                                                <th>Invoice No</th>
-                                                <th>Shop</th>
-                                                <th>Bill Date</th>
-                                                <th>Colors</th>
-                                                <th>Paid/Not</th>
-                                                <th></th>
+                                                <th class="text-wrap text-center">Invoice No</th>
+                                                <th class="text-wrap text-center">Shop</th>
+                                                <th class="text-wrap text-center">Bill Date</th>
+                                                <th class="text-wrap text-center">Colors</th>
+                                                <th class="text-wrap text-center">Gross Amount</th>
+                                                <th class="text-wrap text-center">Discount</th>
+                                                <th class="text-wrap text-center">Net Amount Before Tax</th>
+                                                <th class="text-wrap text-center">CGST</th>
+                                                <th class="text-wrap text-center">SGST</th>
+                                                <th class="text-wrap text-center">IGST</th>
+                                                <th class="text-wrap text-center">Total</th>
+                                                <th class="text-wrap text-center">Paid/Not</th>
+                                                <th class="text-wrap text-center">Action</th>
                                             </thead>
                                             <tbody>
 
@@ -71,14 +78,14 @@ if (isset($_REQUEST['id'])) {
 
                                                 ?>
                                                     <tr class="search-items">
-                                                        <td>
+                                                        <td class="text-center">
                                                             <span class="usr-name"><?php echo $row['id']; ?></span>
                                                         </td>
-                                                        <td>
+                                                        <td class="text-center">
                                                             <span class="usr-name"><?php echo $row['name']; ?>
                                                                 (<?php echo $row['owner_name']; ?>)</span>
                                                         </td>
-                                                        <td>
+                                                        <td class="text-center">
                                                             <span class="usr-name">
                                                                 <?php
                                                                 $bill_date_get = $row['bill_date'];
@@ -86,14 +93,68 @@ if (isset($_REQUEST['id'])) {
                                                                 echo $bill_date; ?>
                                                             </span>
                                                         </td>
-                                                        <td>
+                                                        <td class="text-center">
                                                             <span class="usr-name">
                                                                 <?php
                                                                 $colors = str_replace(',|,', ', ', $row['color']);
                                                                 echo $colors; ?>
                                                             </span>
                                                         </td>
-                                                        <td>
+
+                                                        <!-- gross amount -->
+                                                        <?php
+                                                        $use_qty = explode(',|,', $row['use_qty']);
+                                                        $price = explode(',|,', $row['price']);
+                                                        $gross_amt = 0;
+                                                        for ($i = 0; $i < count($use_qty); $i++) {
+                                                            $total_price = $use_qty[$i] * $price[$i];
+                                                            $gross_amt = $gross_amt + $total_price;
+                                                        }
+                                                        ?>
+                                                        <td style="background-color: #e8daef;"><?php echo number_format($gross_amt, 2); ?></td>
+
+                                                        <!-- discount -->
+                                                        <?php
+                                                        $discount_rate = floatval($row['discount']);
+                                                        $discount = $gross_amt * $discount_rate / 100;
+                                                        ?>
+                                                        <td style="background-color: #fdebd0;"><?php echo number_format($discount, 2); ?></td>
+
+                                                        <!-- net amt before tax -->
+                                                        <?php
+                                                        $net_amt_before_tax = $gross_amt - $discount;
+                                                        ?>
+                                                        <td style="background-color: #d6eaf8;"><?php echo number_format($net_amt_before_tax, 2); ?></td>
+
+                                                        <!-- cgst -->
+                                                        <?php
+                                                        $cgst_rate = floatval($row['cgst']);
+                                                        $cgst = $net_amt_before_tax * $cgst_rate / 100;
+                                                        ?>
+                                                        <td style="background-color: #f6ddcc;"><?php echo number_format($cgst, 2); ?></td>
+
+                                                        <!-- sgst -->
+                                                        <?php
+                                                        $sgst_rate = floatval($row['sgst']);
+                                                        $sgst = $net_amt_before_tax * $sgst_rate / 100;
+                                                        ?>
+                                                        <td style="background-color: #f6ddcc;"><?php echo number_format($sgst, 2); ?></td>
+
+                                                        <!-- igst -->
+                                                        <?php
+                                                        $igst_rate = floatval($row['igst']);
+                                                        $igst = $net_amt_before_tax * $igst_rate / 100;
+                                                        ?>
+                                                        <td style="background-color: #f6ddcc;"><?php echo number_format($igst, 2); ?></td>
+
+                                                        <!-- total -->
+                                                        <?php
+                                                        $net_amount = $net_amt_before_tax + $cgst + $sgst + $igst;
+                                                        ?>
+                                                        <td style="background-color: #d5f5e3;"><?php echo number_format($net_amount, decimals: 0); ?></td>
+
+
+                                                        <td class="text-center">
                                                             <p><button disabled
                                                                     class="btn btn-outline-<?php if ($row['paid'] == 0) {
                                                                                                 echo "danger";
@@ -107,7 +168,7 @@ if (isset($_REQUEST['id'])) {
                                                                     } ?></button>
                                                             </p>
                                                         </td>
-                                                        <td>
+                                                        <td class="text-center">
                                                             <div style="display:flex;">
                                                                 <?php
                                                                 if (@$row['paid'] == 0) {
