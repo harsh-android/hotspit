@@ -4,6 +4,8 @@
 
 include('conn.php');
 $worker_id = $_GET['id'];
+$month = $_GET['month'] ?? date('m');
+$year = $_GET['year'] ?? date('Y');
 
 // Query to get price and total across all tables for a specific worker
 $query = "
@@ -18,19 +20,19 @@ $query = "
     SELECT 'sheet_work' AS sheet_work, price,return_complete_sheet FROM sheet_work WHERE workers_id = $worker_id
 ";
 
-$rrr = mysqli_query($conn,$query);
+$rrr = mysqli_query($conn, $query);
 
 $total = 0;
-while($roww = mysqli_fetch_assoc($rrr)) {
-    $total += $roww['price']*$roww['return_qty'];
+while ($roww = mysqli_fetch_assoc($rrr)) {
+    $total += $roww['price'] * $roww['return_qty'];
 }
 
 
 
 $qq = "SELECT * FROM hotfix WHERE workers_id=$worker_id";
-$rr = mysqli_query($conn,$qq);
-while($roo = mysqli_fetch_assoc($rr)) {
-    $total += ($roo['butta_count']*$roo['butta_price']) + ($roo['line_count']*$roo['line_price']) + $roo['border_price'];
+$rr = mysqli_query($conn, $qq);
+while ($roo = mysqli_fetch_assoc($rr)) {
+    $total += ($roo['butta_count'] * $roo['butta_price']) + ($roo['line_count'] * $roo['line_price']) + $roo['border_price'];
 }
 
 // Output results
@@ -340,6 +342,30 @@ if (isset($_POST["salarySubmit"])) {
                                 </li>
                             </ul>
 
+                            <div class="d-flex gap-3 align-items-center my-4" style="background-color: white; max-width: 350px;">
+                                <select class="form-control" id="month" name="month" style="border: 1px solid  #89E4DE;">
+                                    <option value="1">January</option>
+                                    <option value="2">February</option>
+                                    <option value="3">March</option>
+                                    <option value="4">April</option>
+                                    <option value="5">May</option>
+                                    <option value="6">June</option>
+                                    <option value="7">July</option>
+                                    <option value="8">August</option>
+                                    <option value="9">September</option>
+                                    <option value="10">October</option>
+                                    <option value="11">November</option>
+                                    <option value="12">December</option>
+                                </select>
+                                <select class="form-control" id="year" name="year" style="border: 1px solid  #89E4DE;">
+                                    <option value="2024">2024</option>
+                                    <option value="2025">2025</option>
+                                    <option value="2026">2026</option>
+                                    <option value="2027">2027</option>
+                                    <option value="2028">2028</option>
+                                </select>
+                            </div>
+
                             <div class="card mt-4">
                                 <div class="card-body">
                                     <div class="tab-content" id="myTabContent">
@@ -367,7 +393,10 @@ if (isset($_POST["salarySubmit"])) {
                                                     </thead>
                                                     <tbody class="border-top">
                                                         <?php
-                                                        $que = "SELECT * FROM nidel_expence WHERE workers_id='$worker_id'";
+                                                        $que = "SELECT * FROM nidel_expence 
+                                                                WHERE workers_id='$worker_id'
+                                                                AND DATE_FORMAT(STR_TO_DATE(date, '%d-%m-%Y'), '%m') = '$month' 
+                                                                AND DATE_FORMAT(STR_TO_DATE(date, '%d-%m-%Y'), '%Y') = '$year'";
                                                         $res = mysqli_query($conn, $que);
                                                         while ($row = mysqli_fetch_assoc($res)) {
                                                         ?>
@@ -461,7 +490,10 @@ if (isset($_POST["salarySubmit"])) {
 
                                                         <?php
 
-                                                        $que = "SELECT * FROM less_fiting WHERE workers_id='$worker_id'";
+                                                        $que = "SELECT * FROM less_fiting 
+                                                                WHERE workers_id='$worker_id'
+                                                                AND DATE_FORMAT(STR_TO_DATE(date, '%d-%m-%Y'), '%m') = '$month' 
+                                                                AND DATE_FORMAT(STR_TO_DATE(date, '%d-%m-%Y'), '%Y') = '$year'";
                                                         $res = mysqli_query($conn, $que);
                                                         while ($row = mysqli_fetch_assoc($res)) {
 
@@ -563,7 +595,10 @@ if (isset($_POST["salarySubmit"])) {
                                                     <tbody class="border-top">
                                                         <?php
 
-                                                        $que = "SELECT * FROM `hotfix` WHERE workers_id='$worker_id'";
+                                                        $que = "SELECT * FROM `hotfix` 
+                                                                WHERE workers_id='$worker_id'
+                                                                AND DATE_FORMAT(STR_TO_DATE(date, '%d-%m-%Y'), '%m') = '$month' 
+                                                                AND DATE_FORMAT(STR_TO_DATE(date, '%d-%m-%Y'), '%Y') = '$year'";
                                                         $res = mysqli_query($conn, $que);
                                                         while ($row = mysqli_fetch_assoc($res)) {
 
@@ -690,7 +725,10 @@ if (isset($_POST["salarySubmit"])) {
                                                     <tbody class="border-top">
                                                         <?php
 
-                                                        $que = "SELECT * FROM fusing_expence WHERE workers_id='$worker_id'";
+                                                        $que = "SELECT * FROM fusing_expence 
+                                                                WHERE workers_id='$worker_id'
+                                                                AND DATE_FORMAT(STR_TO_DATE(date, '%d-%m-%Y'), '%m') = '$month' 
+                                                                AND DATE_FORMAT(STR_TO_DATE(date, '%d-%m-%Y'), '%Y') = '$year'";
                                                         $res = mysqli_query($conn, $que);
                                                         while ($row = mysqli_fetch_assoc($res)) {
 
@@ -783,7 +821,10 @@ if (isset($_POST["salarySubmit"])) {
                                                     <tbody class="border-top">
                                                         <?php
 
-                                                        $que = "SELECT * FROM reniya_cutting WHERE workers_id='$worker_id'";
+                                                        $que = "SELECT * FROM reniya_cutting 
+                                                                WHERE workers_id='$worker_id'
+                                                                AND DATE_FORMAT(STR_TO_DATE(date, '%d-%m-%Y'), '%m') = '$month' 
+                                                                AND DATE_FORMAT(STR_TO_DATE(date, '%d-%m-%Y'), '%Y') = '$year'";
                                                         $res = mysqli_query($conn, $que);
                                                         while ($row = mysqli_fetch_assoc($res)) {
 
@@ -876,7 +917,10 @@ if (isset($_POST["salarySubmit"])) {
                                                     <tbody class="border-top">
                                                         <?php
 
-                                                        $que = "SELECT * FROM sheet_work WHERE workers_id='$worker_id'";
+                                                        $que = "SELECT * FROM sheet_work 
+                                                                WHERE workers_id='$worker_id'
+                                                                AND DATE_FORMAT(STR_TO_DATE(date, '%d-%m-%Y'), '%m') = '$month' 
+                                                                AND DATE_FORMAT(STR_TO_DATE(date, '%d-%m-%Y'), '%Y') = '$year'";
                                                         $res = mysqli_query($conn, $que);
                                                         while ($row = mysqli_fetch_assoc($res)) {
 
@@ -971,7 +1015,10 @@ if (isset($_POST["salarySubmit"])) {
                                                     <tbody class="border-top">
                                                         <?php
 
-                                                        $que = "SELECT * FROM kapad_cutting WHERE workers_id='$worker_id'";
+                                                        $que = "SELECT * FROM kapad_cutting 
+                                                                WHERE workers_id='$worker_id'
+                                                                AND DATE_FORMAT(STR_TO_DATE(date, '%d-%m-%Y'), '%m') = '$month' 
+                                                                AND DATE_FORMAT(STR_TO_DATE(date, '%d-%m-%Y'), '%Y') = '$year'";
                                                         $res = mysqli_query($conn, $que);
                                                         while ($row = mysqli_fetch_assoc($res)) {
 
@@ -1046,7 +1093,10 @@ if (isset($_POST["salarySubmit"])) {
                                                     <tbody class="border-top">
                                                         <?php
 
-                                                        $que = "SELECT * FROM banking WHERE workers_id='$worker_id'";
+                                                        $que = "SELECT * FROM banking 
+                                                                WHERE workers_id='$worker_id'
+                                                                AND DATE_FORMAT(STR_TO_DATE(date, '%d-%m-%Y'), '%m') = '$month' 
+                                                                AND DATE_FORMAT(STR_TO_DATE(date, '%d-%m-%Y'), '%Y') = '$year'";
                                                         $res = mysqli_query($conn, $que);
                                                         while ($row = mysqli_fetch_assoc($res)) {
                                                         ?>
@@ -1062,7 +1112,7 @@ if (isset($_POST["salarySubmit"])) {
                                                                 </td>
                                                                 <td>
                                                                     <p class="fw-normal mb-0 fs-3 text-dark">
-                                                                        <?php echo $row['cheque_no'] ?? '-' ; ?>
+                                                                        <?php echo $row['cheque_no'] ?? '-'; ?>
                                                                     </p>
                                                                 </td>
                                                                 <td>
@@ -1250,6 +1300,27 @@ if (isset($_POST["salarySubmit"])) {
     <script>
         $(document).ready(function() {
 
+            const currentMonth = <?php echo $month; ?>; // Months are zero-indexed
+            const currentYear = <?php echo $year; ?>;
+
+            $('#month').val(currentMonth);
+            $('#year').val(currentYear);
+
+            // Event listener to handle dropdown change
+            $(document).on('change', '#month, #year', function() {
+                const selectedMonth = $('#month').val();
+                const selectedYear = $('#year').val();
+                toggleMonthYearWiseData(selectedMonth, selectedYear);
+            });
+
+            // Function to reload the page with updated query parameters
+            function toggleMonthYearWiseData(month, year) {
+                const url = new URL(window.location.href);
+                url.searchParams.set('month', month);
+                url.searchParams.set('year', year);
+                window.location.href = url.toString();
+            }
+
             $(document).on('change', '.select-stock', function() {
                 const tabPane = $(this).closest('.tab-pane');
                 const submitButton = tabPane.find('.qty-submit-button');
@@ -1420,6 +1491,7 @@ if (isset($_POST["salarySubmit"])) {
         $(document).on("change", ".mode-type", function() {
             addDynamicField();
         });
+
         function addDynamicField() {
             const selectedType = $('.mode-type').val();
 
