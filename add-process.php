@@ -18,8 +18,6 @@
     $price = $_POST['price'];
     $worker = $_POST['worker'];
     $today = (isset($_POST['date']) && $_POST['date'] != '') ? $_POST['date'] : date("d-m-Y");
-    print_r($today);
-    exit;
     // $selectedStocks = $_SESSION['selected_stocks'];
     
     if($type == "23nidel"){
