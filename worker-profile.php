@@ -285,6 +285,39 @@ if (isset($_POST["salarySubmit"])) {
                         </div>
 
                         <div class="col-lg-12">
+                            <div class="d-flex gap-2 align-items-center mt-2 mb-4" style="background-color: white; max-width: 430px;">
+                                <select class="form-control" id="month" name="month" style="border: 1px solid  #89E4DE;">
+                                    <option value="1">January</option>
+                                    <option value="2">February</option>
+                                    <option value="3">March</option>
+                                    <option value="4">April</option>
+                                    <option value="5">May</option>
+                                    <option value="6">June</option>
+                                    <option value="7">July</option>
+                                    <option value="8">August</option>
+                                    <option value="9">September</option>
+                                    <option value="10">October</option>
+                                    <option value="11">November</option>
+                                    <option value="12">December</option>
+                                </select>
+                                <select class="form-control" id="year" name="year" style="border: 1px solid  #89E4DE;">
+                                    <option value="2024">2024</option>
+                                    <option value="2025">2025</option>
+                                    <option value="2026">2026</option>
+                                    <option value="2027">2027</option>
+                                    <option value="2028">2028</option>
+                                    <option value="2029">2029</option>
+                                    <option value="2030">2030</option>
+                                    <option value="2031">2031</option>
+                                    <option value="2032">2032</option>
+                                    <option value="2033">2033</option>
+                                    <option value="2034">2034</option>
+                                </select>
+                                <button class="btn btn-success btn-sm" id="monthYearSearch" style="padding: 9px 17px; font-size: 13px;">
+                                    Search
+                                </button>
+                            </div>
+
                             <ul class="nav nav-tabs" id="myTab" role="tablist">
                                 <li class="nav-item me-2" role="presentation">
                                     <button class="nav-link active" id="home-tab" data-bs-toggle="tab"
@@ -342,29 +375,7 @@ if (isset($_POST["salarySubmit"])) {
                                 </li>
                             </ul>
 
-                            <div class="d-flex gap-3 align-items-center my-4" style="background-color: white; max-width: 350px;">
-                                <select class="form-control" id="month" name="month" style="border: 1px solid  #89E4DE;">
-                                    <option value="1">January</option>
-                                    <option value="2">February</option>
-                                    <option value="3">March</option>
-                                    <option value="4">April</option>
-                                    <option value="5">May</option>
-                                    <option value="6">June</option>
-                                    <option value="7">July</option>
-                                    <option value="8">August</option>
-                                    <option value="9">September</option>
-                                    <option value="10">October</option>
-                                    <option value="11">November</option>
-                                    <option value="12">December</option>
-                                </select>
-                                <select class="form-control" id="year" name="year" style="border: 1px solid  #89E4DE;">
-                                    <option value="2024">2024</option>
-                                    <option value="2025">2025</option>
-                                    <option value="2026">2026</option>
-                                    <option value="2027">2027</option>
-                                    <option value="2028">2028</option>
-                                </select>
-                            </div>
+
 
                             <div class="card mt-4">
                                 <div class="card-body">
@@ -376,17 +387,17 @@ if (isset($_POST["salarySubmit"])) {
                                                 <h4 class="card-title mb-0">23 Nidel</h4>
                                             </div>
                                             <div class="table-responsive overflow-x-auto">
-                                                <button class="btn btn-success ms-2 qty-submit-button" type="submit" style="pointer-events: none; opacity: 0.5;">
+                                                <!-- <button class="btn btn-success ms-2 qty-submit-button" type="submit" style="pointer-events: none; opacity: 0.5;">
                                                     Return Checked Nidel Stock
-                                                </button>
+                                                </button> -->
                                                 <table class="table align-middle text-nowrap">
                                                     <thead>
                                                         <tr>
-                                                            <th scope="col">Check</th>
+                                                            <!-- <th scope="col">Check</th> -->
                                                             <th scope="col">Date</th>
                                                             <th scope="col">Quantity</th>
-                                                            <th scope="col">Return</th>
-                                                            <th scope="col">Second Peice</th>
+                                                            <!-- <th scope="col">Return</th> -->
+                                                            <!-- <th scope="col">Second Peice</th> -->
                                                             <th scope="col">Salary</th>
                                                             <th scope="col">Action</th>
                                                         </tr>
@@ -401,7 +412,7 @@ if (isset($_POST["salarySubmit"])) {
                                                         while ($row = mysqli_fetch_assoc($res)) {
                                                         ?>
                                                             <tr>
-                                                                <td>
+                                                                <!-- <td>
                                                                     <?php if ($row['use_qty'] > $row['return_qty'] + $row['second_qty']) {
 
                                                                     ?>
@@ -412,7 +423,7 @@ if (isset($_POST["salarySubmit"])) {
                                                                             data-qty="<?php echo $row['use_qty'] ?>"
                                                                             data-second="<?php echo $row['second_qty'] ?>">
                                                                     <?php } ?>
-                                                                </td>
+                                                                </td> -->
                                                                 <td>
                                                                     <p class="fw-bold text-info mb-0">
                                                                         <?php echo $row['date']; ?></p>
@@ -422,25 +433,25 @@ if (isset($_POST["salarySubmit"])) {
                                                                         <?php echo $row['use_qty']; ?>
                                                                     </p>
                                                                 </td>
-                                                                <td>
+                                                                <!-- <td>
                                                                     <p class="text-dark mb-0 fw-normal">
                                                                         <?php echo $row['return_qty']; ?>
                                                                     </p>
-                                                                </td>
-                                                                <td>
+                                                                </td> -->
+                                                                <!-- <td>
                                                                     <p class="text-dark mb-0 fw-normal">
                                                                         <?php echo $row['second_qty']; ?>
                                                                     </p>
-                                                                </td>
+                                                                </td> -->
 
                                                                 <td>
                                                                     <p class="fw-bold text-success mb-0">
-                                                                        <?php echo $row['price'] * $row['return_qty'] . " (" . $row['price'] . ")"; ?>
+                                                                        <?php echo $row['price'] * $row['use_qty'] . " (" . $row['price'] . ")"; ?>
                                                                     </p>
                                                                 </td>
 
                                                                 <td>
-                                                                    <a class="text-primary edit open-actiona-model"
+                                                                    <!-- <a class="text-primary edit open-actiona-model"
                                                                         id="<?php echo $row['id']; ?>"
                                                                         data-action-name="nidel-action"
                                                                         data-title="23 Nidel"
@@ -450,7 +461,7 @@ if (isset($_POST["salarySubmit"])) {
                                                                     </a>
                                                                     <a href="edit-nidel-expenses.php?id=<?php echo $row['id']; ?>" class="text-primary">
                                                                         <i class="ti ti-edit fs-5"></i>
-                                                                    </a>
+                                                                    </a> -->
                                                                     <a class="text-danger delete-single-expense"
                                                                         id="<?php echo $row['id']; ?>"
                                                                         data-action-name="nidel-action">
@@ -469,18 +480,18 @@ if (isset($_POST["salarySubmit"])) {
                                             <div class="mb-4 border-bottom pb-3">
                                                 <h4 class="card-title mb-0">Less Fiting</h4>
                                             </div>
-                                            <button class="btn btn-success ms-2 qty-submit-button" type="submit" style="pointer-events: none; opacity: 0.5;">
+                                            <!-- <button class="btn btn-success ms-2 qty-submit-button" type="submit" style="pointer-events: none; opacity: 0.5;">
                                                 Return Checked Less Fiting Stock
-                                            </button>
+                                            </button> -->
                                             <div class="table-responsive overflow-x-auto">
                                                 <table class="table align-middle text-nowrap">
                                                     <thead>
                                                         <tr>
-                                                            <th scope="col">Check</th>
+                                                            <!-- <th scope="col">Check</th> -->
                                                             <th scope="col">Date</th>
                                                             <th scope="col">Quantity</th>
-                                                            <th scope="col">Return</th>
-                                                            <th scope="col">Second Peice</th>
+                                                            <!-- <th scope="col">Return</th> -->
+                                                            <!-- <th scope="col">Second Peice</th> -->
                                                             <th scope="col">Salary</th>
                                                             <th scope="col">Action</th>
 
@@ -499,7 +510,7 @@ if (isset($_POST["salarySubmit"])) {
 
                                                         ?>
                                                             <tr>
-                                                                <td>
+                                                                <!-- <td>
                                                                     <?php if ($row['use_qty'] > $row['return_qty'] + $row['second_qty']) {
 
                                                                     ?>
@@ -510,7 +521,7 @@ if (isset($_POST["salarySubmit"])) {
                                                                             data-qty="<?php echo $row['use_qty'] ?>"
                                                                             data-second="<?php echo $row['second_qty'] ?>">
                                                                     <?php } ?>
-                                                                </td>
+                                                                </td> -->
                                                                 <td>
                                                                     <p class="fw-bold text-info mb-0">
                                                                         <?php echo $row['date']; ?></p>
@@ -520,25 +531,25 @@ if (isset($_POST["salarySubmit"])) {
                                                                         <?php echo $row['use_qty']; ?>
                                                                     </p>
                                                                 </td>
-                                                                <td>
+                                                                <!-- <td>
                                                                     <p class="text-dark mb-0 fw-normal">
                                                                         <?php echo $row['return_qty']; ?>
                                                                     </p>
-                                                                </td>
-                                                                <td>
+                                                                </td> -->
+                                                                <!-- <td>
                                                                     <p class="text-dark mb-0 fw-normal">
                                                                         <?php echo $row['second_qty']; ?>
                                                                     </p>
-                                                                </td>
+                                                                </td> -->
 
                                                                 <td>
                                                                     <p class="fw-bold text-success mb-0">
-                                                                        <?php echo $row['price'] * $row['return_qty'] . " (" . $row['price'] . ")"; ?>
+                                                                        <?php echo $row['price'] * $row['use_qty'] . " (" . $row['price'] . ")"; ?>
                                                                     </p>
                                                                 </td>
 
                                                                 <td>
-                                                                    <a class="text-primary edit open-actiona-model"
+                                                                    <!-- <a class="text-primary edit open-actiona-model"
                                                                         id="<?php echo $row['id']; ?>"
                                                                         data-action-name="less-fiting-action"
                                                                         data-title="Less Fiting"
@@ -548,7 +559,7 @@ if (isset($_POST["salarySubmit"])) {
                                                                     </a>
                                                                     <a href="edit-less-fiting-expenses.php?id=<?php echo $row['id']; ?>" class="text-primary">
                                                                         <i class="ti ti-edit fs-5"></i>
-                                                                    </a>
+                                                                    </a> -->
                                                                     <a class="text-danger delete-single-expense"
                                                                         id="<?php echo $row['id']; ?>"
                                                                         data-action-name="less-fiting-action">
@@ -568,18 +579,18 @@ if (isset($_POST["salarySubmit"])) {
                                             <div class="mb-4 border-bottom pb-3">
                                                 <h4 class="card-title mb-0">Hotfix</h4>
                                             </div>
-                                            <button class="btn btn-success ms-2 qty-submit-button" type="submit" style="pointer-events: none; opacity: 0.5;">
+                                            <!-- <button class="btn btn-success ms-2 qty-submit-button" type="submit" style="pointer-events: none; opacity: 0.5;">
                                                 Return Checked Hotfix Stock
-                                            </button>
+                                            </button> -->
                                             <div class="table-responsive overflow-x-auto">
                                                 <table class="table align-middle text-nowrap">
                                                     <thead>
                                                         <tr>
-                                                            <th scope="col">Check</th>
+                                                            <!-- <th scope="col">Check</th> -->
                                                             <th scope="col">Date</th>
                                                             <th scope="col">Quantity</th>
-                                                            <th scope="col">Return</th>
-                                                            <th scope="col">Second Peice</th>
+                                                            <!-- <th scope="col">Return</th> -->
+                                                            <!-- <th scope="col">Second Peice</th> -->
                                                             <th scope="col">Butta Count</th>
                                                             <th scope="col">Butta Price</th>
                                                             <th scope="col">Line Count</th>
@@ -604,7 +615,7 @@ if (isset($_POST["salarySubmit"])) {
 
                                                         ?>
                                                             <tr>
-                                                                <td>
+                                                                <!-- <td>
                                                                     <?php if ($row['use_qty'] > $row['return_qty'] + $row['second_qty']) {
 
                                                                     ?>
@@ -615,7 +626,7 @@ if (isset($_POST["salarySubmit"])) {
                                                                             data-qty="<?php echo $row['use_qty'] ?>"
                                                                             data-second="<?php echo $row['second_qty'] ?>">
                                                                     <?php } ?>
-                                                                </td>
+                                                                </td> -->
                                                                 <td>
                                                                     <p class="fw-bold text-info mb-0">
                                                                         <?php echo $row['date']; ?></p>
@@ -625,7 +636,7 @@ if (isset($_POST["salarySubmit"])) {
                                                                         <?php echo $row['use_qty']; ?>
                                                                     </p>
                                                                 </td>
-                                                                <td>
+                                                                <!-- <td>
                                                                     <p class="text-dark mb-0 fw-normal">
                                                                         <?php echo $row['return_qty']; ?>
                                                                     </p>
@@ -634,7 +645,7 @@ if (isset($_POST["salarySubmit"])) {
                                                                     <p class="text-dark mb-0 fw-normal">
                                                                         <?php echo $row['second_qty']; ?>
                                                                     </p>
-                                                                </td>
+                                                                </td> -->
                                                                 <td>
                                                                     <p class="text-dark mb-0 fw-normal">
                                                                         <?php echo $row['butta_count']; ?>
@@ -672,12 +683,12 @@ if (isset($_POST["salarySubmit"])) {
                                                                 </td>
                                                                 <td>
                                                                     <p class="fw-bold text-success mb-0">
-                                                                        <?php echo $row['price'] * $row['return_qty'] . " (" . $row['price'] . ")"; ?>
+                                                                        <?php echo $row['price'] * $row['use_qty'] . " (" . $row['price'] . ")"; ?>
                                                                     </p>
                                                                 </td>
 
                                                                 <td>
-                                                                    <a class="text-primary edit open-actiona-model"
+                                                                    <!-- <a class="text-primary edit open-actiona-model"
                                                                         id="<?php echo $row['id']; ?>"
                                                                         data-action-name="hotfix-action" data-title="Hotfix"
                                                                         data-return="<?php echo $row['return_qty']; ?>"
@@ -686,7 +697,7 @@ if (isset($_POST["salarySubmit"])) {
                                                                     </a>
                                                                     <a href="edit-hotfix-expenses.php?id=<?php echo $row['id']; ?>" class="text-primary">
                                                                         <i class="ti ti-edit fs-5"></i>
-                                                                    </a>
+                                                                    </a> -->
                                                                     <a class="text-danger delete-single-expense"
                                                                         id="<?php echo $row['id']; ?>"
                                                                         data-action-name="hotfix-action">
@@ -706,18 +717,18 @@ if (isset($_POST["salarySubmit"])) {
                                             <div class="mb-4 border-bottom pb-3">
                                                 <h4 class="card-title mb-0">Fusing</h4>
                                             </div>
-                                            <button class="btn btn-success ms-2 qty-submit-button" type="submit" style="pointer-events: none; opacity: 0.5;">
+                                            <!-- <button class="btn btn-success ms-2 qty-submit-button" type="submit" style="pointer-events: none; opacity: 0.5;">
                                                 Return Checked Fusing Stock
-                                            </button>
+                                            </button> -->
                                             <div class="table-responsive overflow-x-auto">
                                                 <table class="table align-middle text-nowrap">
                                                     <thead>
                                                         <tr>
-                                                            <th scope="col">Check</th>
+                                                            <!-- <th scope="col">Check</th> -->
                                                             <th scope="col">Date</th>
                                                             <th scope="col">Quantity</th>
-                                                            <th scope="col">Return</th>
-                                                            <th scope="col">Second Peice</th>
+                                                            <!-- <th scope="col">Return</th> -->
+                                                            <!-- <th scope="col">Second Peice</th> -->
                                                             <th scope="col">Salary</th>
                                                             <th scope="col">Action</th>
                                                         </tr>
@@ -734,7 +745,7 @@ if (isset($_POST["salarySubmit"])) {
 
                                                         ?>
                                                             <tr>
-                                                                <td>
+                                                                <!-- <td>
                                                                     <?php if ($row['use_qty'] > $row['return_qty'] + $row['second_qty']) {
 
                                                                     ?>
@@ -745,7 +756,7 @@ if (isset($_POST["salarySubmit"])) {
                                                                             data-qty="<?php echo $row['use_qty'] ?>"
                                                                             data-second="<?php echo $row['second_qty'] ?>">
                                                                     <?php } ?>
-                                                                </td>
+                                                                </td> -->
                                                                 <td>
                                                                     <p class="fw-bold text-info mb-0">
                                                                         <?php echo $row['date']; ?></p>
@@ -755,7 +766,7 @@ if (isset($_POST["salarySubmit"])) {
                                                                         <?php echo $row['use_qty']; ?>
                                                                     </p>
                                                                 </td>
-                                                                <td>
+                                                                <!-- <td>
                                                                     <p class="text-dark mb-0 fw-normal">
                                                                         <?php echo $row['return_qty']; ?>
                                                                     </p>
@@ -764,16 +775,16 @@ if (isset($_POST["salarySubmit"])) {
                                                                     <p class="text-dark mb-0 fw-normal">
                                                                         <?php echo $row['second_qty']; ?>
                                                                     </p>
-                                                                </td>
+                                                                </td> -->
 
                                                                 <td>
                                                                     <p class="fw-bold text-success mb-0">
-                                                                        <?php echo $row['price'] * $row['return_qty'] . " (" . $row['price'] . ")"; ?>
+                                                                        <?php echo $row['price'] * $row['use_qty'] . " (" . $row['price'] . ")"; ?>
                                                                     </p>
                                                                 </td>
 
                                                                 <td>
-                                                                    <a class="text-primary edit open-actiona-model"
+                                                                    <!-- <a class="text-primary edit open-actiona-model"
                                                                         id="<?php echo $row['id']; ?>"
                                                                         data-action-name="fusing-action" data-title="Fusing"
                                                                         data-return="<?php echo $row['return_qty']; ?>"
@@ -782,7 +793,7 @@ if (isset($_POST["salarySubmit"])) {
                                                                     </a>
                                                                     <a href="edit-fusing-expenses.php?id=<?php echo $row['id']; ?>" class="text-primary">
                                                                         <i class="ti ti-edit fs-5"></i>
-                                                                    </a>
+                                                                    </a> -->
                                                                     <a class="text-danger delete-single-expense"
                                                                         id="<?php echo $row['id']; ?>"
                                                                         data-action-name="fusing-action">
@@ -802,18 +813,18 @@ if (isset($_POST["salarySubmit"])) {
                                             <div class="mb-4 border-bottom pb-3">
                                                 <h4 class="card-title mb-0">Reniya Cuting</h4>
                                             </div>
-                                            <button class="btn btn-success ms-2 qty-submit-button" type="submit" style="pointer-events: none; opacity: 0.5;">
+                                            <!-- <button class="btn btn-success ms-2 qty-submit-button" type="submit" style="pointer-events: none; opacity: 0.5;">
                                                 Return Checked Reniya Cuting Stock
-                                            </button>
+                                            </button> -->
                                             <div class="table-responsive overflow-x-auto">
                                                 <table class="table align-middle text-nowrap">
                                                     <thead>
                                                         <tr>
-                                                            <th scope="col">Check</th>
+                                                            <!-- <th scope="col">Check</th> -->
                                                             <th scope="col">Date</th>
                                                             <th scope="col">Quantity</th>
-                                                            <th scope="col">Return</th>
-                                                            <th scope="col">Second Peice</th>
+                                                            <!-- <th scope="col">Return</th> -->
+                                                            <!-- <th scope="col">Second Peice</th> -->
                                                             <th scope="col">Salary</th>
                                                             <th scope="col">Action</th>
                                                         </tr>
@@ -830,7 +841,7 @@ if (isset($_POST["salarySubmit"])) {
 
                                                         ?>
                                                             <tr>
-                                                                <td>
+                                                                <!-- <td>
                                                                     <?php if ($row['use_qty'] > $row['return_qty'] + $row['second_qty']) {
 
                                                                     ?>
@@ -841,7 +852,7 @@ if (isset($_POST["salarySubmit"])) {
                                                                             data-qty="<?php echo $row['use_qty'] ?>"
                                                                             data-second="<?php echo $row['second_qty'] ?>">
                                                                     <?php } ?>
-                                                                </td>
+                                                                </td> -->
                                                                 <td>
                                                                     <p class="fw-bold text-info mb-0">
                                                                         <?php echo $row['date']; ?></p>
@@ -851,7 +862,7 @@ if (isset($_POST["salarySubmit"])) {
                                                                         <?php echo $row['use_qty']; ?>
                                                                     </p>
                                                                 </td>
-                                                                <td>
+                                                                <!-- <td>
                                                                     <p class="text-dark mb-0 fw-normal">
                                                                         <?php echo $row['return_qty']; ?>
                                                                     </p>
@@ -860,16 +871,16 @@ if (isset($_POST["salarySubmit"])) {
                                                                     <p class="text-dark mb-0 fw-normal">
                                                                         <?php echo $row['second_qty']; ?>
                                                                     </p>
-                                                                </td>
+                                                                </td> -->
 
                                                                 <td>
                                                                     <p class="fw-bold text-success mb-0">
-                                                                        <?php echo $row['price'] * $row['return_qty'] . " (" . $row['price'] . ")"; ?>
+                                                                        <?php echo $row['price'] * $row['use_qty'] . " (" . $row['price'] . ")"; ?>
                                                                     </p>
                                                                 </td>
 
                                                                 <td>
-                                                                    <a class="text-primary edit open-actiona-model"
+                                                                    <!-- <a class="text-primary edit open-actiona-model"
                                                                         id="<?php echo $row['id']; ?>"
                                                                         data-action-name="reniya-cuting-action"
                                                                         data-title="Reniya Cuting"
@@ -879,7 +890,7 @@ if (isset($_POST["salarySubmit"])) {
                                                                     </a>
                                                                     <a href="edit-reniya-cuting-expenses.php?id=<?php echo $row['id']; ?>" class="text-primary">
                                                                         <i class="ti ti-edit fs-5"></i>
-                                                                    </a>
+                                                                    </a> -->
                                                                     <a class="text-danger delete-single-expense"
                                                                         id="<?php echo $row['id']; ?>"
                                                                         data-action-name="reniya-cuting-action">
@@ -905,11 +916,11 @@ if (isset($_POST["salarySubmit"])) {
                                                         <tr>
                                                             <th scope="col">Date</th>
                                                             <th scope="col">Paper Quantity</th>
-                                                            <th scope="col">Return Paper</th>
+                                                            <!-- <th scope="col">Return Paper</th> -->
                                                             <th scope="col">Diamond Quantity</th>
-                                                            <th scope="col">Return Diamond Packet</th>
-                                                            <th scope="col">Return Completed Sheet</th>
-                                                            <th scope="col">Second Sheet</th>
+                                                            <!-- <th scope="col">Return Diamond Packet</th> -->
+                                                            <!-- <th scope="col">Return Completed Sheet</th> -->
+                                                            <!-- <th scope="col">Second Sheet</th> -->
                                                             <th scope="col">Salary</th>
                                                             <th scope="col">Action</th>
                                                         </tr>
@@ -935,40 +946,40 @@ if (isset($_POST["salarySubmit"])) {
                                                                         <?php echo $row['use_paper_qty']; ?>
                                                                     </p>
                                                                 </td>
-                                                                <td>
+                                                                <!-- <td>
                                                                     <p class="fw-normal mb-0 fs-3 text-dark">
                                                                         <?php echo $row['return_paper']; ?>
                                                                     </p>
-                                                                </td>
+                                                                </td> -->
                                                                 <td>
                                                                     <p class="text-dark mb-0 fw-normal">
                                                                         <?php echo $row['use_diomond_pkt']; ?>
                                                                     </p>
                                                                 </td>
-                                                                <td>
+                                                                <!-- <td>
                                                                     <p class="text-dark mb-0 fw-normal">
                                                                         <?php echo $row['return_diomond_pkt']; ?>
                                                                     </p>
-                                                                </td>
+                                                                </td> -->
 
-                                                                <td>
+                                                                <!-- <td>
                                                                     <p class="text-dark mb-0 fw-normal">
                                                                         <?php echo $row['return_complete_sheet']; ?>
                                                                     </p>
-                                                                </td>
-                                                                <td>
+                                                                </td> -->
+                                                                <!-- <td>
                                                                     <p class="text-dark mb-0 fw-normal">
                                                                         <?php echo $row['second_sheet']; ?>
                                                                     </p>
-                                                                </td>
+                                                                </td> -->
                                                                 <td>
                                                                     <p class="fw-bold text-success mb-0">
-                                                                        <?php echo $row['price'] * $row['return_complete_sheet'] . " (" . $row['price'] . ")"; ?>
+                                                                        <?php echo $row['price'] * $row['use_paper_qty'] . " (" . $row['price'] . ")"; ?>
                                                                     </p>
                                                                 </td>
 
                                                                 <td>
-                                                                    <a class="text-primary edit open-actiona-model"
+                                                                    <!-- <a class="text-primary edit open-actiona-model"
                                                                         id="<?php echo $row['id']; ?>"
                                                                         data-action-name="sheet-work-action"
                                                                         data-title="Sheet Work"
@@ -980,7 +991,7 @@ if (isset($_POST["salarySubmit"])) {
                                                                     </a>
                                                                     <a href="edit-sheet-work-expenses.php?id=<?php echo $row['id']; ?>" class="text-primary">
                                                                         <i class="ti ti-edit fs-5"></i>
-                                                                    </a>
+                                                                    </a> -->
                                                                     <a class="text-danger delete-single-expense"
                                                                         id="<?php echo $row['id']; ?>"
                                                                         data-action-name="sheet-work-action">
@@ -1052,9 +1063,9 @@ if (isset($_POST["salarySubmit"])) {
                                                                     </p>
                                                                 </td>
                                                                 <td>
-                                                                    <a href="edit-kapad-cutting-expenses.php?id=<?php echo $row['id']; ?>" class="text-primary">
+                                                                    <!-- <a href="edit-kapad-cutting-expenses.php?id=<?php echo $row['id']; ?>" class="text-primary">
                                                                         <i class="ti ti-edit fs-5"></i>
-                                                                    </a>
+                                                                    </a> -->
                                                                     <a class="text-danger delete-single-expense"
                                                                         id="<?php echo $row['id']; ?>"
                                                                         data-action-name="kapad-cutting-action">
@@ -1307,8 +1318,8 @@ if (isset($_POST["salarySubmit"])) {
             $('#year').val(currentYear);
 
             // Event listener to handle dropdown change
-            $(document).on('change', '#month, #year', function() {
-                const selectedMonth = $('#month').val();
+            $(document).on('click', '#monthYearSearch', function() {
+                const selectedMonth = String($('#month').val()).padStart(2, '0');
                 const selectedYear = $('#year').val();
                 toggleMonthYearWiseData(selectedMonth, selectedYear);
             });
