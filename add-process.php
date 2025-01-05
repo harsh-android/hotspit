@@ -17,9 +17,7 @@
     $use = $_POST['qty'];
     $price = $_POST['price'];
     $worker = $_POST['worker'];
-    $today = date("d-m-Y");  
-    $today = $_POST['date'];
-
+    $today = $_POST['date'] ?? date("d-m-Y");
     // $selectedStocks = $_SESSION['selected_stocks'];
     
     if($type == "23nidel"){
@@ -202,7 +200,7 @@
 
                     <div class="mb-3">
                       <label for="date" class="form-label">Date</label>
-                      <input type="date"  name="price" class="form-control" id="date" placeholder="1000">
+                      <input type="date"  name="date" class="form-control" id="date" placeholder="1000">
                     </div>
 
                     <button type="submit" name="submit" class="btn btn-primary">Submit</button>
