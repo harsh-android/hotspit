@@ -23,6 +23,8 @@ if (isset($_POST['submit'])) {
    $amount = $_POST['amount'];
    $note = $_POST['note'];
    $update_date = date("d-m-Y");
+   $salary_date_post = $_POST['salary_date'];
+   $salary_date = date('d-m-Y', strtotime($salary_date_post));
 
    $cheque_no_value = is_null($cheque_no) ? "NULL" : "'$cheque_no'";
    $account_no_value = is_null($account_no) ? "NULL" : "'$account_no'";
@@ -33,7 +35,8 @@ if (isset($_POST['submit'])) {
          `account_no`=$account_no_value,
          `amount`='$amount',
          `note`='$note',
-         `update_date`='$update_date'
+         `update_date`='$update_date',
+         `salary_date`='$salary_date'
       WHERE `id`='$id'";
    if (mysqli_query($conn, $sql_update)) {
       header("location:worker-profile.php?id=" . $editRes['workers_id']);
@@ -94,10 +97,17 @@ if (isset($_POST['submit'])) {
                                     <input type="number" name="amount" id="amount" class="form-control" placeholder="Amount" required value="<?php echo $editRes['amount']; ?>">
                                  </div>
                               </div>
-                              <div class="col-md-12 mb-6">
+                              <div class="col-md-12 mb-3">
                                  <div class="note-description">
                                     <label class="form-label">Note</label>
                                     <input type="text" name="note" id="note" class="form-control" placeholder="Note" required value="<?php echo $editRes['note']; ?>">
+                                 </div>
+                              </div>
+                              <div class="col-md-12 mb-6">
+                                 <div class="note-description">
+                                    <label class="form-label">Salary Date</label>
+                                    <input type="date" name="salary_date" id="salary_date" class="form-control" placeholder="Salary Date" required
+                                       value="<?php echo isset($editRes['salary_date']) ? date('Y-m-d', strtotime($editRes['salary_date'])) : ''; ?>">
                                  </div>
                               </div>
 
@@ -121,16 +131,16 @@ if (isset($_POST['submit'])) {
    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
 
    <script>
-      $(document).ready(function(){
+      $(document).ready(function() {
          addDynamicField();
 
-         $(document).on("change", ".mode-type", function(){
+         $(document).on("change", ".mode-type", function() {
             addDynamicField();
          });
 
          function addDynamicField() {
             const selectedType = $('.mode-type').val();
-               
+
             if (selectedType == "cheque") {
                $('.add-new-field').html(`
                   <div class="note-description mb-3">
@@ -152,4 +162,5 @@ if (isset($_POST['submit'])) {
       });
    </script>
 </body>
+
 </html>

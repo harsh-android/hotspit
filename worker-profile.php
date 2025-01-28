@@ -125,13 +125,15 @@ if (isset($_POST["salarySubmit"])) {
     $amount = $_POST["amount"];
     $note = $_POST["note"];
     $today = date("d-m-Y");
+    $salary_date_post = $_POST['salary_date'];
+    $salary_date = date('d-m-Y', strtotime($salary_date_post));
     $cheque_no = isset($_POST['cheque_no']) && $_POST['cheque_no'] !== '' ? strval($_POST['cheque_no']) : null;
     $account_no = isset($_POST['account_no']) && $_POST['account_no'] !== '' ? strval($_POST['account_no']) : null;
 
     $cheque_no_value = is_null($cheque_no) ? "NULL" : "'$cheque_no'";
     $account_no_value = is_null($account_no) ? "NULL" : "'$account_no'";
 
-    $sql_insert_salary = "INSERT INTO `banking`(`in_out`, `category`, `type`, `cheque_no`, `account_no`, `amount`, `workers_id`, `note`, `date`) VALUES ('$in_out', '$category', '$type', $cheque_no_value, $account_no_value, '$amount', '$worker_id', '$note', '$today')";
+    $sql_insert_salary = "INSERT INTO `banking`(`in_out`, `category`, `type`, `cheque_no`, `account_no`, `amount`, `workers_id`, `note`, `date`, `salary_date`) VALUES ('$in_out', '$category', '$type', $cheque_no_value, $account_no_value, '$amount', '$worker_id', '$note', '$today', '$salary_date')";
     if (mysqli_query($conn, $sql_insert_salary)) {
         header("Location: " . $_SERVER['REQUEST_URI']);
         exit();
@@ -1093,6 +1095,7 @@ if (isset($_POST["salarySubmit"])) {
                                                     <thead>
                                                         <tr>
                                                             <th scope="col">Date</th>
+                                                            <th scope="col">Salary Date</th>
                                                             <th scope="col">Mode</th>
                                                             <th scope="col">Cheque No</th>
                                                             <th scope="col">A/c No</th>
@@ -1115,6 +1118,10 @@ if (isset($_POST["salarySubmit"])) {
                                                                 <td>
                                                                     <p class="fw-bold text-info mb-0">
                                                                         <?php echo $row['date']; ?></p>
+                                                                </td>
+                                                                <td>
+                                                                    <p class="fw-bold text-success mb-0">
+                                                                        <?php echo $row['salary_date']; ?></p>
                                                                 </td>
                                                                 <td>
                                                                     <p class="fw-normal mb-0 fs-3 text-dark">
@@ -1276,10 +1283,17 @@ if (isset($_POST["salarySubmit"])) {
                                             <input type="number" name="amount" id="amount" class="form-control" placeholder="Amount" required>
                                         </div>
                                     </div>
-                                    <div class="col-md-12">
+                                    <div class="col-md-12 mb-3">
                                         <div class="note-description">
                                             <label class="form-label">Note</label>
                                             <input type="text" name="note" id="note" class="form-control" placeholder="Note" required>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-12">
+                                        <div class="note-description">
+                                            <label class="form-label">Salary Date</label>
+                                            <input type="date" name="salary_date" id="salary_date" class="form-control" placeholder="Salary Date" required>
                                         </div>
                                     </div>
                                 </div>
