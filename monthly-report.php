@@ -179,6 +179,7 @@ $year = $_GET['year'] ?? date('Y');
                                                                 WHERE DATE_FORMAT(STR_TO_DATE(date, '%d-%m-%Y'), '%m') = '$month' 
                                                                 AND DATE_FORMAT(STR_TO_DATE(date, '%d-%m-%Y'), '%Y') = '$year'";
                                           $res = mysqli_query($conn, $que);
+                                          $nidel_expence_salary = 0;
                                           while ($row = mysqli_fetch_assoc($res)) {
                                           ?>
                                              <tr>
@@ -224,7 +225,13 @@ $year = $_GET['year'] ?? date('Y');
                                                    </p>
                                                 </td>
                                              </tr>
-                                          <?php } ?>
+                                          <?php 
+                                          $nidel_expence_salary = $nidel_expence_salary + ($row['price'] * $row['use_qty']);
+                                          } ?>
+                                          <tr>
+                                             <td colspan="3"><strong>Total Salary</strong></td>
+                                             <td><strong><?php echo $nidel_expence_salary; ?></strong></td>
+                                          </tr>
                                        </tbody>
                                     </table>
                                  </div>
@@ -261,8 +268,8 @@ $year = $_GET['year'] ?? date('Y');
                                                                 WHERE DATE_FORMAT(STR_TO_DATE(date, '%d-%m-%Y'), '%m') = '$month' 
                                                                 AND DATE_FORMAT(STR_TO_DATE(date, '%d-%m-%Y'), '%Y') = '$year'";
                                           $res = mysqli_query($conn, $que);
+                                          $less_fiting_salary = 0;
                                           while ($row = mysqli_fetch_assoc($res)) {
-
                                           ?>
                                              <tr>
                                                 <!-- <td>
@@ -307,7 +314,13 @@ $year = $_GET['year'] ?? date('Y');
                                                    </p>
                                                 </td>
                                              </tr>
-                                          <?php } ?>
+                                          <?php 
+                                          $less_fiting_salary = $less_fiting_salary + ($row['price'] * $row['use_qty']);
+                                          } ?>
+                                          <tr>
+                                             <td colspan="3"><strong>Total Salary</strong></td>
+                                             <td><strong><?php echo $less_fiting_salary; ?></strong></td>
+                                          </tr>
                                        </tbody>
                                     </table>
                                  </div>
@@ -351,8 +364,8 @@ $year = $_GET['year'] ?? date('Y');
                                                                 WHERE DATE_FORMAT(STR_TO_DATE(date, '%d-%m-%Y'), '%m') = '$month' 
                                                                 AND DATE_FORMAT(STR_TO_DATE(date, '%d-%m-%Y'), '%Y') = '$year'";
                                           $res = mysqli_query($conn, $que);
+                                          $hotfix_salary = 0;
                                           while ($row = mysqli_fetch_assoc($res)) {
-
                                           ?>
                                              <tr>
                                                 <!-- <td>
@@ -431,7 +444,13 @@ $year = $_GET['year'] ?? date('Y');
                                                    </p>
                                                 </td>
                                              </tr>
-                                          <?php } ?>
+                                          <?php 
+                                          $hotfix_salary = $hotfix_salary + ($row['price'] * $row['use_qty']);
+                                          } ?>
+                                          <tr>
+                                             <td colspan="10"><strong>Total Salary</strong></td>
+                                             <td><strong><?php echo $hotfix_salary; ?></strong></td>
+                                          </tr>
                                        </tbody>
                                     </table>
                                  </div>
@@ -467,8 +486,8 @@ $year = $_GET['year'] ?? date('Y');
                                                                 WHERE DATE_FORMAT(STR_TO_DATE(date, '%d-%m-%Y'), '%m') = '$month' 
                                                                 AND DATE_FORMAT(STR_TO_DATE(date, '%d-%m-%Y'), '%Y') = '$year'";
                                           $res = mysqli_query($conn, $que);
+                                          $fusing_expence = 0;
                                           while ($row = mysqli_fetch_assoc($res)) {
-
                                           ?>
                                              <tr>
                                                 <!-- <td>
@@ -513,7 +532,13 @@ $year = $_GET['year'] ?? date('Y');
                                                    </p>
                                                 </td>
                                              </tr>
-                                          <?php } ?>
+                                          <?php 
+                                          $fusing_expence = $fusing_expence + ($row['price'] * $row['use_qty']);
+                                          } ?>
+                                          <tr>
+                                             <td colspan="3"><strong>Total Salary</strong></td>
+                                             <td><strong><?php echo $fusing_expence; ?></strong></td>
+                                          </tr>
                                        </tbody>
                                     </table>
                                  </div>
@@ -549,8 +574,8 @@ $year = $_GET['year'] ?? date('Y');
                                                                 WHERE DATE_FORMAT(STR_TO_DATE(date, '%d-%m-%Y'), '%m') = '$month' 
                                                                 AND DATE_FORMAT(STR_TO_DATE(date, '%d-%m-%Y'), '%Y') = '$year'";
                                           $res = mysqli_query($conn, $que);
+                                          $reniya_cutting = 0;
                                           while ($row = mysqli_fetch_assoc($res)) {
-
                                           ?>
                                              <tr>
                                                 <!-- <td>
@@ -595,7 +620,13 @@ $year = $_GET['year'] ?? date('Y');
                                                    </p>
                                                 </td>
                                              </tr>
-                                          <?php } ?>
+                                          <?php 
+                                          $reniya_cutting = $reniya_cutting + ($row['price'] * $row['use_qty']);
+                                          } ?>
+                                          <tr>
+                                             <td colspan="3"><strong>Total Salary</strong></td>
+                                             <td><strong><?php echo $reniya_cutting; ?></strong></td>
+                                          </tr>
                                        </tbody>
                                     </table>
                                  </div>
@@ -630,8 +661,8 @@ $year = $_GET['year'] ?? date('Y');
                                                                 WHERE DATE_FORMAT(STR_TO_DATE(date, '%d-%m-%Y'), '%m') = '$month' 
                                                                 AND DATE_FORMAT(STR_TO_DATE(date, '%d-%m-%Y'), '%Y') = '$year'";
                                           $res = mysqli_query($conn, $que);
+                                          $sheet_work = 0;
                                           while ($row = mysqli_fetch_assoc($res)) {
-
                                           ?>
                                              <tr>
                                                 <td>
@@ -679,7 +710,13 @@ $year = $_GET['year'] ?? date('Y');
                                                    </p>
                                                 </td>
                                              </tr>
-                                          <?php } ?>
+                                          <?php 
+                                          $sheet_work = $sheet_work + ($row['price'] * $row['use_paper_qty']);
+                                          } ?>
+                                          <tr>
+                                             <td colspan="4"><strong>Total Salary</strong></td>
+                                             <td><strong><?php echo $sheet_work; ?></strong></td>
+                                          </tr>
                                        </tbody>
                                     </table>
                                  </div>
@@ -699,7 +736,7 @@ $year = $_GET['year'] ?? date('Y');
                                              <th scope="col">Worker</th>
                                              <th scope="col">Use Meter</th>
                                              <th scope="col">Line Size</th>
-                                             <th scope="col">Salary</th>
+                                             <!-- <th scope="col">Salary</th> -->
                                           </tr>
                                        </thead>
                                        <tbody class="border-top">
